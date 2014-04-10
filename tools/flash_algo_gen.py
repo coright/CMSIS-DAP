@@ -41,14 +41,15 @@ ALGO_TXT_PATH = join(TMP_DIR, "flash_algo.txt")
 # Algorithm start addresses for each TARGET (compared with DevName in the
 # FlashDevice structure in FlashDev.c
 ALGO_START_ADDRESSES = {
-    'LPC1700':  0x10000000,
-    'LPC11xx':  0x10000000,
-    'LPC8xx':   0x10000000,
-    'LPC11U68': 0x10000000,
-    'LPC1549':  0x02000000,
-    'LPC18xx':  0x10000000,
-    'LPC43xx':  0x10000000,
-    'MKXX':     0x20000000,
+    'LPC1700':      0x10000000,
+    'LPC11xx':      0x10000000,
+    'LPC8xx':       0x10000000,
+    'LPC11U68':     0x10000000,
+    'LPC1549':      0x02000000,
+    'LPC18xx':      0x10000000,
+    'LPC43xx':      0x10000000,
+    'MKXX':         0x20000000,
+    'NRF51822AA':   0x20000000,
 }
 
 class FlashInfo(object):

@@ -16,8 +16,8 @@ limitations under the License.
 """
 from optparse import OptionParser
 
-INTERFACES = ['LPC11U35', 'K20DX128', 'LPC4322']
-TARGETS = ['LPC812', 'LPC11U68', 'LPC1549', 'LPC1768', 'KL25Z', 'K64F']
+INTERFACES = ['LPC11U35', 'K20DX128', 'LPC4322', 'ATSAM3U2C']
+TARGETS = ['LPC812', 'LPC11U68', 'LPC1549', 'LPC1768', 'KL25Z', 'K64F', 'NRF51822AA']
 
 
 def options_parser():

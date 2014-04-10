@@ -605,6 +605,7 @@ static uint8_t swd_wait_until_halted(void) {
         }
     }
     return 0;
+
 }
 
 // Restart target after BKPT
@@ -635,7 +636,10 @@ uint8_t swd_semihost_restart(uint32_t r0) {
 
 uint8_t swd_flash_syscall_exec(const FLASH_SYSCALL *sysCallParam, uint32_t entry, uint32_t arg1, uint32_t arg2, uint32_t arg3, uint32_t arg4) {
     DEBUG_STATE state;
-
+    //
+	  // 1 == O.K.
+	  // 0 == Error
+	  //
     // Call flash algorithm function on target and wait for result.
     state.xpsr     = 0x01000000;          // xPSR: T = 1, ISR = 0
     state.r[0]     = arg1;                   // R0: Argument 1
@@ -735,7 +739,7 @@ static uint8_t JTAG2SWD() {
     return 1;
 }
 
-static uint8_t swd_init_debug(void) {
+uint8_t swd_init_debug(void) {
     uint32_t tmp = 0;
 
     // init dap state with fake values
@@ -801,6 +805,7 @@ void swd_set_target_reset(uint8_t asserted) {
 
 uint8_t swd_set_target_state(TARGET_RESET_STATE state) {
     uint32_t val;
+
     switch (state) {
         case RESET_HOLD:
             swd_set_target_reset(1);
@@ -830,13 +835,18 @@ uint8_t swd_set_target_state(TARGET_RESET_STATE state) {
             if (!swd_write_word(DBG_HCSR, DBGKEY | C_DEBUGEN)) {
                 return 0;
             }
-
+            
             // Reset again
+            #if defined(DBG_NRF51822AA)
+            //SysReset
+            swd_write_word(NVIC_AIRCR, VECTKEY | SYSRESETREQ);
+            #else                        
             swd_set_target_reset(1);
             os_dly_wait(1);
 
             swd_set_target_reset(0);
             os_dly_wait(1);
+            #endif
             break;
 
         case RESET_PROGRAM:
@@ -860,20 +870,25 @@ uint8_t swd_set_target_state(TARGET_RESET_STATE state) {
             if (!swd_write_word(DBG_EMCR, VC_CORERESET)) {
                 return 0;
             }
-
+            
             // Reset again
+            #if defined(DBG_NRF51822AA)
+            //SysReset
+            swd_write_word(NVIC_AIRCR, VECTKEY | SYSRESETREQ);
+            #else                        
             swd_set_target_reset(1);
             os_dly_wait(2);
 
             swd_set_target_reset(0);
             os_dly_wait(2);
-
+            #endif
+			
             do {
                 if (!swd_read_word(DBG_HCSR, &val)) {
                     return 0;
                 }
             } while((val & S_HALT) == 0);
-
+            
             // Disable halt on reset
             if (!swd_write_word(DBG_EMCR, 0)) {
                 return 0;

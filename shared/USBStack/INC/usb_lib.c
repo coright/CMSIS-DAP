@@ -15,7 +15,7 @@
  */
 #include <RTL.h>
 #include <rl_usb.h>
-#include <..\..\RL\USB\INC\usb.h>
+#include <usb.h>
 
 #pragma thumb
 #pragma O3
@@ -1198,7 +1198,7 @@ void USBD_RTX_TaskInit (void) {
 /*------------------------------------------------------------------------------
  *      USB Device Descriptors
  *----------------------------------------------------------------------------*/
-#define USBD_CDC_ACM_DESC_LEN             (USB_INTERFACE_DESC_SIZE + /*USBD_MULTI_IF * USB_INTERFACE_ASSOC_DESC_SIZE +*/ 0x0013                     + \
+#define USBD_CDC_ACM_DESC_LEN             (USB_INTERFACE_DESC_SIZE + /*USBD_MULTI_IF * USB_INTERFACE_ASSOC_DESC_SIZE + */ 27 + /*0x0013 */                    + \
                                            USB_ENDPOINT_DESC_SIZE + USB_INTERFACE_DESC_SIZE + 2*USB_ENDPOINT_DESC_SIZE)
 #define USBD_HID_DESC_LEN                 (USB_INTERFACE_DESC_SIZE + USB_HID_DESC_SIZE                                                          + \
                                           (USB_ENDPOINT_DESC_SIZE*(1+(USBD_HID_EP_INTOUT != 0))))
@@ -1795,6 +1795,11 @@ const U8 USBD_ConfigDescriptor_HS[] = {
   ADC_EP_HS
 #endif
 
+#if (USBD_MSC_ENABLE)
+  MSC_DESC
+  MSC_EP_HS
+#endif
+
 #if (USBD_CDC_ACM_ENABLE)
 #if (USBD_MULTI_IF)
   CDC_ACM_DESC_IAD(USBD_CDC_ACM_CIF_NUM,2)
@@ -1812,11 +1817,6 @@ const U8 USBD_ConfigDescriptor_HS[] = {
 #else
   HID_EP_HS
 #endif
-#endif
-
-#if (USBD_MSC_ENABLE)
-  MSC_DESC
-  MSC_EP_HS
 #endif
 
 /* Terminator */                                                                                            \
@@ -1845,7 +1845,12 @@ const U8 USBD_OtherSpeedConfigDescriptor[] = {
   ADC_DESC
   ADC_EP_HS
 #endif
-
+    
+#if (USBD_MSC_ENABLE)
+  MSC_DESC
+  MSC_EP_HS
+#endif
+    
 #if (USBD_CDC_ACM_ENABLE)
 #if (USBD_MULTI_IF)
   CDC_ACM_DESC_IAD(USBD_CDC_ACM_CIF_NUM,2)
@@ -1863,11 +1868,6 @@ const U8 USBD_OtherSpeedConfigDescriptor[] = {
 #else
   HID_EP_HS
 #endif
-#endif
-
-#if (USBD_MSC_ENABLE)
-  MSC_DESC
-  MSC_EP_HS
 #endif
 
 /* Terminator */
@@ -1897,6 +1897,11 @@ const U8 USBD_OtherSpeedConfigDescriptor_HS[] = {
   ADC_EP
 #endif
 
+#if (USBD_MSC_ENABLE)
+  MSC_DESC
+  MSC_EP
+#endif
+
 #if (USBD_CDC_ACM_ENABLE)
 #if (USBD_MULTI_IF)
   CDC_ACM_DESC_IAD(USBD_CDC_ACM_CIF_NUM,2)
@@ -1914,11 +1919,6 @@ const U8 USBD_OtherSpeedConfigDescriptor_HS[] = {
 #else
   HID_EP
 #endif
-#endif
-
-#if (USBD_MSC_ENABLE)
-  MSC_DESC
-  MSC_EP
 #endif
 
 /* Terminator */

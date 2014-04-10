@@ -23,7 +23,7 @@
 
 //   <o0.0> High-speed
 //     <i> Enable high-speed functionality (if device supports it)
-#define USBD_HS_ENABLE              0
+#define USBD_HS_ENABLE              1
 
 //   <h> Device Settings
 //     <i> These settings affect Device Descriptor
@@ -42,7 +42,7 @@
 //       <i> Device release number in binary-coded decimal (bcdDevice)
 //   </h>
 #define USBD_POWER                  0
-#define USBD_MAX_PACKET0            8
+#define USBD_MAX_PACKET0            64
 #define USBD_DEVDESC_IDVENDOR       0x0D28
 #define USBD_DEVDESC_IDPRODUCT      0x0204
 #define USBD_DEVDESC_BCDDEVICE      0x0100
@@ -121,18 +121,18 @@
 //       </h>
 //     </e>
 #define USBD_HID_ENABLE             1
-#define USBD_HID_EP_INTIN           1
-#define USBD_HID_EP_INTOUT          1
+#define USBD_HID_EP_INTIN           5
+#define USBD_HID_EP_INTOUT          6
 #define USBD_HID_WMAXPACKETSIZE     64
 #define USBD_HID_BINTERVAL          1
-#define USBD_HID_HS_ENABLE          0
-#define USBD_HID_HS_WMAXPACKETSIZE  4
+#define USBD_HID_HS_ENABLE          1
+#define USBD_HID_HS_WMAXPACKETSIZE  512
 #define USBD_HID_HS_BINTERVAL       6
 #define USBD_HID_STRDESC            L"MBED CMSIS-DAP"
 #define USBD_HID_INREPORT_NUM       1
 #define USBD_HID_OUTREPORT_NUM      1
-#define USBD_HID_INREPORT_MAX_SZ    64
-#define USBD_HID_OUTREPORT_MAX_SZ   64
+#define USBD_HID_INREPORT_MAX_SZ    256
+#define USBD_HID_OUTREPORT_MAX_SZ   256
 #define USBD_HID_FEATREPORT_MAX_SZ  1
 
 //     <e0.0> Mass Storage Device (MSC)
@@ -166,10 +166,10 @@
 //       </h>
 //     </e>
 #define USBD_MSC_ENABLE             1
-#define USBD_MSC_EP_BULKIN          2
+#define USBD_MSC_EP_BULKIN          1
 #define USBD_MSC_EP_BULKOUT         2
 #define USBD_MSC_WMAXPACKETSIZE     64
-#define USBD_MSC_HS_ENABLE          0
+#define USBD_MSC_HS_ENABLE          1
 #define USBD_MSC_HS_WMAXPACKETSIZE  512
 #define USBD_MSC_HS_BINTERVAL       0
 #define USBD_MSC_STRDESC            L"USB_MSC"
@@ -277,22 +277,22 @@
 //       </h>
 //     </e>
 #define USBD_CDC_ACM_ENABLE             1
-#define USBD_CDC_ACM_EP_INTIN           3
+#define USBD_CDC_ACM_EP_INTIN           7
 #define USBD_CDC_ACM_WMAXPACKETSIZE     16
 #define USBD_CDC_ACM_BINTERVAL          32
-#define USBD_CDC_ACM_HS_ENABLE          0
+#define USBD_CDC_ACM_HS_ENABLE          1
 #define USBD_CDC_ACM_HS_WMAXPACKETSIZE  16
 #define USBD_CDC_ACM_HS_BINTERVAL       2
-#define USBD_CDC_ACM_EP_BULKIN          4
+#define USBD_CDC_ACM_EP_BULKIN          3
 #define USBD_CDC_ACM_EP_BULKOUT         4
 #define USBD_CDC_ACM_WMAXPACKETSIZE1    64
-#define USBD_CDC_ACM_HS_ENABLE1         0
+#define USBD_CDC_ACM_HS_ENABLE1         1
 #define USBD_CDC_ACM_HS_WMAXPACKETSIZE1 64
 #define USBD_CDC_ACM_HS_BINTERVAL1      0
 #define USBD_CDC_ACM_CIF_STRDESC        L"USB_CDC"
 #define USBD_CDC_ACM_DIF_STRDESC        L"USB_CDC1"
-#define USBD_CDC_ACM_SENDBUF_SIZE       128
-#define USBD_CDC_ACM_RECEIVEBUF_SIZE    128
+#define USBD_CDC_ACM_SENDBUF_SIZE       USBD_CDC_ACM_HS_WMAXPACKETSIZE1
+#define USBD_CDC_ACM_RECEIVEBUF_SIZE    USBD_CDC_ACM_HS_WMAXPACKETSIZE1
 #if (((USBD_CDC_ACM_HS_ENABLE1) && (USBD_CDC_ACM_SENDBUF_SIZE    < USBD_CDC_ACM_HS_WMAXPACKETSIZE1)) || (USBD_CDC_ACM_SENDBUF_SIZE    < USBD_CDC_ACM_WMAXPACKETSIZE1))
 #error "Send Buffer size must be larger or equal to Bulk In maximum packet size!"
 #endif

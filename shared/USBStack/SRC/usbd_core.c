@@ -221,7 +221,7 @@ __inline BOOL USBD_ReqGetStatus (void) {
  *    Return Value:    TRUE - Success, FALSE - Error
  */
 
-__inline BOOL USBD_ReqSetClrFeature (U32 sc) {
+static BOOL USBD_ReqSetClrFeature (U32 sc) {
   U32 n, m;
 
   switch (USBD_SetupPacket.bmRequestType.Recipient) {
