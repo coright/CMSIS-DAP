@@ -443,6 +443,7 @@ static uint32_t unrecordedUSBData[FLASH_SECTOR_SIZE/8]; //Half of usb_buffer siz
 #define RESERVED_BITS           4
 #define BAD_START_SECTOR        5
 #define TIMEOUT                 6
+#define CORRUPT_FILE            7
 
 static uint8_t * reason_array[] = {
     "SWD ERROR",
@@ -452,6 +453,7 @@ static uint8_t * reason_array[] = {
     "RESERVED BITS",
     "BAD START SECTOR",
     "TIMEOUT",
+    "CORRUPT FILE"
 };
 
 #define MSC_TIMEOUT_SPLIT_FILES_EVENT   (0x1000)
@@ -1023,6 +1025,11 @@ static int programHEXPage()
                     }                
                     hex_data_used += bytesRead;
                 }
+                else{
+                    reason = CORRUPT_FILE;
+                    initDisconnect(0);
+                    return 1;
+                }
             }
             //flush arrays and reset variables here?
             initDisconnect(1);
@@ -1036,6 +1043,13 @@ static int programHEXPage()
             unrecordedUSBData[i] = usb_buffer[no_words_to_used+i];
         }
         unrecordedUSBData[i] =0;
+    }
+    else
+    {
+        reason = CORRUPT_FILE;
+        initDisconnect(0);
+        return 1;
+        
     }
     
     return 0;  
