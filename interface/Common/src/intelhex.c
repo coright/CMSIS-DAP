@@ -182,9 +182,11 @@ uint32_t intelHexReadRecord(uint8_t *hexData, uint32_t hexDataSize, uint8_t *buf
 *           i.e. it will only be updated if the hex record read is the start of a new page in the flash.
 *   @param  forcePageWrite is a boolean value to indicate if a page write is necessary even though there is 
 *           not enough data to fill a page
+*   @param  haveDataToWrite is a boolean value to indicate if the caller already has data to write and does not
+*           want a jump in the address space.
 *   @return TRUE if the parsing of hexData was succcessful, otherwise FALSE
 */
-BOOL intelHexReadData(uint8_t *hexData, uint32_t hexDataSize, uint32_t *hexDataBytesRead, uint8_t *buffer, uint32_t *flashAddress, uint32_t *readSize, uint16_t *initLoadOffset, BOOL *forcePageWrite)
+BOOL intelHexReadData(uint8_t *hexData, uint32_t hexDataSize, uint32_t *hexDataBytesRead, uint8_t *buffer, uint32_t *flashAddress, uint32_t *readSize, uint16_t *initLoadOffset, BOOL *forcePageWrite, BOOL haveDataToWrite)
 {
     uint32_t bytesRead;      //Total size in bytes (2 hex characters from the file) of the hex record read from the raw buffer hexData.
     uint32_t totalBytesRead; //Total size in bytes of the hex record read from the raw buffer hexData.
@@ -249,7 +251,7 @@ BOOL intelHexReadData(uint8_t *hexData, uint32_t hexDataSize, uint32_t *hexDataB
                     if( prevLoadOffset!=loadOffset && ((prevLoadOffset + prevRecordLength) != loadOffset) )
                     {
                         //skipped flash address
-                        if(bufferIdx>0)
+                        if(bufferIdx>0 || haveDataToWrite)
                         {
                         //break the data here; return
                             *readSize = bufferIdx;
@@ -275,7 +277,7 @@ BOOL intelHexReadData(uint8_t *hexData, uint32_t hexDataSize, uint32_t *hexDataB
                     lba  = recordData[4] << 24;
                     lba |= recordData[5] << 16;
                 
-                    if(bufferIdx> 0)
+                    if(bufferIdx> 0 || haveDataToWrite)
                     {                        
                        //address jump-- break the data here; return
                        *readSize = bufferIdx;

@@ -608,7 +608,13 @@ static void initDisconnect(uint8_t success) {
         // event to disconnect the usb
         main_usb_disconnect_event();
     }
+    
+    //RESET after Programming is done?
+//#if defined (DBG_NRF51822AA)
+//    swd_set_target_state(RESET_RUN);
+//#endif
     semihost_enable();
+    
 }
 
 extern uint32_t SystemCoreClock;
@@ -921,7 +927,7 @@ static int programHEXPage()
     loadOffset = (uint16_t)flashPtr;
     
     //Process hex data
-    if(intelHexReadData((uint8_t *)usb_buffer, hex_data_size, &bytesRead, intermediateBuffer, &flash_addr_offset, &bytesToWrite, &loadOffset, &forcePageWrite))
+    if(intelHexReadData((uint8_t *)usb_buffer, hex_data_size, &bytesRead, intermediateBuffer, &flash_addr_offset, &bytesToWrite, &loadOffset, &forcePageWrite,usedIntermediateBufSize>0))
     {       
         flashPtr = (uint32_t)loadOffset;
         //Copy processed data into flashBuffer
@@ -1004,7 +1010,7 @@ static int programHEXPage()
                 bytesRead =0;
                 bytesToWrite=0;
                 no_words_to_used = (hex_data_used-1)/4;
-                if(intelHexReadData((uint8_t *)(&usb_buffer[no_words_to_used]), hex_data_size-(no_words_to_used*4), &bytesRead, intermediateBuffer, &flash_addr_offset, &bytesToWrite, &loadOffset, &forcePageWrite))
+                if(intelHexReadData((uint8_t *)(&usb_buffer[no_words_to_used]), hex_data_size-(no_words_to_used*4), &bytesRead, intermediateBuffer, &flash_addr_offset, &bytesToWrite, &loadOffset, &forcePageWrite,usedIntermediateBufSize>0))
                 {
                     flashPtr = (uint32_t)loadOffset;                
                     for(amountCopiedToFlashBuf=0;amountCopiedToFlashBuf<(bytesToWrite) &&  amountCopiedToFlashBuf<(FLASH_PROGRAM_PAGE_SIZE-usedIntermediateBufSize) ;amountCopiedToFlashBuf++)
@@ -1021,7 +1027,7 @@ static int programHEXPage()
                     for(amountCopiedToFlashBuf=0;amountCopiedToFlashBuf<(bytesToWrite) &&  amountCopiedToFlashBuf<(FLASH_PROGRAM_PAGE_SIZE-usedIntermediateBufSize) ;amountCopiedToFlashBuf++)
                     {
                         //Erased cell in nRF51 is FF
-                        flashBuffer[i]=0xFF;
+                        flashBuffer[amountCopiedToFlashBuf]=0xFF;
                     }                
                     hex_data_used += bytesRead;
                 }
