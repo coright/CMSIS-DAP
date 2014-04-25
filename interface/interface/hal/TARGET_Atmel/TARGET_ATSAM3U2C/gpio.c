@@ -80,8 +80,8 @@ void gpio_enable_button_flag(OS_TID task, uint16_t flags) {
 void PIOA_IRQHandler(void) {
   //
 	// ISR is called when "reset" button on board is pressed
-	//
-  if ((PIOA->PIO_ISR >> _BIT_BOOT_MODE_PIN) & 1) { // Check if interrupt was caused by I/O change on "reset" pin. This also clears interrupt status flags
+	//	
+  if ((PIOA->PIO_ISR >> _BIT_BOOT_MODE_PIN) & 1) { // Check if interrupt was caused by I/O change on "reset" pin. This also clears interrupt status flags		
     isr_evt_set(isr_flags, isr_notify);
   }
 }
