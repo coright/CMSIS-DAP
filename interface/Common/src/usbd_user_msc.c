@@ -424,6 +424,8 @@ static uint8_t listen_msc_isr = 1;
 static uint8_t drag_success = 1;
 static uint8_t reason = 0;
 static uint32_t flash_addr_offset = 0;
+
+static BOOL initCalled=__FALSE;
 //default to HEX_FILE type for NRF    
 #if defined(DBG_NRF51822AA)
     static FILE_TYPE fileTypeReceived = HEX_FILE;
@@ -434,7 +436,7 @@ static uint32_t flash_addr_offset = 0;
 static uint32_t usedIntermediateBufSize;
 static uint8_t intermediateBuffer[FLASH_PROGRAM_PAGE_SIZE];
 static uint8_t flashBuffer[FLASH_PROGRAM_PAGE_SIZE];
-static uint32_t unrecordedUSBData[FLASH_SECTOR_SIZE/8]; //Half of usb_buffer size
+static uint32_t unrecordedUSBData[FLASH_SECTOR_SIZE/4]; //1/2 usb_buffer size
 
 #define SWD_ERROR               0
 #define BAD_EXTENSION_FILE      1
@@ -444,6 +446,7 @@ static uint32_t unrecordedUSBData[FLASH_SECTOR_SIZE/8]; //Half of usb_buffer siz
 #define BAD_START_SECTOR        5
 #define TIMEOUT                 6
 #define CORRUPT_FILE            7
+#define OUT_OF_MEM              8
 
 static uint8_t * reason_array[] = {
     "SWD ERROR",
@@ -453,7 +456,8 @@ static uint8_t * reason_array[] = {
     "RESERVED BITS",
     "BAD START SECTOR",
     "TIMEOUT",
-    "CORRUPT FILE"
+    "CORRUPT FILE",
+    "OUT OF MEMORY"
 };
 
 #define MSC_TIMEOUT_SPLIT_FILES_EVENT   (0x1000)
@@ -533,6 +537,8 @@ __task void msc_valid_file_timeout_task(void) {
 
 void init(uint8_t jtag) {
     uint32_t i;
+    
+    initCalled = __TRUE;
     size = 0;
     nb_sector = 0;
     current_sector = 0;
@@ -561,7 +567,7 @@ void init(uint8_t jtag) {
     fileTypeReceived = HEX_FILE;
     intelHexStartData();
 #endif
-    
+
     for(i=0;i<FLASH_PROGRAM_PAGE_SIZE;i++)
     {
         //Erased cell in nRF51 is FF
@@ -895,6 +901,15 @@ static int programHEXPage()
     amountCopiedToFlashBuf=0;
     
 
+    if(!initCalled){
+        initCalled = __TRUE;
+        intelHexStartData();
+        for(i=0;i<FLASH_PROGRAM_PAGE_SIZE;i++)
+        {
+            //Erased cell in nRF51 is FF
+            flashBuffer[i]=0xFF;
+        }
+    }
     //count the number of words to write
     for(i=0;(i<(FLASH_PROGRAM_PAGE_SIZE/4)) && usb_buffer[i]>0 ;i++)
     {            
@@ -902,7 +917,7 @@ static int programHEXPage()
     }
     
     //count unwritten words from the previous pass
-    for(i=0;(i<FLASH_SECTOR_SIZE/8) && unrecordedUSBData[i]>0;i++)
+    for(i=0;(i<FLASH_SECTOR_SIZE/4) && unrecordedUSBData[i]>0;i++)
     {
         sizeOfOldData++;
     }
@@ -928,7 +943,11 @@ static int programHEXPage()
     
     //Process hex data
     if(intelHexReadData((uint8_t *)usb_buffer, hex_data_size, &bytesRead, intermediateBuffer, &flash_addr_offset, &bytesToWrite, &loadOffset, &forcePageWrite,usedIntermediateBufSize>0))
-    {       
+    {   
+        //if buffered data is already as big as half the buffer, then force write otherwise risk overflow.
+        if(sizeOfOldData>(FLASH_SECTOR_SIZE/8)){
+            forcePageWrite = __TRUE;
+        }
         flashPtr = (uint32_t)loadOffset;
         //Copy processed data into flashBuffer
         for(amountCopiedToFlashBuf=0;amountCopiedToFlashBuf<(bytesToWrite) &&  amountCopiedToFlashBuf<(FLASH_PROGRAM_PAGE_SIZE-usedIntermediateBufSize) ;amountCopiedToFlashBuf++)
@@ -1048,7 +1067,19 @@ static int programHEXPage()
         {
             unrecordedUSBData[i] = usb_buffer[no_words_to_used+i];
         }
-        unrecordedUSBData[i] =0;
+        if(i>FLASH_SECTOR_SIZE/4){
+            reason = OUT_OF_MEM;
+            initDisconnect(0);
+        }
+        
+        //clear unused buffer values
+        for(;i<FLASH_SECTOR_SIZE/4;i++){
+            unrecordedUSBData[i] =0;
+        }
+        
+        for(i=FLASH_SECTOR_SIZE/8;i <FLASH_SECTOR_SIZE/2;i++){
+            usb_buffer[i] =0;
+        }
     }
     else
     {
