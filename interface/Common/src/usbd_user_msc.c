@@ -729,7 +729,14 @@ int search_bin_file(uint8_t * root, uint8_t sector) {
 
         if (file_type == BIN_FILE || file_type == PAR_FILE || file_type == HEX_FILE || 
             file_type == DOW_FILE || file_type == CRD_FILE || file_type == SPI_FILE) {
+           
+            #if defined(DBG_NRF51822AA)
+                if(file_type == PAR_FILE ||  file_type == CRD_FILE){
+                    file_type = HEX_FILE;
+                }            
+            #endif
             fileTypeReceived = file_type;
+            
             
             hidden_file = (pDirEnts[i].attributes & 0x02) ? 1 : 0;
 
