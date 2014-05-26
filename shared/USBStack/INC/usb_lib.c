@@ -1177,19 +1177,21 @@ void USBD_RTX_TaskInit (void) {
 
   USBD_RTX_DevTask = 0;
   if (USBD_RTX_P_Device) {
-    USBD_RTX_DevTask = os_tsk_create(USBD_RTX_Device,      3);
+    USBD_RTX_DevTask = os_tsk_create(USBD_RTX_Device,      10);
   }
 
-  for (i = 0; i <= 15; i++) {
+  //EP0
+  USBD_RTX_EPTask[0] = os_tsk_create(USBD_RTX_P_EP[0],     10);
+  for (i = 1; i <= 15; i++) {
     USBD_RTX_EPTask[i] = 0;
-    if (USBD_RTX_P_EP[i]) {
-      USBD_RTX_EPTask[i] = os_tsk_create(USBD_RTX_P_EP[i], 2);
+    if (USBD_RTX_P_EP[i]) {         
+       USBD_RTX_EPTask[i] = os_tsk_create(USBD_RTX_P_EP[i], 9);
     }
   }
 
   USBD_RTX_CoreTask = 0;
   if (USBD_RTX_P_Core) {
-    USBD_RTX_CoreTask = os_tsk_create(USBD_RTX_Core,       2);
+    USBD_RTX_CoreTask = os_tsk_create(USBD_RTX_Core,       9);
   }
 #endif
 }

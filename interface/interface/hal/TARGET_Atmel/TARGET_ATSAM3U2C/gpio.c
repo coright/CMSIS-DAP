@@ -16,6 +16,7 @@
 #include <sam3u.h>
 #include <RTL.h>
 #include "gpio.h"
+#include "uart.h"
 
 #define _BIT_LED_GREEN       (29)      // PA29
 #define _BIT_BOOT_MODE_PIN   (25)      // PA25
@@ -28,14 +29,14 @@ void gpio_init(void) {
   //
 	// Initially enable clock for GPIOA and initialize LED port as output with LED == off
 	//
-  PMC->PMC_PCER0 = (1 << 10);  // Enable clock for PIOA
-  PIOA->PIO_PER  = (1 << _BIT_LED_GREEN);  // Pin == GPIO control
-  PIOA->PIO_SODR = (1 << _BIT_LED_GREEN); // Green LED == off
-	PIOA->PIO_OER  = (1 << _BIT_LED_GREEN); // Pin == output
-  PIOA->PIO_PER  = (1 << _BIT_BOOT_MODE_PIN);  // Enable GPIO functionality and disable peripheral function of pin
+    PMC->PMC_PCER0 = (1 << 10);  // Enable clock for PIOA
+    PIOA->PIO_PER  = (1 << _BIT_LED_GREEN);  // Pin == GPIO control
+    PIOA->PIO_SODR = (1 << _BIT_LED_GREEN); // Green LED == off
+    PIOA->PIO_OER  = (1 << _BIT_LED_GREEN); // Pin == output
+    PIOA->PIO_PER  = (1 << _BIT_BOOT_MODE_PIN);  // Enable GPIO functionality and disable peripheral function of pin
 	PIOA->PIO_ODR  = (1 << _BIT_BOOT_MODE_PIN); // Disable output
 	PIOA->PIO_PUER = (1 << _BIT_BOOT_MODE_PIN); // Enable pull-up	
-  Cnt = 1000000;
+    Cnt = 1000000;
 	do {} while (--Cnt);    // Give pull-up some time to become active
 }
 
@@ -73,7 +74,7 @@ void gpio_enable_button_flag(OS_TID task, uint16_t flags) {
   PIOA->PIO_IFER   = (1 << _BIT_BOOT_MODE_PIN);  // Enable input filter
   PIOA->PIO_SCIFSR = (1 << _BIT_BOOT_MODE_PIN);  // Filter glitches
   PIOA->PIO_ISR;   // Clear all PIO interrupt status flags.
-  NVIC_SetPriority(PIOA_IRQn, 5);
+ // NVIC_SetPriority(PIOA_IRQn, 2);
   NVIC_EnableIRQ(PIOA_IRQn);
 }
 
@@ -81,7 +82,13 @@ void PIOA_IRQHandler(void) {
   //
 	// ISR is called when "reset" button on board is pressed
 	//	
-  if ((PIOA->PIO_ISR >> _BIT_BOOT_MODE_PIN) & 1) { // Check if interrupt was caused by I/O change on "reset" pin. This also clears interrupt status flags		
+    uint32_t interrupts = PIOA->PIO_ISR;  
+  if((interrupts >> 9) & 1){//CTS
+      uart_software_flow_control();    
+  }
+  
+  if ((interrupts >> _BIT_BOOT_MODE_PIN) & 1) { // Check if interrupt was caused by I/O change on "reset" pin. This also clears interrupt status flags		
     isr_evt_set(isr_flags, isr_notify);
   }
+  
 }

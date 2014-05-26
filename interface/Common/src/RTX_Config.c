@@ -47,7 +47,7 @@
 //   <i> Set the stack size for tasks which is assigned by the system.
 //   <i> Default: 200
 #ifndef OS_STKSIZE
- #define OS_STKSIZE     200//110
+ #define OS_STKSIZE     250//110
 #endif
 
 // <q>Check for the stack overflow
@@ -78,7 +78,7 @@
         #elif defined(TARGET_LPC4322)
         #define OS_CLOCK      204000000
 		#elif defined (TARGET_ATSAM3U2C)
-        #define OS_CLOCK       84000000
+        #define OS_CLOCK       96000000
     #endif
 #endif
 

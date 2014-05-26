@@ -131,11 +131,12 @@ int32_t USBD_CDC_ACM_SendBreak (uint16_t dur) {
     Virtual COM Port.
 
     \param [in]         ctrl_bmp Control line settings bitmap (
-                          0. bit - DTR state,
+                          0. bit - DTR state, CTS?
                           1. bit - RTS state).
     \return             0        Function failed.
     \return             1        Function succeeded.
  */
 int32_t USBD_CDC_ACM_PortSetControlLineState (uint16_t ctrl_bmp) {
+    uart_set_control_line_state(ctrl_bmp);    
     return (1);
 }

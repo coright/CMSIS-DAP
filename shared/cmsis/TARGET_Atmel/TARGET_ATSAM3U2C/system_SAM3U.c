@@ -198,7 +198,7 @@
 #define PMC_PCER_Val    0x00001C00      // WO register (0x00000000)
 #define CKGR_UCKR_Val   0x10200000      // 0x10200800
 #define CKGR_MOR_Val    0x01370101      // 0x00000001
-#define CKGR_PLLAR_Val  0x200D8601      // 0x00003F00
+#define CKGR_PLLAR_Val  0x200F8601 //0x200D8601      // 0x00003F00
 #define PMC_MCKR_Val    0x00000012      // 0x00000001
 #define PMC_PCK0_Val    0x00000000      // 0x00000000
 #define PMC_PCK1_Val    0x00000000      // 0x00000000
