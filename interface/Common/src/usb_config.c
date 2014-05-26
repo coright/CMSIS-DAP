@@ -170,7 +170,7 @@
 #define USBD_MSC_EP_BULKOUT         2
 #define USBD_MSC_WMAXPACKETSIZE     64
 #define USBD_MSC_HS_ENABLE          1
-#define USBD_MSC_HS_WMAXPACKETSIZE  128
+#define USBD_MSC_HS_WMAXPACKETSIZE  512
 #define USBD_MSC_HS_BINTERVAL       0
 #define USBD_MSC_STRDESC            L"USB_MSC"
 #define USBD_MSC_INQUIRY_DATA       "MBED    "         \
@@ -277,7 +277,7 @@
 //       </h>
 //     </e>
 #define USBD_CDC_ACM_ENABLE             1
-#define USBD_CDC_ACM_EP_INTIN           4//7
+#define USBD_CDC_ACM_EP_INTIN           4
 #define USBD_CDC_ACM_WMAXPACKETSIZE     16
 #define USBD_CDC_ACM_BINTERVAL          32
 #define USBD_CDC_ACM_HS_ENABLE          1

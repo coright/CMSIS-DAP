@@ -615,10 +615,6 @@ static void initDisconnect(uint8_t success) {
         main_usb_disconnect_event();
     }
     
-    //RESET after Programming is done?
-//#if defined (DBG_NRF51822AA)
-//    swd_set_target_state(RESET_RUN);
-//#endif
     semihost_enable();
     
 }
