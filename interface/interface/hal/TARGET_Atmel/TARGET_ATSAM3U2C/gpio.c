@@ -82,7 +82,7 @@ void PIOA_IRQHandler(void) {
   //
 	// ISR is called when "reset" button on board is pressed
 	//	
-    uint32_t interrupts = PIOA->PIO_ISR;  
+  uint32_t interrupts = PIOA->PIO_ISR;  
   if((interrupts >> 9) & 1){//CTS
       uart_software_flow_control();    
   }

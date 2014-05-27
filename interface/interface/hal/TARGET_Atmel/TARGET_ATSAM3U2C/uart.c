@@ -196,7 +196,6 @@ static void _Send1(void) {
   UART_PDC_TCR  = 1;
   UART_PDC_PTCR = (1 << 8);               // Enable transmission
   UART_IER = UART_TX_INT_FLAG;            // enable Tx interrupt
-    
 }
 
 static void _ResetBuffers(void) {
@@ -268,7 +267,7 @@ void uart_set_control_line_state(uint16_t ctrl_bmp){
 
 void uart_software_flow_control(){
     int v;
- //   PIOA->PIO_MDER = (1<<UART_TX_PIN);
+    PIOA->PIO_MDER = (1<<UART_TX_PIN);
     if(((PIOA->PIO_PDSR>>BIT_CDC_USB2UART_CTS) & 1) == 0) {
         _TxInProgress = 0;
             v = _CDC_BUFFER_SIZE - _NumBytesWriteFree(&_WriteBuffer); // NumBytes in write buffer
@@ -296,7 +295,7 @@ int32_t uart_initialize (void) {
   PIOA_PDR   = PIO_UART_PIN_MASK;         // Enable peripheral output signals (disable PIO Port A)
   PIOA_ABSR &= ~PIO_UART_PIN_MASK;        // Select "A" peripherals on PIO A (UART Rx, Tx)
   
-  //PIOA->PIO_MDER = PIO_UART_PIN_MASK;     //Enable Multi Drive Control (Open Drain) on the UART Lines so that they don't power nRF51  
+  PIOA->PIO_MDER = PIO_UART_PIN_MASK;     //Enable Multi Drive Control (Open Drain) on the UART Lines so that they don't power nRF51  
     
   UART_CR    = (0)
              | (1 <<  2)                  // RSTRX: Reset Receiver: 1 = The receiver logic is reset.
@@ -330,9 +329,8 @@ int32_t uart_initialize (void) {
              | (0 <<  9)                  // Initially disable TxEmpty Interrupt
              | (0 <<  4)                  // Initially disable ENDTx Interrupt
              ;
-  //
-  // HW flow control not supported...
-	// Anyhow, since design is based on J-Link-OB-SAM3U which supports this, we need to set "RTS" to LOW to indicate that we are ready to receive
+  //  
+  //Set "RTS" to LOW to indicate that we are ready to receive
   //
   PIOA_CODR      = (1uL << BIT_CDC_USB2UART_RTS);  // RTS low: Ready to receive data
   PIOA->PIO_OER  = (1uL << BIT_CDC_USB2UART_RTS);  // Pins == output
@@ -467,6 +465,9 @@ int32_t uart_write_data (uint8_t *data, uint16_t size) {
   if (_TxInProgress == 0 && ((PIOA->PIO_PDSR>>BIT_CDC_USB2UART_CTS) & 1) == 0 ) {  // Trigger first Tx transfer
         _Send1();
 	}
+  else{
+      PIOA->PIO_MDER = (1<<UART_TX_PIN);
+  }
 
   return NumBytesWritten;
 }
@@ -525,10 +526,6 @@ void UART_IRQHandler (void) {
             _ReadBuffer.pWrite = _ReadBuffer.acBuffer;
         }
     }
-    else{
-       // PIOA->PIO_SODR = 1 <<  BIT_CDC_USB2UART_RTS;
-        //v=0;
-    }
   }
   //
 	// Handle Tx event
@@ -538,13 +535,15 @@ void UART_IRQHandler (void) {
     if (v == 0) {                              // No more characters to send ?: Disable further tx interrupts
         UART_IDR = UART_TX_INT_FLAG;
         //enable open-drain
-//         PIOA->PIO_MDER = (1<<UART_TX_PIN);
+        PIOA->PIO_MDER = (1<<UART_TX_PIN);
         _TxInProgress = 0;
     } else if (((PIOA->PIO_PDSR>>BIT_CDC_USB2UART_CTS) & 1) == 0){
         _Send1();  // More bytes to send? Trigger sending of next byte
     }
     else{        
         UART_IDR = UART_TX_INT_FLAG;            // disable Tx interrupt
+        //enable open-drain
+        PIOA->PIO_MDER = (1<<UART_TX_PIN);
     }
   }
 }
