@@ -1201,7 +1201,7 @@ void USBD_RTX_TaskInit (void) {
  *      USB Device Descriptors
  *----------------------------------------------------------------------------*/
 #define USBD_MSC_DESC_LEN                 (USB_INTERFACE_DESC_SIZE + 2*USB_ENDPOINT_DESC_SIZE)
-#define USBD_CDC_ACM_DESC_LEN             (USB_INTERFACE_DESC_SIZE + /*USBD_MULTI_IF * USB_INTERFACE_ASSOC_DESC_SIZE +*/27+ /*0x0013*/                + \
+#define USBD_CDC_ACM_DESC_LEN             (USB_INTERFACE_DESC_SIZE + /*USBD_MULTI_IF * USB_INTERFACE_ASSOC_DESC_SIZE +*/0x13+ /*0x0013*/                + \
                                            USB_ENDPOINT_DESC_SIZE + USB_INTERFACE_DESC_SIZE + 2*USB_ENDPOINT_DESC_SIZE)
 #define USBD_HID_DESC_LEN                 (USB_INTERFACE_DESC_SIZE + USB_HID_DESC_SIZE                                                          + \
                                           (USB_ENDPOINT_DESC_SIZE*(1+(USBD_HID_EP_INTOUT != 0))))
@@ -1801,6 +1801,15 @@ const U8 USBD_ConfigDescriptor_HS[] = {
   MSC_EP_HS
 #endif
 
+#if (USBD_HID_ENABLE)
+  HID_DESC
+#if (USBD_HID_EP_INTOUT != 0)
+  HID_EP_INOUT_HS
+#else
+  HID_EP_HS
+#endif
+#endif
+
 #if (USBD_CDC_ACM_ENABLE)
 #if (USBD_MULTI_IF)
   CDC_ACM_DESC_IAD(USBD_CDC_ACM_CIF_NUM,2)
@@ -1809,15 +1818,6 @@ const U8 USBD_ConfigDescriptor_HS[] = {
   CDC_ACM_EP_IF0_HS
   CDC_ACM_DESC_IF1
   CDC_ACM_EP_IF1_HS
-#endif
-
-#if (USBD_HID_ENABLE)
-  HID_DESC
-#if (USBD_HID_EP_INTOUT != 0)
-  HID_EP_INOUT_HS
-#else
-  HID_EP_HS
-#endif
 #endif
 
 /* Terminator */                                                                                            \
@@ -1903,16 +1903,6 @@ const U8 USBD_OtherSpeedConfigDescriptor_HS[] = {
   MSC_EP
 #endif
 
-#if (USBD_CDC_ACM_ENABLE)
-#if (USBD_MULTI_IF)
-  CDC_ACM_DESC_IAD(USBD_CDC_ACM_CIF_NUM,2)
-#endif
-  CDC_ACM_DESC_IF0
-  CDC_ACM_EP_IF0
-  CDC_ACM_DESC_IF1
-  CDC_ACM_EP_IF1
-#endif
-
 #if (USBD_HID_ENABLE)
   HID_DESC
 #if (USBD_HID_EP_INTOUT != 0)
@@ -1922,6 +1912,15 @@ const U8 USBD_OtherSpeedConfigDescriptor_HS[] = {
 #endif
 #endif
 
+#if (USBD_CDC_ACM_ENABLE)
+#if (USBD_MULTI_IF)
+  CDC_ACM_DESC_IAD(USBD_CDC_ACM_CIF_NUM,2)
+#endif
+  CDC_ACM_DESC_IF0
+  CDC_ACM_EP_IF0
+  CDC_ACM_DESC_IF1
+  CDC_ACM_EP_IF1
+#endif
 /* Terminator */
   0                                     /* bLength */
 };

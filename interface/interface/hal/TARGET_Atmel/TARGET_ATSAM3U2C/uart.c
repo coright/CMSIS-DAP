@@ -245,29 +245,11 @@ void          UART_IntrDis (void) {
 }
 
 void uart_set_control_line_state(uint16_t ctrl_bmp){
-   /* if((ctrl_bmp&2) == 0 && ((PIOA->PIO_PDSR>>BIT_CDC_USB2UART_CTS) & 1) == 0){
-        //set RTS to 1
-        PIOA->PIO_SODR = 1 <<  BIT_CDC_USB2UART_RTS;
-    }
-    else{
-        //set RTS to 0
-        PIOA->PIO_SODR = 1 <<  BIT_CDC_USB2UART_RTS;
-    }
-   */ 
-   /* if((ctrl_bmp&1) == 1 ){
-        //set RTS to 1
-        PIOA->PIO_SODR = 1 <<  BIT_CDC_USB2UART_RTS;
-    }
-    else{
-        //set RTS to 0
-        PIOA->PIO_CODR = 1 <<  BIT_CDC_USB2UART_RTS;
-    }*/
     
 }
 
 void uart_software_flow_control(){
     int v;
-    PIOA->PIO_MDER = (1<<UART_TX_PIN);
     if(((PIOA->PIO_PDSR>>BIT_CDC_USB2UART_CTS) & 1) == 0) {
         _TxInProgress = 0;
             v = _CDC_BUFFER_SIZE - _NumBytesWriteFree(&_WriteBuffer); // NumBytes in write buffer
@@ -461,9 +443,6 @@ int32_t uart_write_data (uint8_t *data, uint16_t size) {
   if (_TxInProgress == 0 && ((PIOA->PIO_PDSR>>BIT_CDC_USB2UART_CTS) & 1) == 0 ) {  // Trigger first Tx transfer
         _Send1();
 	}
-  else{
-      PIOA->PIO_MDER = (1<<UART_TX_PIN);
-  }
 
   return NumBytesWritten;
 }
