@@ -1116,6 +1116,7 @@ static int programPage() {
     }
     // if we just wrote the last sector -> disconnect usb
     if (current_sector == nb_sector) {
+        
         initDisconnect(1);
         return 0;
     }

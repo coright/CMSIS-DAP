@@ -159,10 +159,11 @@ Configures the DAP Hardware I/O pins for Serial Wire Debug (SWD) mode:
  - TDI, TMS, nTRST to HighZ mode (pins are unused in SWD mode).
 */
 static __inline void PORT_SWD_SETUP (void) {
-  PMC->PMC_PCER0 = (1 << 10);  // Enable clock for PIOA
+  PMC->PMC_PCER0 = (1 << 10);  // Enable clock for PIOA 
+  PIOA->PIO_MDDR = PIN_SWDIO | PIN_SWCLK | PIN_nRESET;
+  //PIOA->PIO_PUER = PIN_SWCLK | PIN_SWDIO | PIN_nRESET;  // Pins == pull-up enable  
   PIOA->PIO_SODR = PIN_SWCLK | PIN_SWDIO | PIN_nRESET;  // Pins == HIGH
-  PIOA->PIO_PUER = PIN_SWCLK | PIN_SWDIO | PIN_nRESET;  // Pins == pull-up enable
-	PIOA->PIO_OER = PIN_SWCLK | PIN_SWDIO | PIN_nRESET;  // Pins == output
+  PIOA->PIO_OER = PIN_SWCLK | PIN_SWDIO | PIN_nRESET;  // Pins == output
   PIOA->PIO_PER = PIN_SWCLK | PIN_SWDIO | PIN_nRESET;  // Pins == GPIO control
 }
 
@@ -171,8 +172,9 @@ Disables the DAP Hardware I/O pins which configures:
  - TCK/SWCLK, TMS/SWDIO, TDI, TDO, nTRST, nRESET to High-Z mode.
 */
 static __inline void PORT_OFF (void) {
-  PIOA->PIO_PUER = PIN_SWCLK | PIN_SWDIO | PIN_nRESET;  // Pins == pull-up enable
-	PIOA->PIO_ODR = PIN_SWCLK | PIN_SWDIO | PIN_nRESET;  // Pins == input
+  //PIOA->PIO_PUER = PIN_SWCLK | PIN_SWDIO | PIN_nRESET;  // Pins == pull-up enable
+  //PIOA->PIO_MDER = PIN_SWDIO | PIN_SWCLK | PIN_nRESET;
+  PIOA->PIO_ODR = PIN_SWCLK | PIN_SWDIO | PIN_nRESET;  // Pins == input
   PIOA->PIO_PER = PIN_SWCLK | PIN_SWDIO | PIN_nRESET;  // Pins == GPIO control
 }
 
@@ -324,12 +326,17 @@ static __forceinline void     PIN_nRESET_OUT (uint32_t bit) {
   */
   if (bit & 1) {
       PIOA->PIO_SODR = PIN_SWDIO;
-      PIOA->PIO_SODR = PIN_SWCLK;
+      PIOA->PIO_MDER = PIN_SWDIO | PIN_SWCLK | PIN_nRESET;
 	} else {
         swd_init_debug();
         //Set POWER->RESET on NRF to 1
-        swd_write_ap(AP_TAR, 0x40000000 + 0x544);
-		swd_write_ap(AP_DRW, 1);
+        if(!swd_write_ap(AP_TAR, 0x40000000 + 0x544)){
+            return;
+        }
+        
+		if(!swd_write_ap(AP_DRW, 1)){
+            return;
+        }
         
         //Hold RESET and SWCLK low for a minimum of 100us
         PIOA->PIO_OER = PIN_SWDIO;

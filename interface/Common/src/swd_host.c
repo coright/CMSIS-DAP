@@ -95,7 +95,6 @@ uint8_t swd_read_dp(uint8_t adr, uint32_t *val) {
     ack = swd_transfer_retry(tmp_in, (uint32_t *)tmp_out);
 
     *val = (tmp_out[3] << 24) | (tmp_out[2] << 16) | (tmp_out[1] << 8) | tmp_out[0];
-
     return (ack == 0x01);
 }
 
@@ -748,7 +747,7 @@ uint8_t swd_init_debug(void) {
 
     DAP_Setup();
     PORT_SWD_SETUP();
-
+    
     // call a target dependant function
     // this function can do several stuff before really
     // initing the debug
@@ -804,8 +803,7 @@ void swd_set_target_reset(uint8_t asserted) {
 }
 
 uint8_t swd_set_target_state(TARGET_RESET_STATE state) {
-    uint32_t val;
-
+    uint32_t val;    
     switch (state) {
         case RESET_HOLD:
             swd_set_target_reset(1);
@@ -855,8 +853,8 @@ uint8_t swd_set_target_state(TARGET_RESET_STATE state) {
             os_dly_wait(2);
 
             swd_set_target_reset(0);
-            os_dly_wait(2);
-
+            os_dly_wait(2);            
+        
             if (!swd_init_debug()) {
                 return 0;
             }
@@ -893,6 +891,7 @@ uint8_t swd_set_target_state(TARGET_RESET_STATE state) {
             if (!swd_write_word(DBG_EMCR, 0)) {
                 return 0;
             }
+            
 
             break;
 

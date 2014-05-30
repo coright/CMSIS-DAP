@@ -62,7 +62,7 @@
 #define BOARD_ID        "1234"
 #define BOARD_SECRET    "xxxxxxxx"
 
-#elif defined (BOARD_NRF51822A)
+#elif defined (BOARD_NRF51822AA)
 #define BOARD_ID        "1070"
 #define BOARD_SECRET    "xxxxxxxx"
 

@@ -29,9 +29,9 @@
 //   <i> Default: 6
 #ifndef OS_TASKCNT
     #ifdef SEMIHOST
-        #define OS_TASKCNT    16
-    #else
         #define OS_TASKCNT    15
+    #else
+        #define OS_TASKCNT    14
     #endif
 #endif
 

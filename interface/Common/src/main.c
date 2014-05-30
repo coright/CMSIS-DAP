@@ -297,6 +297,10 @@ __task void main_task(void) {
     //target_set_state(RESET_RUN_WITH_DEBUG);
 #endif
 
+#ifdef BOARD_NRF51822AA
+    // Target running
+    target_set_state(RESET_RUN);
+#endif
     // start semihost task
     semihost_init();
     semihost_enable();
