@@ -29,8 +29,8 @@
           <SLE66CMisc>-D__SAM3U2C__</SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>SFD\Atmel\SAM3U\SAM3U2C.sfr</SFDFile>
-          <bCustSvd>0</bCustSvd>
+          <SFDFile>C:\Users\tuku\Desktop\SAM3U2C.SFR</SFDFile>
+          <bCustSvd>1</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
           <IncludePath></IncludePath>
@@ -359,7 +359,7 @@
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>TARGET_ATSAM3U2C, __RTX, DBG_NRF51822AA, BOARD_NRF51822A</Define>
+              <Define>TARGET_ATSAM3U2C, __RTX, DBG_NRF51822AA, BOARD_NRF51822AA</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\..\shared\USBStack\INC;..\..\Common\inc;..\..\Common\src;..\..\target\hal\DBG_NordicSemi\DBG_nRF51822AA;..\..\interface\hal\TARGET_Atmel\TARGET_ATSAM3U2C;..\..\interface\cmsis;..\..\..\shared\cmsis\TARGET_Atmel\TARGET_ATSAM3U2C;..\..\..\shared\rtos</IncludePath>
             </VariousControls>
@@ -1238,7 +1238,7 @@
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>TARGET_ATSAM3U2C, __RTX, DBG_NRF51822AA, BOARD_NRF51822A</Define>
+              <Define>TARGET_ATSAM3U2C, __RTX, DBG_NRF51822AA, BOARD_NRF51822AA</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\..\shared\USBStack\INC;..\..\Common\inc;..\..\Common\src;..\..\target\hal\DBG_NordicSemi\DBG_nRF51822AA;..\..\interface\hal\TARGET_Atmel\TARGET_ATSAM3U2C;..\..\interface\cmsis;..\..\..\shared\cmsis\TARGET_Atmel\TARGET_ATSAM3U2C;..\..\..\shared\rtos</IncludePath>
             </VariousControls>
