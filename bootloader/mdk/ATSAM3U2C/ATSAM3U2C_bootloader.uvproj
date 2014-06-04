@@ -355,13 +355,13 @@
             <wLevel>0</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <useXO>0</useXO>
             <VariousControls>
-              <MiscControls>--c99</MiscControls>
+              <MiscControls></MiscControls>
               <Define>__RTX, TARGET_ATSAM3U2C</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\shared\USBStack\INC;..\..\Common\inc;..\..\Common\src;..\..\..\shared\cmsis;..\..\..\shared\cmsis\TARGET_Atmel\TARGET_ATSAM3U2C;..\..\..\shared\rtos</IncludePath>
+              <IncludePath>..\..\..\shared\USBStack\INC;..\..\Common\inc;..\..\Common\src;..\..\..\shared\cmsis;..\..\..\shared\cmsis\TARGET_Atmel\TARGET_ATSAM3U2C;..\..\..\shared\rtos;..\..\..\..\Common\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -465,9 +465,9 @@
               <FilePath>..\..\hal\TARGET_Atmel\TARGET_ATSAM3U2C\vector_table.c</FilePath>
             </File>
             <File>
-              <FileName>flash.c</FileName>
+              <FileName>flash_hal.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\hal\TARGET_Atmel\TARGET_ATSAM3U2C\flash.c</FilePath>
+              <FilePath>..\..\hal\TARGET_Atmel\TARGET_ATSAM3U2C\flash_hal.c</FilePath>
               <FileOption>
                 <CommonProperty>
                   <UseCPPCompiler>2</UseCPPCompiler>
@@ -613,11 +613,6 @@
           <GroupName>RTX</GroupName>
           <Files>
             <File>
-              <FileName>HAL_CM1.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\shared\rtos\HAL_CM1.c</FilePath>
-            </File>
-            <File>
               <FileName>rt_Event.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\shared\rtos\rt_Event.c</FilePath>
@@ -672,58 +667,10 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\shared\rtos\rt_Timer.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Generic</GroupName>
-          <Files>
             <File>
-              <FileName>PrintfHelper.c</FileName>
+              <FileName>HAL_CM3.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\PrintfHelper.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>0</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <useXO>2</useXO>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
+              <FilePath>..\..\..\shared\rtos\HAL_CM3.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "flash.h"        // FlashOS Structures
+#include "flash_hal.h"        // FlashOS Structures
 
 #define KEY_VALUE             (0x5A)
 #define FCMD_WP               (0x1)           // "Write page" command
@@ -105,21 +105,21 @@ static void _WritePage(uint32_t Addr, volatile uint32_t* pSrc, int PerformErase)
 **********************************************************************
 */
 
-int flash_init (uint32_t clk) {
+int flash_hal_init (uint32_t clk) {
   //
 	// No special init required
 	//
   return (0);
 }
 
-int flash_uninit (uint32_t fnc) {
+int flash_hal_uninit (uint32_t fnc) {
   //
 	// No special uninit required
 	//
   return (0);
 }
 
-int flash_erase_chip (void) {
+int flash_hal_erase_chip (void) {
   uint32_t Addr;
   //
 	// Return value 0 == O.K.
@@ -133,7 +133,7 @@ int flash_erase_chip (void) {
   return (0);  // O.K.
 }
 
-int flash_erase_sector (uint32_t adr) {
+int flash_hal_erase_sector (uint32_t adr) {
   uint32_t NumPagesLeft;
   //
 	// Return value 0 == O.K.
@@ -149,7 +149,7 @@ int flash_erase_sector (uint32_t adr) {
   return (0);  // O.K.
 }
 
-int flash_program_page (uint32_t adr, uint32_t sz, unsigned char *buf) {
+int flash_hal_program_page (uint32_t adr, uint32_t sz, unsigned char *buf) {
   uint32_t NumPagesLeft;
   //
 	// Return value 0 == O.K.
