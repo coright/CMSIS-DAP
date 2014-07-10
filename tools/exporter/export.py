@@ -3,7 +3,7 @@ import yaml
 import logging
 import os
 from yaml_parser import parse_yaml
-import Uvision4
+from uvision4 import Uvision4
 
 #from workspace_tools.bootloader import BOOTLOADER_TARGETS
 
@@ -60,6 +60,6 @@ if __name__ == '__main__':
     f_rtos.close()
 
     ctx = parse_yaml(config)
-    exporter = Uvision4
+    exporter = Uvision4()
     #run exporter for defined bootloader project
-    exporter.generate(ctx, 'k20dx128', 'k20_bootloader')
+    exporter.generate('k20dx128', 'k20_bootloader', ctx)

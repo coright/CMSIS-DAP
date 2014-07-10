@@ -16,22 +16,17 @@ limitations under the License.
 """
 from os.path import basename, join
 from jinja2 import Template
+from export_generator import Exporter
 
 
-class Uvision4():
+class Uvision4(Exporter):
     NAME = 'uVision4'
 
     def __init__(self):
+        self.data = []
 
-    def gen_file(self, template_file, data, target_file):
-        template_text = open(template_file).read()
-        template = Template(template_text)
-        target_text = template.render(data)
-
-        target_path = join('../erase/', target_file)
-        open(target_path, "w").write(target_text)
-
-    def generate(self, data, target, project_name):
+    # interface_mcu, project_name, data
+    def generate(self, target, project_name, data):
         # target = self.target.lower()
 
         # Project file
