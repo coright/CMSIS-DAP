@@ -1,0 +1,16 @@
+usb:
+    paths:
+        include-paths:
+            - USBStack/INC
+        source-paths:
+            - USBStack/SRC
+    source-files:
+        - shared/USBStack/INC/usb_lib.c
+        - shared/USBStack/SRC\usbd_cdc_acm.c
+        - shared/USBStack/SRC\usbd_core.c
+        - shared/USBStack/SRC\usbd_core_cdc.c
+        - shared/USBStack/SRC\usbd_core_hid.c
+        - shared/USBStack/SRC\usbd_core_msc.c
+        - shared/USBStack/SRC\usbd_hid.c
+        - shared/USBStack/SRC\usbd_msc.c
+

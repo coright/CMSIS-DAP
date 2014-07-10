@@ -65,3 +65,6 @@ debug.txt
 
 # PyCharm project files
 .idea
+
+# generated project files
+project_files
