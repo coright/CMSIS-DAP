@@ -2,8 +2,8 @@
 bootloader_common:
     paths:
         include-paths:
-            - ./bootloader/Common/inc
-            - ./shared/cmsis
+            - bootloader/Common/inc
+            - shared/cmsis
         source-paths:
             - bootloader/Common/src
             - USBStack/SRC
