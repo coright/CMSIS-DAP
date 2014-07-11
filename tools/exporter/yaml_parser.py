@@ -8,6 +8,8 @@ def parse_yaml(dic):
         'source_files_c': [],
         'source_files_cpp': [],
         'source_files_s': [],
+        'source_files_obj': [],
+        'source_files_lib': [],
         'symbols': [],
         'flags' : [],
     }
@@ -24,7 +26,12 @@ def parse_yaml(dic):
     # get source files
     ctx['source_files_c'] = get_source_files_by_extension(dic, 'c')
     ctx['source_files_cpp'] = get_source_files_by_extension(dic, 'cpp')
+    # need to consider all object names (.asm, .s)
     ctx['source_files_s'] = get_source_files_by_extension(dic, 's')
+    # need to consider all object names (.o, .obj)
+    ctx['source_files_obj'] = get_source_files_by_extension(dic, 'o')
+    # need to consider all library names (.lib, .ar)
+    ctx['source_files_lib'] = get_source_files_by_extension(dic, 'lib')
     # print ctx['source_files_c']
     # get symbols
     ctx['symbols'] = get_macros(dic)
@@ -43,13 +50,11 @@ def get_macros(dic):
     return _finditem(dic, 'macros')
 
 def get_include_paths(dic):
-    paths = []
     paths_list = find_all_values(dic, 'include-paths')
     paths = flatten(paths_list)
     return paths
 
 def get_source_files_by_extension(dic, extension):
-    source = []
     find_extension = 'source-files-' + extension
     source_list = find_all_values(dic, find_extension)
     source = flatten(source_list)
