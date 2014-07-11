@@ -4,18 +4,18 @@ rtos:
             - shared/rtos
         source-paths:
             - shared/rtos
-    source-files:
-        - shared/rtos/shared\rtos\HAL_CM1.c
-        - shared/rtos/shared\rtos\HAL_CM3.c
-        - shared/rtos/shared\rtos\HAL_CM4.c
-        - shared/rtos/shared\rtos\rt_Event.c
-        - shared/rtos/shared\rtos\rt_List.c
-        - shared/rtos/shared\rtos\rt_Mailbox.c
-        - shared/rtos/shared\rtos\rt_MemBox.c
-        - shared/rtos/shared\rtos\rt_Mutex.c
-        - shared/rtos/shared\rtos\rt_Robin.c
-        - shared/rtos/shared\rtos\rt_Semaphore.c
-        - shared/rtos/shared\rtos\rt_System.c
-        - shared/rtos/shared\rtos\rt_Task.c
-        - shared/rtos/shared\rtos\rt_Time.c
-        - shared/rtos/shared\rtos\rt_Timer.c
+    source-files-c:
+        - shared/rtos/HAL_CM1.c
+        - shared/rtos/HAL_CM3.c
+        - shared/rtos/HAL_CM4.c
+        - shared/rtos/rt_Event.c
+        - shared/rtos/rt_List.c
+        - shared/rtos/rt_Mailbox.c
+        - shared/rtos/rt_MemBox.c
+        - shared/rtos/rt_Mutex.c
+        - shared/rtos/rt_Robin.c
+        - shared/rtos/rt_Semaphore.c
+        - shared/rtos/rt_System.c
+        - shared/rtos/rt_Task.c
+        - shared/rtos/rt_Time.c
+        - shared/rtos/rt_Timer.c

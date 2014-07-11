@@ -7,8 +7,8 @@ bootloader_common:
         source-paths:
             - bootloader/Common/src
             - USBStack/SRC
-    source-files:
-        - flash_svc.c
+    source-files-c:
+        - bootloader/Common/src/flash_svc.c
         - bootloader/Common/src/main.c
         - bootloader/Common/src/RTX_Config.c
         - bootloader/Common/src/SVC_Table.s

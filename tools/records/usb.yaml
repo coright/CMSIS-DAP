@@ -4,7 +4,7 @@ usb:
             - USBStack/INC
         source-paths:
             - USBStack/SRC
-    source-files:
+    source-files-c:
         - shared/USBStack/INC/usb_lib.c
         - shared/USBStack/SRC\usbd_cdc_acm.c
         - shared/USBStack/SRC\usbd_core.c

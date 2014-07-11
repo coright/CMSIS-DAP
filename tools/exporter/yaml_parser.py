@@ -5,11 +5,13 @@ def parse_yaml(dic):
         'name': '' ,
         'include_paths': [],
         'scatter_file': '',
-        'source_files': [],
+        'source_files_c': [],
+        'source_files_cpp': [],
+        'source_files_s': [],
         'symbols': [],
         'flags' : [],
     }
-    print '\n'
+    #print '\n'
     # get name
     ctx['name'] = get_name(dic)
     #print ctx['name']
@@ -20,8 +22,10 @@ def parse_yaml(dic):
     ctx['scatter_file'] = get_scatter_file(dic)
     #print ctx['scatter_file']
     # get source files
-    ctx['source_files'] = get_source_files(dic)
-    # print ctx['source_files']
+    ctx['source_files_c'] = get_source_files_by_extension(dic, 'c')
+    ctx['source_files_cpp'] = get_source_files_by_extension(dic, 'cpp')
+    ctx['source_files_s'] = get_source_files_by_extension(dic, 's')
+    # print ctx['source_files_c']
     # get symbols
     ctx['symbols'] = get_macros(dic)
     #print ctx['symbols']
@@ -44,9 +48,10 @@ def get_include_paths(dic):
     paths = flatten(paths_list)
     return paths
 
-def get_source_files(dic):
+def get_source_files_by_extension(dic, extension):
     source = []
-    source_list = find_all_values(dic, 'source-files')
+    find_extension = 'source-files-' + extension
+    source_list = find_all_values(dic, find_extension)
     source = flatten(source_list)
     return source
 

@@ -1,0 +1,26 @@
+bootloader_k20:
+#    yaml-include:
+#        [!include uvision.yaml, !include bootloader_common.yaml, !include usb.yaml , !include rtos.yaml ]
+
+    project-name:
+        k20dx128_bootloader
+    paths:
+        include-paths:
+            - shared/cmsis/TARGET_Freescale/include
+            - shared/cmsis/TARGET_Freescale/include/device
+            - shared/cmsis/TARGET_Freescale/include/device/MK20D5
+        source-paths:
+            - shared/cmsis/TARGET_Freescale/TARGET_MK20DX
+            - bootloader/hal/TARGET_Freescale/TARGET_MK20DX
+    source-files-c:
+        - bootloader/hal/TARGET_Freescale/TARGET_MK20DX/flash_hal.c
+        - bootloader/hal/TARGET_Freescale/TARGET_MK20DX/gpio.c
+        - bootloader/hal/TARGET_Freescale/TARGET_MK20DX/read_uid.c
+        - bootloader/hal/TARGET_Freescale/TARGET_MK20DX/usbd_MK20D5.c
+        - bootloader/hal/TARGET_Freescale/TARGET_MK20DX/vector_table.c
+    linker-file:
+        shared\cmsis\TARGET_Freescale\TARGET_MK20DX\TOOLCHAIN_ARM_STD\MK20D5.sct
+    macros:
+        - TARGET_MK20DX
+        - CPU_MK20DX128VFM5
+        - __RTX
