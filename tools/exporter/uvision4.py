@@ -30,11 +30,22 @@ class Uvision4(Exporter):
 
         expanded_dic = data.copy();
         expanded_dic['source_files_c'] = []
+        expanded_dic['source_files_cpp'] = []
+        expanded_dic['source_files_s'] = []
 
         # uvision needs filename plus path separately, expand data
         for file in data['source_files_c']:
             new_file = {"path" : file, "name" : basename(file)}
             expanded_dic['source_files_c'].append(new_file)
+
+        for file in data['source_files_s']:
+            new_file = {"path" : file, "name" : basename(file)}
+            expanded_dic['source_files_s'].append(new_file)
+
+        for file in data['source_files_cpp']:
+            new_file = {"path" : file, "name" : basename(file)}
+            expanded_dic['source_files_cpp'].append(new_file)
+
 
         # Project file
         self.gen_file('uvision4_%s.uvproj.tmpl' % target, expanded_dic, '%s.uvproj' % project_name)
