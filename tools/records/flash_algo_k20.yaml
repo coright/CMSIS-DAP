@@ -1,0 +1,27 @@
+flash_algo_k20:
+#    yaml-include:
+#        [!include uvision.yaml, !include bootloader_common.yaml, !include usb.yaml , !include rtos.yaml ]
+
+    paths:
+        include-paths:
+            - shared/flash_algo/TARGET_FREESCALE
+            - shared/flash_algo/TARGET_FREESCALE/flash
+            - shared/flash_algo/TARGET_FREESCALE/flash/src
+        source-paths:
+            - shared/flash_algo/TARGET_FREESCALE/flash/src
+    source-files-c:
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_command_sequence.c
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_densities_kl_series.c
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_densities_k_series.c
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_erase.c
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_erase_all.c
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_erase_all_unsecure.c
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_get_property.c
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_get_security_state.c
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_init.c
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_is_protected.c
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_program.c
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_security_bypass.c
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_verify_erase.c
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_verify_erase_all.c
+        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_verify_program.c

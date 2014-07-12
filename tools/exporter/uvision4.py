@@ -17,7 +17,7 @@ limitations under the License.
 from os.path import basename, join
 from jinja2 import Template
 from export_generator import Exporter
-
+from yaml_parser import parse_yaml
 
 class Uvision4(Exporter):
     NAME = 'uVision4'
@@ -27,8 +27,15 @@ class Uvision4(Exporter):
 
     # interface_mcu, project_name, data
     def generate(self, target, project_name, data):
-        # target = self.target.lower()
+
+        expanded_dic = data.copy();
+        expanded_dic['source_files_c'] = []
+
+        # uvision needs filename plus path separately, expand data
+        for file in data['source_files_c']:
+            new_file = {"path" : file, "name" : basename(file)}
+            expanded_dic['source_files_c'].append(new_file)
 
         # Project file
-        self.gen_file('uvision4_%s.uvproj.tmpl' % target, data, '%s.uvproj' % project_name)
-        self.gen_file('uvision4_%s.uvopt.tmpl' % target, data, '%s.uvopt' % project_name)
+        self.gen_file('uvision4_%s.uvproj.tmpl' % target, expanded_dic, '%s.uvproj' % project_name)
+        self.gen_file('uvision4_%s.uvopt.tmpl' % target, expanded_dic, '%s.uvopt' % project_name)

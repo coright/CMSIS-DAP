@@ -5,9 +5,7 @@ rtos:
         source-paths:
             - shared/rtos
     source-files-c:
-        - shared/rtos/HAL_CM1.c
-        - shared/rtos/HAL_CM3.c
-        - shared/rtos/HAL_CM4.c
+        - shared/rtos/HAL_CM3.c #TODO !! for other CORES
         - shared/rtos/rt_Event.c
         - shared/rtos/rt_List.c
         - shared/rtos/rt_Mailbox.c

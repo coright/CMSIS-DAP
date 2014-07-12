@@ -393,23 +393,23 @@
           <Files>
             {% for file in source_files_c %}
             <File>
-              <FileName>{{file}}</FileName>
+              <FileName>{{file.name}}</FileName>
               <FileType>1</FileType>
-              <FilePath>../{{file}}</FilePath>
+              <FilePath>../{{file.path}}</FilePath>
             </File>
             {% endfor %}
             {% for file in source_files_cpp %}
             <File>
-              <FileName>{{file}}</FileName>
+              <FileName>{{file.name}}</FileName>
               <FileType>8</FileType>
-              <FilePath>../{{file}}</FilePath>
+              <FilePath>../{{file.path}}</FilePath>
             </File>
             {% endfor %}
             {% for file in source_files_s %}
             <File>
-              <FileName>{{file}}</FileName>
+              <FileName>{{file.name}}</FileName>
               <FileType>2</FileType>
-              <FilePath>../{{file}}</FilePath>
+              <FilePath>../{{file.path}}</FilePath>
             </File>
             {% endfor %}
             {% for file in source_files_obj %}
@@ -425,7 +425,7 @@
               <FileType>4</FileType>
               <FilePath>../{{file}}</FilePath>
             </File>
-            {% endfor %}            
+            {% endfor %}
           </Files>
         </Group>
       </Groups>

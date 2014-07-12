@@ -3,6 +3,7 @@ bootloader_common:
     paths:
         include-paths:
             - bootloader/Common/inc
+            - bootloader/Common/src
             - shared/cmsis
         source-paths:
             - bootloader/Common/src

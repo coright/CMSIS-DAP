@@ -37,6 +37,7 @@ if __name__ == '__main__':
 
     # get configuration from the YAML file
     f_boot = open('../records/bootloader_k20.yaml')
+    f_flash = open('../records/flash_algo_k20.yaml')
     f_uvision = open('../records/uvision.yaml')
     f_boot_common = open('../records/bootloader_common.yaml')
     f_ubs = open('../records/usb.yaml')
@@ -48,6 +49,7 @@ if __name__ == '__main__':
     config.update(yaml.load(f_boot_common))
     config.update(yaml.load(f_ubs))
     config.update(yaml.load(f_rtos))
+    config.update(yaml.load(f_flash))
 
     #logging.info(config)
     # for data in config:
