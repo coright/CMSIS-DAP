@@ -2,38 +2,44 @@ from optparse import OptionParser
 import yaml
 import logging
 import os
-from yaml_parser import parse_yaml
+from yaml_parser import parse_yaml, get_project_files, get_mcu
 from uvision4 import Uvision4
+import sys
+
+def process_all_projects(dic):
+    projects = []
+    yaml_files = []
+    for k,v in dic['projects'].items():
+        projects.append(k);
+
+    for project in projects:
+        yaml_files = get_project_files(dic, project) # TODO fix list inside list
+        for yaml_file in yaml_files[0]:              # accesing the first item as it's another list
+            file = open(yaml_file)
+            config.update(yaml.load(file))
+            file.close()
+        ctx = parse_yaml(config)
+        exporter = Uvision4()
+        #run exporter for defined bootloader project
+        exporter.generate(get_mcu(dic), ctx['name'], ctx)
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
+    os.chdir('../..') # always should be in the root directory for the project
+
     # Parse Options
     parser = OptionParser()
+    parser.add_option("-f", "--file", help="Yaml projects file")
 
     (options, args) = parser.parse_args()
 
-    # get configuration from the YAML file
-    f_boot = open('../records/bootloader_k20.yaml')
-    f_flash = open('../records/flash_algo_k20.yaml')
-    f_uvision = open('../records/uvision.yaml')
-    f_boot_common = open('../records/bootloader_common.yaml')
-    f_ubs = open('../records/usb.yaml')
-    f_rtos = open('../records/rtos.yaml')
+    if not options.file:
+        print "No project file give. Please provide one. Exiting"
+        sys.exit()
 
-    config = yaml.load(f_boot)
-    config.update(yaml.load(f_uvision))
-    config.update(yaml.load(f_boot_common))
-    config.update(yaml.load(f_ubs))
-    config.update(yaml.load(f_rtos))
-    config.update(yaml.load(f_flash))
+    print "Processing projects file."
+    project_file = open(options.file)
+    config = yaml.load(project_file)
 
-    f_boot.close()
-    f_uvision.close()
-    f_boot_common.close()
-    f_ubs.close()
-    f_rtos.close()
-
-    ctx = parse_yaml(config)
-    exporter = Uvision4()
-    #run exporter for defined bootloader project
-    exporter.generate('k20dx128', 'k20_bootloader', ctx)
+    process_all_projects(config)
+    project_file.close()
