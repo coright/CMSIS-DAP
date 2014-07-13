@@ -20,7 +20,6 @@ if __name__ == '__main__':
     f_ubs = open('../records/usb.yaml')
     f_rtos = open('../records/rtos.yaml')
 
-    # config = yaml.load(f_boot, Loader)
     config = yaml.load(f_boot)
     config.update(yaml.load(f_uvision))
     config.update(yaml.load(f_boot_common))

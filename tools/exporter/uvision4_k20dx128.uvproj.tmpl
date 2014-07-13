@@ -349,7 +349,7 @@
               <MiscControls>{% for f in flags %}{{f}} {% endfor %}</MiscControls>
               <Define>{% for s in symbols %} {{s}}, {% endfor %}</Define>
               <Undefine></Undefine>
-              <IncludePath> {% for path in include_paths %} ../{{path}}; {% endfor %} </IncludePath>
+              <IncludePath> {% for path in include_paths %} ../../{{path}}; {% endfor %} </IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -377,7 +377,7 @@
             <useFile>0</useFile>
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x10000000</DataAddressRange>
-            <ScatterFile>../{{scatter_file}}</ScatterFile>
+            <ScatterFile>../../{{scatter_file}}</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc>
@@ -395,35 +395,35 @@
             <File>
               <FileName>{{file.name}}</FileName>
               <FileType>1</FileType>
-              <FilePath>../{{file.path}}</FilePath>
+              <FilePath>../../{{file.path}}</FilePath>
             </File>
             {% endfor %}
             {% for file in source_files_cpp %}
             <File>
               <FileName>{{file.name}}</FileName>
               <FileType>8</FileType>
-              <FilePath>../{{file.path}}</FilePath>
+              <FilePath>../../{{file.path}}</FilePath>
             </File>
             {% endfor %}
             {% for file in source_files_s %}
             <File>
               <FileName>{{file.name}}</FileName>
               <FileType>2</FileType>
-              <FilePath>../{{file.path}}</FilePath>
+              <FilePath>../../{{file.path}}</FilePath>
             </File>
             {% endfor %}
             {% for file in source_files_obj %}
             <File>
               <FileName>{{file}}</FileName>
               <FileType>3</FileType>
-              <FilePath>../{{file}}</FilePath>
+              <FilePath>../../{{file}}</FilePath>
             </File>
             {% endfor %}
             {% for file in source_files_lib %}
             <File>
               <FileName>{{file}}</FileName>
               <FileType>4</FileType>
-              <FilePath>../{{file}}</FilePath>
+              <FilePath>../../{{file}}</FilePath>
             </File>
             {% endfor %}
           </Files>

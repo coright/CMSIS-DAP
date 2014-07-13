@@ -25,27 +25,20 @@ class Uvision4(Exporter):
     def __init__(self):
         self.data = []
 
+    def expand_data(self, new_data, old_data, attribute):
+        new_data[attribute] = []
+        # uvision needs filename plus path separately, expand data
+        for file in old_data[attribute]:
+            new_file = {"path" : file, "name" : basename(file)}
+            new_data[attribute].append(new_file)
+
     # interface_mcu, project_name, data
     def generate(self, target, project_name, data):
 
         expanded_dic = data.copy();
-        expanded_dic['source_files_c'] = []
-        expanded_dic['source_files_cpp'] = []
-        expanded_dic['source_files_s'] = []
-
-        # uvision needs filename plus path separately, expand data
-        for file in data['source_files_c']:
-            new_file = {"path" : file, "name" : basename(file)}
-            expanded_dic['source_files_c'].append(new_file)
-
-        for file in data['source_files_s']:
-            new_file = {"path" : file, "name" : basename(file)}
-            expanded_dic['source_files_s'].append(new_file)
-
-        for file in data['source_files_cpp']:
-            new_file = {"path" : file, "name" : basename(file)}
-            expanded_dic['source_files_cpp'].append(new_file)
-
+        self.expand_data(expanded_dic, data, 'source_files_c')
+        self.expand_data(expanded_dic, data, 'source_files_cpp')
+        self.expand_data(expanded_dic, data, 'source_files_s')
 
         # Project file
         self.gen_file('uvision4_%s.uvproj.tmpl' % target, expanded_dic, '%s.uvproj' % project_name)
