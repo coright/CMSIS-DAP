@@ -84,7 +84,7 @@ def get_scatter_file(dic):
     return _finditem(dic, 'linker-file')
 
 def get_project_files(dic, name):
-    return find_all_values(dic, name)
+    return flatten(find_all_values(dic, name))
 
 def get_mcu(dic):
     return _finditem(dic, 'mcu')

@@ -8,17 +8,15 @@ import sys
 
 def run_generator(dic, project):
     yaml_files = get_project_files(dic, project) # TODO fix list inside list
-    for yaml_file in yaml_files[0]:              # accesing the first item as it's another list
-        if not yaml_file: #non existing yaml files are ignored
-            break
+    for yaml_file in yaml_files:
         try:
             file = open(yaml_file)
         except IOError:
-            print "Cannot open %s" % file
+            print "Cannot open a file: %s" % yaml_file
+            sys.exit()
         else:
             config.update(yaml.load(file))
             file.close()
-
     ctx = parse_yaml(config)
     exporter = Uvision4()
     #run exporter for defined bootloader project
@@ -31,9 +29,11 @@ def process_all_projects(dic):
         projects.append(k);
 
     for project in projects:
+        logging.info("Generating project: %s" % project)
         run_generator(dic, project)
 
 def process_project(dic, project):
+    logging.info("Generating project: %s" % project)
     run_generator(dic, project)
 
 if __name__ == '__main__':
