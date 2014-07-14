@@ -3,6 +3,7 @@ from compiler.ast import flatten
 def parse_yaml(dic):
     ctx = {
         'name': '' ,
+        'groups': [],
         'include_paths': [],
         'scatter_file': '',
         'source_files_c': [],
@@ -30,8 +31,11 @@ def parse_yaml(dic):
     ctx['source_files_s'] = get_source_files_by_extension(dic, 's')
     # need to consider all object names (.o, .obj)
     ctx['source_files_obj'] = get_source_files_by_extension(dic, 'o')
+    ctx['source_files_obj'].append(get_source_files_by_extension(dic, 'obj'))
     # need to consider all library names (.lib, .ar)
     ctx['source_files_lib'] = get_source_files_by_extension(dic, 'lib')
+    ctx['source_files_lib'].append (get_source_files_by_extension(dic, 'ar'))
+    ctx['source_files_lib'].append (get_source_files_by_extension(dic, 'a'))
     # print ctx['source_files_c']
     # get symbols
     ctx['symbols'] = get_macros(dic)
