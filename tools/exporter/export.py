@@ -6,6 +6,17 @@ from yaml_parser import parse_yaml, get_project_files, get_mcu
 from uvision4 import Uvision4
 import sys
 
+def run_generator(dic, project):
+    yaml_files = get_project_files(dic, project) # TODO fix list inside list, plus handle error (empty list !! if yaml does not)
+    for yaml_file in yaml_files[0]:              # accesing the first item as it's another list
+        file = open(yaml_file)
+        config.update(yaml.load(file))
+        file.close()
+    ctx = parse_yaml(config)
+    exporter = Uvision4()
+    #run exporter for defined bootloader project
+    exporter.generate(get_mcu(dic), ctx['name'], ctx)
+
 def process_all_projects(dic):
     projects = []
     yaml_files = []
@@ -13,15 +24,10 @@ def process_all_projects(dic):
         projects.append(k);
 
     for project in projects:
-        yaml_files = get_project_files(dic, project) # TODO fix list inside list
-        for yaml_file in yaml_files[0]:              # accesing the first item as it's another list
-            file = open(yaml_file)
-            config.update(yaml.load(file))
-            file.close()
-        ctx = parse_yaml(config)
-        exporter = Uvision4()
-        #run exporter for defined bootloader project
-        exporter.generate(get_mcu(dic), ctx['name'], ctx)
+        run_generator(dic, project)
+
+def process_project(dic, project):
+    run_generator(dic, project)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
@@ -30,6 +36,7 @@ if __name__ == '__main__':
     # Parse Options
     parser = OptionParser()
     parser.add_option("-f", "--file", help="Yaml projects file")
+    parser.add_option("-p", "--project", help="Project to be generated")
 
     (options, args) = parser.parse_args()
 
@@ -41,5 +48,9 @@ if __name__ == '__main__':
     project_file = open(options.file)
     config = yaml.load(project_file)
 
-    process_all_projects(config)
+    if options.project:
+        process_project(config, options.project) # one project
+    else:
+        process_all_projects(config) # all projects within project.yaml
+
     project_file.close()

@@ -6,3 +6,10 @@ projects:
         - tools/records/bootloader_common.yaml
         - tools/records/usb.yaml
         - tools/records/rtos.yaml
+    lpc11u35_bootloader:
+        - tools/records/bootloader_lpc11u35.yaml
+        - tools/records/flash_algo_lpc11u35.yaml
+        - tools/records/uvision.yaml
+        - tools/records/bootloader_common.yaml
+        - tools/records/usb.yaml
+        - tools/records/rtos.yaml

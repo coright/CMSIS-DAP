@@ -1,6 +1,4 @@
 bootloader_k20:
-#    yaml-include:
-#        [!include uvision.yaml, !include bootloader_common.yaml, !include usb.yaml , !include rtos.yaml ]
 
     project-name:
         k20dx128_bootloader
