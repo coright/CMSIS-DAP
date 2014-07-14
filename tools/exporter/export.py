@@ -7,11 +7,18 @@ from uvision4 import Uvision4
 import sys
 
 def run_generator(dic, project):
-    yaml_files = get_project_files(dic, project) # TODO fix list inside list, plus handle error (empty list !! if yaml does not)
+    yaml_files = get_project_files(dic, project) # TODO fix list inside list
     for yaml_file in yaml_files[0]:              # accesing the first item as it's another list
-        file = open(yaml_file)
-        config.update(yaml.load(file))
-        file.close()
+        if not yaml_file: #non existing yaml files are ignored
+            break
+        try:
+            file = open(yaml_file)
+        except IOError:
+            print "Cannot open %s" % file
+        else:
+            config.update(yaml.load(file))
+            file.close()
+
     ctx = parse_yaml(config)
     exporter = Uvision4()
     #run exporter for defined bootloader project

@@ -1,15 +1,7 @@
 """Just a template for subclassing"""
 import uuid, shutil, os, logging, fnmatch
-#from os import walk, remove
 from os.path import join, dirname, isdir, split
-#from copy import copy
 from jinja2 import Template
-#from contextlib import closing
-#from zipfile import ZipFile, ZIP_DEFLATED
-
-#from workspace_tools.utils import mkdir
-#from workspace_tools.toolchains import TOOLCHAIN_CLASSES
-#from workspace_tools.targets import TARGET_MAP
 
 class OldLibrariesException(Exception): pass
 
