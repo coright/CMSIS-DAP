@@ -59,7 +59,7 @@ if __name__ == '__main__':
     # always run from root directory
     script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
     os.chdir(script_dir)
-    os.chdir('../..')
+    os.chdir('../')
 
     print "Processing projects file."
     project_file = open(options.file)
