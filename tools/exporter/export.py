@@ -10,6 +10,7 @@ from os.path import basename
 def run_generator(dic, project):
     project_list = []
     yaml_files = get_project_files(dic, project) # TODO fix list inside list
+
     for yaml_file in yaml_files:
         try:
             file = open(yaml_file)
@@ -20,15 +21,10 @@ def run_generator(dic, project):
             loaded_yaml = yaml.load(file)
             project_list.append(parse_yaml(loaded_yaml))
             file.close()
-            # config.update(loaded_yaml)
-            # print "\n" + "%s" % ctx
-            #print ctx['source_files_c']
     process_data = parse_list_yaml(project_list)
 
     exporter = Uvision4()
     #run exporter for defined bootloader project
-    # project_name = get_project_name_list(ctx)
-    # print ctx
     exporter.generate(process_data['mcu'], process_data['name'], process_data) #fix get mcu
 
 def process_all_projects(dic):

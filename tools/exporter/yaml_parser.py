@@ -125,6 +125,8 @@ def parse_list_yaml(project_list):
     ctx['flags'] = flatten(ctx['flags'])
     ctx['symbols'] = flatten(ctx['symbols'])
     ctx['include_paths'] = flatten(ctx['include_paths'])
+    ctx['source_files_obj'] = flatten(ctx['source_files_obj'])
+    ctx['source_files_lib'] = flatten(ctx['source_files_lib'])
     return ctx
 
 def get_macros(dic):
