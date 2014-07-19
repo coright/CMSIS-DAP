@@ -2,7 +2,7 @@ from optparse import OptionParser
 import yaml
 import logging
 import os
-from yaml_parser import parse_yaml, get_project_files, get_mcu, get_project_name_list, parse_list_yaml
+from yaml_parser import parse_yaml, get_project_files, parse_list_yaml
 from uvision4 import Uvision4
 import sys
 from os.path import basename
@@ -25,7 +25,7 @@ def run_generator(dic, project):
 
     exporter = Uvision4()
     #run exporter for defined bootloader project
-    exporter.generate(process_data['mcu'], process_data['name'], process_data) #fix get mcu
+    exporter.generate(process_data['mcu'], process_data['name'], process_data)
 
 def process_all_projects(dic):
     projects = []
@@ -55,6 +55,11 @@ if __name__ == '__main__':
         parser.print_help()
         options.file = 'records/projects.yaml'
         #sys.exit()
+
+    # always run from root directory
+    script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
+    os.chdir(script_dir)
+    os.chdir('../..')
 
     print "Processing projects file."
     project_file = open(options.file)

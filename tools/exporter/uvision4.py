@@ -55,7 +55,7 @@ class Uvision4(Exporter):
                 group = k
                 self.expand_data(expanded_dic, dic, 'source_files_s', group)
 
-        print expanded_dic
+        #print expanded_dic
         # Project file
         self.gen_file('uvision4_%s.uvproj.tmpl' % target, expanded_dic, '%s.uvproj' % project_name)
         self.gen_file('uvision4_%s.uvopt.tmpl' % target, expanded_dic, '%s.uvopt' % project_name)
