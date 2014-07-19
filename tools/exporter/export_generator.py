@@ -6,7 +6,7 @@ from jinja2 import Template
 class OldLibrariesException(Exception): pass
 
 class Exporter():
-    TEMPLATE_DIR = dirname(__file__)
+    TEMPLATE_DIR = dirname(__file__) + '/templates'
     DOT_IN_RELATIVE_PATH = False
 
     def __init__(self):
