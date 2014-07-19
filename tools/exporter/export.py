@@ -43,7 +43,6 @@ def process_project(dic, project):
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
-    # os.chdir('../..') # always should be in the root directory for the project
 
     # Parse Options
     parser = OptionParser()
@@ -53,8 +52,9 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
 
     if not options.file:
-        print "No project file give. Please provide one. Exiting"
-        sys.exit()
+        parser.print_help()
+        options.file = 'records/projects.yaml'
+        #sys.exit()
 
     print "Processing projects file."
     project_file = open(options.file)
