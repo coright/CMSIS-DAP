@@ -6,6 +6,8 @@ flash_algo_k20:
             - shared/flash_algo/TARGET_FREESCALE/flash/src
         source-paths:
             - shared/flash_algo/TARGET_FREESCALE/flash/src
+    virtual-dir:
+        flash_algo
     source-files-c:
         - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_command_sequence.c
         - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_densities_k_series.c

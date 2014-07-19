@@ -4,6 +4,8 @@ rtos:
             - shared/rtos
         source-paths:
             - shared/rtos
+    virtual-dir:
+        rtos
     source-files-c:
         - shared/rtos/HAL_CM3.c #TODO !! for other CORES
         - shared/rtos/rt_Event.c

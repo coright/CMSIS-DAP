@@ -4,6 +4,8 @@ usb:
             - shared/USBStack/INC
         source-paths:
             - shared/USBStack/SRC
+    virtual-dir:
+        usb
     source-files-c:
         # - shared/USBStack/INC/usb_lib.c
         - shared/USBStack/SRC/usbd_core.c

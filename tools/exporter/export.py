@@ -2,11 +2,13 @@ from optparse import OptionParser
 import yaml
 import logging
 import os
-from yaml_parser import parse_yaml, get_project_files, get_mcu
+from yaml_parser import parse_yaml, get_project_files, get_mcu, get_project_name_list, parse_list_yaml
 from uvision4 import Uvision4
 import sys
+from os.path import basename
 
 def run_generator(dic, project):
+    project_list = []
     yaml_files = get_project_files(dic, project) # TODO fix list inside list
     for yaml_file in yaml_files:
         try:
@@ -15,12 +17,19 @@ def run_generator(dic, project):
             print "Cannot open a file: %s" % yaml_file
             sys.exit()
         else:
-            config.update(yaml.load(file))
+            loaded_yaml = yaml.load(file)
+            project_list.append(parse_yaml(loaded_yaml))
             file.close()
-    ctx = parse_yaml(config)
+            # config.update(loaded_yaml)
+            # print "\n" + "%s" % ctx
+            #print ctx['source_files_c']
+    process_data = parse_list_yaml(project_list)
+
     exporter = Uvision4()
     #run exporter for defined bootloader project
-    exporter.generate(get_mcu(dic), ctx['name'], ctx)
+    # project_name = get_project_name_list(ctx)
+    # print ctx
+    exporter.generate(process_data['mcu'], process_data['name'], process_data) #fix get mcu
 
 def process_all_projects(dic):
     projects = []
@@ -38,7 +47,7 @@ def process_project(dic, project):
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
-    os.chdir('../..') # always should be in the root directory for the project
+    # os.chdir('../..') # always should be in the root directory for the project
 
     # Parse Options
     parser = OptionParser()

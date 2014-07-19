@@ -1,5 +1,4 @@
 bootloader_k20:
-
     project-name:
         k20dx128_bootloader
     mcu:
@@ -12,6 +11,8 @@ bootloader_k20:
         source-paths:
             - shared/cmsis/TARGET_Freescale/TARGET_MK20DX
             - bootloader/hal/TARGET_Freescale/TARGET_MK20DX
+    virtual-dir:
+        k20_target_files
     source-files-c:
         - bootloader/hal/TARGET_Freescale/TARGET_MK20DX/flash_hal.c
         - bootloader/hal/TARGET_Freescale/TARGET_MK20DX/gpio.c
