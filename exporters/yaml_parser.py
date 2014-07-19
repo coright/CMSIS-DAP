@@ -14,6 +14,7 @@ def parse_yaml(dic):
         'source_files_lib': [],
         'symbols': [],
         'flags' : [],
+        'ide': '',
     }
     #print '\n'
     # get name
@@ -54,6 +55,7 @@ def parse_yaml(dic):
     # get flags
     ctx['flags'] = get_cc_flags(dic)
     ctx['mcu'] = _finditem(dic, 'mcu')
+    ctx['ide'] = _finditem(dic, 'ide')
     return ctx
 
 def get_cc_flags(dic):
@@ -84,15 +86,19 @@ def parse_list_yaml(project_list):
         'source_files_lib': [],
         'symbols': [],
         'flags' : [],
+        'ide' : '',
     }
 
     for dic in project_list:
         name = _finditem(dic, 'name') #TODO fix naming
         if name:
             ctx['name'] = name
-        mcu = name = _finditem(dic, 'mcu') #TODO fix naming
+        mcu = _finditem(dic, 'mcu') #TODO fix naming
         if mcu:
             ctx['mcu'] = mcu
+        ide = _finditem(dic, 'ide')
+        if ide:
+            ctx['ide'] = ide
         include_paths = get_include_paths(dic)
         if include_paths:
             ctx['include_paths'].append(include_paths)
@@ -172,9 +178,5 @@ def get_virtual_dir(dic):
 def get_project_files(dic, name):
     return flatten(find_all_values(dic, name))
 
-def get_mcu(dic_list):
-    for dic in dic_list:
-        result = _finditem(dic, 'mcu')
-        if result:
-            return result
-    return None
+def get_ide(dic):
+    return _finditem(dic, 'ide')

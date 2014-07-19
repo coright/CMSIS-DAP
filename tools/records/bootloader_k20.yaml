@@ -20,10 +20,6 @@ bootloader_k20:
         - bootloader/hal/TARGET_Freescale/TARGET_MK20DX/usbd_MK20D5.c
         - bootloader/hal/TARGET_Freescale/TARGET_MK20DX/vector_table.c
         - shared/cmsis/TARGET_Freescale/TARGET_MK20DX/system_MK20D5.c
-    source-files-s:
-        - shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/startup_MK20D5.s
-    linker-file:
-        shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/MK20D5.sct
     macros:
         - TARGET_MK20DX
         - CPU_MK20DX128VFM5
