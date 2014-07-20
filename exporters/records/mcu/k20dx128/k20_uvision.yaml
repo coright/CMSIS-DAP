@@ -1,7 +1,0 @@
-k20_uvision:
-    ide:
-        uvision
-    source-files-s:
-        - shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/startup_MK20D5.s
-    linker-file:
-        shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/MK20D5.sct

@@ -7,7 +7,7 @@ rtos:
     virtual-dir:
         rtos
     source-files-c:
-        - shared/rtos/HAL_CM3.c #TODO !! for other CORES
+        - shared/rtos/HAL_CM1.c #TODO: All use CM0, this is the most portable
         - shared/rtos/rt_Event.c
         - shared/rtos/rt_List.c
         - shared/rtos/rt_Mailbox.c

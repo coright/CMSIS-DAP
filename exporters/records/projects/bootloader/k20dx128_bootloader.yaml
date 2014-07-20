@@ -13,6 +13,10 @@ bootloader_k20:
             - bootloader/hal/TARGET_Freescale/TARGET_MK20DX
     virtual-dir:
         k20_target_files
+    source-files-s:
+        - shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/startup_MK20D5.s
+    linker-file:
+        shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/MK20D5.sct
     source-files-c:
         - bootloader/hal/TARGET_Freescale/TARGET_MK20DX/flash_hal.c
         - bootloader/hal/TARGET_Freescale/TARGET_MK20DX/gpio.c
@@ -24,3 +28,8 @@ bootloader_k20:
         - TARGET_MK20DX
         - CPU_MK20DX128VFM5
         - __RTX
+    cc-flags:
+        - --debug
+        - --c99
+        - -g
+        - -O3   # if set as option in uvision, the dialog is different. What does the compiler use? last parsed or largest number?!?

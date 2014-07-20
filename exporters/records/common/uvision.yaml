@@ -1,6 +1,0 @@
-uvision:
-    cc-flags:
-        - --debug
-        - --c99
-        - -g
-        - -O3
