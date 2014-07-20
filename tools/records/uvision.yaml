@@ -3,3 +3,4 @@ uvision:
         - --debug
         - --c99
         - -g
+        - -O3

@@ -1,5 +1,4 @@
 from compiler.ast import flatten
-import sys
 
 def parse_yaml(dic):
     ctx = {

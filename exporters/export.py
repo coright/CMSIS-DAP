@@ -3,9 +3,13 @@ import yaml
 import logging
 import os
 from yaml_parser import parse_yaml, get_project_files, parse_list_yaml, get_ide
-from uvision4 import Uvision4
 import sys
 from os.path import basename
+from ide import export
+
+# TODO:
+# proper naming in ctx, encapsulate data
+# classes
 
 def run_generator(dic, project):
     project_list = []
@@ -16,25 +20,17 @@ def run_generator(dic, project):
                 file = open(yaml_file)
             except IOError:
                 print "Cannot open a file: %s" % yaml_file
-                sys.exit()
             else:
                 loaded_yaml = yaml.load(file)
                 project_list.append(parse_yaml(loaded_yaml))
                 file.close()
         process_data = parse_list_yaml(project_list)
     else:
-        print "Project record is empty"
-        sys.exit()
-
-    ide = get_ide(process_data)
-    if ide is None:
-        print "No toolchain selected in records. Exiting"
-        sys.exit()
+        raise RuntimeError("Project record is empty")
 
     logging.info("Generating project: %s" % project)
-    exporter = Uvision4()
-    #run exporter for defined bootloader project
-    exporter.generate(process_data)
+    ide = get_ide(process_data)
+    export(process_data, ide)
 
 def process_all_projects(dic):
     projects = []
@@ -59,9 +55,7 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
 
     if not options.file:
-        parser.print_help()
-        options.file = 'records/projects.yaml'
-        #sys.exit()
+        raise RuntimeError("No project file give. Please provide one.")
 
     # always run from the root directory
     script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))

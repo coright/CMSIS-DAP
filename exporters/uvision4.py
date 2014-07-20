@@ -25,7 +25,7 @@ class Uvision4(Exporter):
     def __init__(self):
         self.data = []
 
-    def expand_data(self, new_data, old_data, attribute, group):
+    def expand_data(self, old_data, new_data, attribute, group):
         # data expansion - uvision needs filename plus path separately
         # if group:
         for file in old_data[group]:
@@ -33,26 +33,23 @@ class Uvision4(Exporter):
                 new_file = {"path" : file, "name" : basename(file)}
                 new_data[attribute].append(new_file)
 
+    def iterate(self, data, expanded_data, attribute):
+        for dic in data[attribute]:
+            for k,v in dic.items():
+                group = k
+                self.expand_data(dic, expanded_data, attribute, group)
+
     def generate(self, data):
         expanded_dic = data.copy();
         expanded_dic['source_files_c'] = []
         expanded_dic['source_files_cpp'] = []
         expanded_dic['source_files_s'] = []
 
-        for dic in data['source_files_c']:
-            for k,v in dic.items():
-                group = k
-                self.expand_data(expanded_dic, dic, 'source_files_c', group)
-
-        for dic in data['source_files_cpp']:
-            for k,v in dic.items():
-                group = k
-                self.expand_data(expanded_dic, dic, 'source_files_cpp', group)
-
-        for dic in data['source_files_s']:
-            for k,v in dic.items():
-                group = k
-                self.expand_data(expanded_dic, dic, 'source_files_s', group)
+        self.iterate(data, expanded_dic, 'source_files_c')
+        self.iterate(data, expanded_dic, 'source_files_cpp')
+        self.iterate(data, expanded_dic, 'source_files_s')
+        self.iterate(data, expanded_dic, 'source_files_obj')
+        self.iterate(data, expanded_dic, 'source_files_lib')
 
         # print expanded_dic['source_files_s']
         # Project file
