@@ -1,0 +1,4 @@
+interface_kl25z:
+    paths:
+        include-paths:
+            - interface\target\hal\DBG_Freescale\DBG_KL25Z

@@ -1,0 +1,18 @@
+usb:
+    paths:
+        include-paths:
+            - shared/USBStack/INC
+        source-paths:
+            - shared/USBStack/SRC
+    virtual-dir:
+        usb
+    source-files-c:
+        # - shared/USBStack/INC/usb_lib.c
+        - shared/USBStack/SRC/usbd_cdc_acm.c
+        - shared/USBStack/SRC/usbd_core.c
+        - shared/USBStack/SRC/usbd_core_cdc.c
+        - shared/USBStack/SRC/usbd_core_hid.c
+        - shared/USBStack/SRC/usbd_core_msc.c
+        - shared/USBStack/SRC/usbd_msc.c
+        - shared/USBStack/SRC/usbd_hid.c
+

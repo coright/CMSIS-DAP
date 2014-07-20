@@ -1,0 +1,29 @@
+interface_common:
+    paths:
+        include-paths:
+            - interface/Common/inc
+            - interface/Common/src
+        source-paths:
+            - interface/Common/src
+    virtual-dir:
+        interface_common
+    source-files-c:
+        - interface/Common/src/board.c
+        - interface/Common/src/DAP.c
+        - interface/Common/src/dap_vendor_command.c
+        - interface/Common/src/JTAG_DP.c
+        - interface/Common/src/main.c
+        - interface/Common/src/RTX_Config.c
+        - interface/Common/src/semihost.c
+        - interface/Common/src/serial.c
+        - interface/Common/src/SW_DP.c
+        - interface/Common/src/swd_host.c
+        - interface/Common/src/usb_config.c
+        - interface/Common/src/usbd_user_cdc_acm.c
+        - interface/Common/src/usbd_user_hid.c
+        - interface/Common/src/usbd_user_msc.c
+        - interface/Common/src/version.c
+    source-files-s:
+        - interface/Common/src/SVC_Table.s
+
+

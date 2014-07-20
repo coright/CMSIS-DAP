@@ -1,0 +1,13 @@
+interface_hal_k20:
+    paths:
+        include-paths:
+            - interface\interface\hal\TARGET_Freescale\TARGET_MK20DX
+        source-paths:
+            - interface\interface\hal\TARGET_Freescale\TARGET_MK20DX
+    virtual-dir:
+        k20_hal
+    source-files-c:
+        - interface\interface\hal\TARGET_Freescale\TARGET_MK20DX\gpio.c
+        - interface\interface\hal\TARGET_Freescale\TARGET_MK20DX\read_uid.c
+        - interface\interface\hal\TARGET_Freescale\TARGET_MK20DX\uart.c
+        - interface\interface\hal\TARGET_Freescale\TARGET_MK20DX\usbd_MK20D5.c
