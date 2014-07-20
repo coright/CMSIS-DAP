@@ -1,11 +1,12 @@
 interface_flash_algo_freescale_Lseries:
     paths:
-        include-paths:
+        include_paths:
             - interface\target\hal\DBG_Freescale\common
-        source-paths:
+        source_paths:
             - interface\target\hal\DBG_Freescale\common
-    virtual-dir:
+    virtual_dir:
         flash_algo_Lseries
-    source-files-c:
-        - interface\target\hal\DBG_Freescale\common\target_flash_common.c
-        - interface\target\hal\DBG_Freescale\common\target_reset_Lseries.c
+    common:
+        source_files_c:
+            - interface\target\hal\DBG_Freescale\common\target_flash_common.c
+            - interface\target\hal\DBG_Freescale\common\target_reset_Lseries.c

@@ -23,7 +23,7 @@ def run_generator(dic, project, ide):
             else:
                 loaded_yaml = yaml.load(file)
                 yaml_parser = YAML_parser()
-                project_list.append(yaml_parser.parse_yaml(loaded_yaml))
+                project_list.append(yaml_parser.parse_yaml(loaded_yaml, ide))
                 file.close()
         yaml_parser_final = YAML_parser()
         process_data = yaml_parser_final.parse_list_yaml(project_list)

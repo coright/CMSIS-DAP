@@ -7,7 +7,7 @@ class YAML_parser():
             'name': '' ,
             'mcu' : '',
             'ide': '',
-            'scatter_file': '',
+            'linker_file': '',
             'include_paths': [],
             'source_files_c': [],
             'source_files_cpp': [],
@@ -19,33 +19,52 @@ class YAML_parser():
         }
 
     # returns updated data structure by virtual-folders
-    def parse_yaml(self, dic):
+    def parse_yaml(self, dic, ide):
         #print '\n'
         # get name
         self.data['name'] = get_project_name(dic)
         #print self.data['name']
         # get include paths
-        self.data['include-paths'] = get_include_paths(dic)
+        self.data['include_paths'] = get_include_paths(dic)
         #print self.data['include-paths']
         # get linker file
-        self.data['scatter_file'] = get_scatter_file(dic)
-        #print self.data['scatter_file']
-        # get source files
+        self.data['linker_file'] = get_linker_file(dic)
+
+        #print self.data['linker_file']
+
         virtual_dir = get_virtual_dir(dic)
-        # if virtual_dir:
         self.data['source_files_c'] = {}
         self.data['source_files_c'][virtual_dir] = {}
-        self.data['source_files_c'][virtual_dir] = get_source_files_by_extension(dic, 'c')
-        # else:
-        #     self.data['source_files_c'][virtual_dir] = get_source_files_by_extension(dic, 'c')
         self.data['source_files_cpp'] = {}
         self.data['source_files_cpp'][virtual_dir] = {}
-        self.data['source_files_cpp'][virtual_dir] = get_source_files_by_extension(dic, 'cpp')
-
-        # need to consider all object names (.asm, .s)
         self.data['source_files_s'] = {}
         self.data['source_files_s'][virtual_dir] = {}
-        self.data['source_files_s'][virtual_dir] = get_source_files_by_extension(dic, 's')
+
+        # load all common attributes
+        common_attributes = find_all_values(dic, 'common')
+        for common_attribute in common_attributes:
+            for k,v in common_attribute.items():
+                self.data[k][virtual_dir] = v
+
+        #load all specific files
+        specific_dic = {}
+        specific_attributes = find_all_values(dic, 'tool_specific')
+        for specific_attribute in specific_attributes:
+            if specific_attribute:
+                try:
+                    for k,v in specific_attribute.items():
+                        if k == ide:
+                            
+                            specific_dic = v
+                except:
+                    break
+
+        for k,v in specific_dic.items():
+            if "source_files" in k:
+                # source files have virtual dir
+                self.data[k][virtual_dir] = v
+            else:
+                self.data[k] = v
 
         # need to consider all object names (.o, .obj)
         self.data['source_files_obj'] = get_source_files_by_extension(dic, 'o')
@@ -78,9 +97,9 @@ class YAML_parser():
             include_paths = get_include_paths(dic)
             if include_paths:
                 self.data['include_paths'].append(include_paths)
-            scatter_file = _finditem(dic, 'scatter_file')
-            if scatter_file:
-                self.data['scatter_file'] = scatter_file
+            linker_file = _finditem(dic, 'linker_file')
+            if linker_file:
+                self.data['linker_file'] = linker_file
             source_c = find_all_values(dic, 'source_files_c')
             if source_c:
                 self.data['source_files_c'].append(source_c)
@@ -113,14 +132,14 @@ class YAML_parser():
 
 
 def get_cc_flags(dic):
-    return _finditem(dic, 'cc-flags')
+    return _finditem(dic, 'cc_flags')
 
 def get_project_name(dic):
-    return _finditem(dic, 'project-name')
+    return _finditem(dic, 'project_name')
 
 def get_project_name_list(dic_list):
     for dic in dic_list:
-        result = _finditem(dic, 'project-name')
+        result = _finditem(dic, 'project_name')
         # print result
         # print dic
         if result:
@@ -130,12 +149,12 @@ def get_macros(dic):
     return _finditem(dic, 'macros')
 
 def get_include_paths(dic):
-    paths_list = find_all_values(dic, 'include-paths')
+    paths_list = find_all_values(dic, 'include_paths')
     paths = flatten(paths_list)
     return paths
 
 def get_source_files_by_extension(dic, extension):
-    find_extension = 'source-files-' + extension
+    find_extension = 'source_files_' + extension
     source_list = find_all_values(dic, find_extension)
     source = flatten(source_list)
     return source
@@ -160,11 +179,11 @@ def _finditem(obj, key):
             if item is not None:
                 return item
 
-def get_scatter_file(dic):
-    return _finditem(dic, 'linker-file')
+def get_linker_file(dic):
+    return _finditem(dic, 'linker_file')
 
 def get_virtual_dir(dic):
-    return _finditem(dic, 'virtual-dir')
+    return _finditem(dic, 'virtual_dir')
 
 def get_project_files(dic, name):
     return flatten(find_all_values(dic, name))

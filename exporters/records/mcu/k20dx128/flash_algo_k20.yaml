@@ -1,20 +1,21 @@
 flash_algo_k20:
     paths:
-        include-paths:
+        include_paths:
             - shared/flash_algo/TARGET_FREESCALE
             - shared/flash_algo/TARGET_FREESCALE/flash
             - shared/flash_algo/TARGET_FREESCALE/flash/src
-        source-paths:
+        source_paths:
             - shared/flash_algo/TARGET_FREESCALE/flash/src
-    virtual-dir:
+    virtual_dir:
         flash_algo
-    source-files-c:
-        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_command_sequence.c
-        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_densities_k_series.c
-        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_erase.c
-        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_erase_all.c
-        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_init.c
-        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_program.c
-        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_verify_erase.c
-        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_verify_erase_all.c
-        - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_verify_program.c
+    common:
+        source_files_c:
+            - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_command_sequence.c
+            - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_densities_k_series.c
+            - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_erase.c
+            - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_erase_all.c
+            - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_init.c
+            - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_program.c
+            - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_verify_erase.c
+            - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_verify_erase_all.c
+            - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_verify_program.c

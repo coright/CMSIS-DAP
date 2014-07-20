@@ -1,21 +1,22 @@
 rtos:
     paths:
-        include-paths:
+        include_paths:
             - shared/rtos
-        source-paths:
+        source_paths:
             - shared/rtos
-    virtual-dir:
+    virtual_dir:
         rtos
-    source-files-c:
-        - shared/rtos/HAL_CM1.c #TODO: All use CM0, this is the most portable
-        - shared/rtos/rt_Event.c
-        - shared/rtos/rt_List.c
-        - shared/rtos/rt_Mailbox.c
-        - shared/rtos/rt_MemBox.c
-        - shared/rtos/rt_Mutex.c
-        - shared/rtos/rt_Robin.c
-        - shared/rtos/rt_Semaphore.c
-        - shared/rtos/rt_System.c
-        - shared/rtos/rt_Task.c
-        - shared/rtos/rt_Time.c
-        - shared/rtos/rt_Timer.c
+    common:
+        source_files_c:
+            - shared/rtos/HAL_CM1.c #TODO: All use CM0, this is the most portable
+            - shared/rtos/rt_Event.c
+            - shared/rtos/rt_List.c
+            - shared/rtos/rt_Mailbox.c
+            - shared/rtos/rt_MemBox.c
+            - shared/rtos/rt_Mutex.c
+            - shared/rtos/rt_Robin.c
+            - shared/rtos/rt_Semaphore.c
+            - shared/rtos/rt_System.c
+            - shared/rtos/rt_Task.c
+            - shared/rtos/rt_Time.c
+            - shared/rtos/rt_Timer.c
