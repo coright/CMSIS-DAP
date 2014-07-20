@@ -2,7 +2,7 @@ from optparse import OptionParser
 import yaml
 import logging
 import os
-from yaml_parser import parse_yaml, get_project_files, parse_list_yaml, get_ide
+from yaml_parser import get_project_files, get_ide, YAML_parser
 import sys
 from os.path import basename
 from ide import export
@@ -22,9 +22,11 @@ def run_generator(dic, project):
                 print "Cannot open a file: %s" % yaml_file
             else:
                 loaded_yaml = yaml.load(file)
-                project_list.append(parse_yaml(loaded_yaml))
+                yaml_parser = YAML_parser()
+                project_list.append(yaml_parser.parse_yaml(loaded_yaml))
                 file.close()
-        process_data = parse_list_yaml(project_list)
+        yaml_parser_final = YAML_parser()
+        process_data = yaml_parser_final.parse_list_yaml(project_list)
     else:
         raise RuntimeError("Project record is empty")
 

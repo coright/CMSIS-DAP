@@ -14,10 +14,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from os.path import basename, join
-from jinja2 import Template
+from os.path import basename
 from export_generator import Exporter
-from yaml_parser import parse_yaml, get_project_name
 
 class Uvision4(Exporter):
     NAME = 'uVision4'
@@ -51,7 +49,6 @@ class Uvision4(Exporter):
         self.iterate(data, expanded_dic, 'source_files_obj')
         self.iterate(data, expanded_dic, 'source_files_lib')
 
-        # print expanded_dic['source_files_s']
         # Project file
         self.gen_file('uvision4_%s.uvproj.tmpl' % data['mcu'], expanded_dic, '%s.uvproj' % data['name'])
         self.gen_file('uvision4_%s.uvopt.tmpl' % data['mcu'], expanded_dic, '%s.uvopt' % data['name'])
