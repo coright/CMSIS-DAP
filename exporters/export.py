@@ -19,7 +19,7 @@ def run_generator(dic, project):
             try:
                 file = open(yaml_file)
             except IOError:
-                print "Cannot open a file: %s" % yaml_file
+                raise RuntimeError("Cannot open a file: %s" % yaml_file)
             else:
                 loaded_yaml = yaml.load(file)
                 yaml_parser = YAML_parser()

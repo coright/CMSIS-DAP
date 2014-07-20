@@ -1,16 +1,16 @@
 projects:
     k20dx128_bootloader_uvision:
-        - tools/records/bootloader_k20.yaml
-        - tools/records/flash_algo_k20.yaml
-        - tools/records/k20_uvision.yaml
-        - tools/records/uvision.yaml
-        - tools/records/bootloader_common.yaml
-        - tools/records/usb.yaml
-        - tools/records/rtos.yaml
+        - tools/records/projects/bootloader/bootloader_k20.yaml
+        - tools/records/mcu/k20dx128/flash_algo_k20.yaml
+        - tools/records/mcu/k20dx128/k20_uvision.yaml
+        - tools/records/common/uvision.yaml
+        - tools/records/common/bootloader_common.yaml
+        - tools/records/common/usb.yaml
+        - tools/records/common/rtos.yaml
     lpc11u35_bootloader_uvision:
-        - tools/records/bootloader_lpc11u35.yaml
-        - tools/records/flash_algo_lpc11u35.yaml
-        - tools/records/uvision.yaml
-        - tools/records/bootloader_common.yaml
-        - tools/records/usb.yaml
-        - tools/records/rtos.yaml
+        - tools/records/projects/bootloader/bootloader_lpc11u35.yaml
+        - tools/records/mcu/lpc11u35/flash_algo_lpc11u35.yaml
+        - tools/records/common/uvision.yaml
+        - tools/records/common/bootloader_common.yaml
+        - tools/records/common/usb.yaml
+        - tools/records/common/rtos.yaml
