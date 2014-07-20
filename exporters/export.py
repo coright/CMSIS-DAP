@@ -2,37 +2,30 @@ from optparse import OptionParser
 import yaml
 import logging
 import os
-from yaml_parser import get_project_files, get_ide, YAML_parser
+from yaml_parser import parse_yaml, get_project_files, parse_list_yaml
+from uvision4 import Uvision4
 import sys
 from os.path import basename
-from ide import export
-
-# TODO:
-# proper naming in ctx, encapsulate data
-# classes
 
 def run_generator(dic, project):
     project_list = []
     yaml_files = get_project_files(dic, project) # TODO fix list inside list
-    if yaml_files:
-        for yaml_file in yaml_files:
-            try:
-                file = open(yaml_file)
-            except IOError:
-                raise RuntimeError("Cannot open a file: %s" % yaml_file)
-            else:
-                loaded_yaml = yaml.load(file)
-                yaml_parser = YAML_parser()
-                project_list.append(yaml_parser.parse_yaml(loaded_yaml))
-                file.close()
-        yaml_parser_final = YAML_parser()
-        process_data = yaml_parser_final.parse_list_yaml(project_list)
-    else:
-        raise RuntimeError("Project record is empty")
 
-    logging.info("Generating project: %s" % project)
-    ide = get_ide(process_data)
-    export(process_data, ide)
+    for yaml_file in yaml_files:
+        try:
+            file = open(yaml_file)
+        except IOError:
+            print "Cannot open a file: %s" % yaml_file
+            sys.exit()
+        else:
+            loaded_yaml = yaml.load(file)
+            project_list.append(parse_yaml(loaded_yaml))
+            file.close()
+    process_data = parse_list_yaml(project_list)
+
+    exporter = Uvision4()
+    #run exporter for defined bootloader project
+    exporter.generate(process_data['mcu'], process_data['name'], process_data)
 
 def process_all_projects(dic):
     projects = []
@@ -41,9 +34,11 @@ def process_all_projects(dic):
         projects.append(k);
 
     for project in projects:
+        logging.info("Generating project: %s" % project)
         run_generator(dic, project)
 
 def process_project(dic, project):
+    logging.info("Generating project: %s" % project)
     run_generator(dic, project)
 
 if __name__ == '__main__':
@@ -57,9 +52,10 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
 
     if not options.file:
-        raise RuntimeError("No project file give. Please provide one.")
+        parser.print_help()
+        sys.exit()
 
-    # always run from the root directory
+    # always run from root directory
     script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
     os.chdir(script_dir)
     os.chdir('../')
