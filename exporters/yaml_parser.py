@@ -9,6 +9,7 @@ class YAML_parser():
             'ide': '',
             'linker_file': '',
             'include_paths': [],
+            'source_paths' : [],
             'source_files_c': [],
             'source_files_cpp': [],
             'source_files_s': [],
@@ -26,11 +27,8 @@ class YAML_parser():
         #print self.data['name']
         # get include paths
         self.data['include_paths'] = get_include_paths(dic)
+        self.data['source_paths'] = get_source_paths(dic)
         #print self.data['include-paths']
-        # get linker file
-        self.data['linker_file'] = get_linker_file(dic)
-
-        #print self.data['linker_file']
 
         virtual_dir = get_virtual_dir(dic)
         self.data['source_files_c'] = {}
@@ -40,7 +38,7 @@ class YAML_parser():
         self.data['source_files_s'] = {}
         self.data['source_files_s'][virtual_dir] = {}
 
-        # load all common attributes
+        # load all common attributes - source files
         common_attributes = find_all_values(dic, 'common')
         for common_attribute in common_attributes:
             for k,v in common_attribute.items():
@@ -54,10 +52,9 @@ class YAML_parser():
                 try:
                     for k,v in specific_attribute.items():
                         if k == ide:
-                            
                             specific_dic = v
                 except:
-                    break
+                    continue
 
         for k,v in specific_dic.items():
             if "source_files" in k:
@@ -97,6 +94,9 @@ class YAML_parser():
             include_paths = get_include_paths(dic)
             if include_paths:
                 self.data['include_paths'].append(include_paths)
+            source_paths = get_source_paths(dic)
+            if source_paths:
+                self.data['source_paths'].append(source_paths)
             linker_file = _finditem(dic, 'linker_file')
             if linker_file:
                 self.data['linker_file'] = linker_file
@@ -126,6 +126,7 @@ class YAML_parser():
         self.data['flags'] = flatten(self.data['flags'])
         self.data['symbols'] = flatten(self.data['symbols'])
         self.data['include_paths'] = flatten(self.data['include_paths'])
+        self.data['source_paths'] = flatten(self.data['source_paths'])
         self.data['source_files_obj'] = flatten(self.data['source_files_obj'])
         self.data['source_files_lib'] = flatten(self.data['source_files_lib'])
         return self.data
@@ -150,6 +151,11 @@ def get_macros(dic):
 
 def get_include_paths(dic):
     paths_list = find_all_values(dic, 'include_paths')
+    paths = flatten(paths_list)
+    return paths
+
+def get_source_paths(dic):
+    paths_list = find_all_values(dic, 'source_paths')
     paths = flatten(paths_list)
     return paths
 

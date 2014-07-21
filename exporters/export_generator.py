@@ -12,13 +12,13 @@ class Exporter():
     def __init__(self):
         self.data = []
 
-    def gen_file(self, template_file, data, target_file):
+    def gen_file(self, template_file, data, target_file, ide):
         template_path = join(Exporter.TEMPLATE_DIR, template_file)
         template_text = open(template_path).read()
         template = Template(template_text)
         target_text = template.render(data)
 
-        project_file_loc = 'project_files' + '/'+ data['name']
+        project_file_loc = 'project_files' + '/'+ data['name'] + '_' + ide
         if not os.path.exists(project_file_loc):
             os.makedirs(project_file_loc)
         target_path = join(project_file_loc, target_file)

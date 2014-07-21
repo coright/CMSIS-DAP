@@ -36,3 +36,8 @@ bootloader_k20:
                 - --c99
                 - -g
                 - -O3   # if set as option in uvision, the dialog is different. What does the compiler use? last parsed or largest number?!?
+        gcc:
+            source_files_s:
+                - shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_GCC_ARM/startup_MK20D5.s
+            linker_file:
+                - shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_GCC_ARM/MK20D5.ld

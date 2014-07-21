@@ -8,8 +8,7 @@ from os.path import basename
 from ide import export
 
 # TODO:
-# proper naming in ctx, encapsulate data
-# classes
+# GCC support
 
 def run_generator(dic, project, ide):
     project_list = []

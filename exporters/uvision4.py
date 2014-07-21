@@ -37,7 +37,7 @@ class Uvision4(Exporter):
                 group = k
                 self.expand_data(dic, expanded_data, attribute, group)
 
-    def generate(self, data):
+    def generate(self, data, ide):
         expanded_dic = data.copy();
         expanded_dic['source_files_c'] = []
         expanded_dic['source_files_cpp'] = []
@@ -50,5 +50,5 @@ class Uvision4(Exporter):
         self.iterate(data, expanded_dic, 'source_files_lib')
 
         # Project file
-        self.gen_file('uvision4_%s.uvproj.tmpl' % data['mcu'], expanded_dic, '%s.uvproj' % data['name'])
-        self.gen_file('uvision4_%s.uvopt.tmpl' % data['mcu'], expanded_dic, '%s.uvopt' % data['name'])
+        self.gen_file('uvision4_%s.uvproj.tmpl' % data['mcu'], expanded_dic, '%s.uvproj' % data['name'], ide)
+        self.gen_file('uvision4_%s.uvopt.tmpl' % data['mcu'], expanded_dic, '%s.uvopt' % data['name'], ide)
