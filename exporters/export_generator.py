@@ -18,10 +18,13 @@ class Exporter():
         template = Template(template_text)
         target_text = template.render(data)
 
-        project_file_loc = 'project_files' + '/'+ data['name'] + '_' + ide
+        project_file_loc = ide + '_' + 'project_files\\'
         if not os.path.exists(project_file_loc):
             os.makedirs(project_file_loc)
-        target_path = join(project_file_loc, target_file)
+        project_dir = project_file_loc + data['name']
+        if not os.path.exists(project_dir):
+            os.makedirs(project_dir)
+        target_path = join(project_dir, target_file)
         logging.debug("Generating: %s" % target_path)
         open(target_path, "w").write(target_text)
 

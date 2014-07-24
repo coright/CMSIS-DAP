@@ -4,6 +4,7 @@ bootloader_usb:
     paths:
         include_paths:
             - shared/USBStack/INC
+            - shared/USBStack/SRC
         source_paths:
             - shared/USBStack/SRC
     common:
