@@ -1,14 +1,14 @@
 rtos:
+    group_name:
+        rtos
     paths:
         include_paths:
             - shared/rtos
         source_paths:
             - shared/rtos
-    virtual_dir:
-        rtos
     common:
         source_files_c:
-            - shared/rtos/HAL_CM1.c #TODO: All use CM0, this is the most portable
+            - shared/rtos/HAL_CM1.c
             - shared/rtos/rt_Event.c
             - shared/rtos/rt_List.c
             - shared/rtos/rt_Mailbox.c

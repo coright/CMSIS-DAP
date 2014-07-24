@@ -1,15 +1,19 @@
 projects:
     k20dx128_bootloader:
-        - exporters/records/projects/bootloader/k20dx128_bootloader.yaml
-        - exporters/records/mcu/k20dx128/flash_algo_k20.yaml
         - exporters/records/common/bootloader_common.yaml
         - exporters/records/common/bootloader_usb.yaml
-        - exporters/records/common/rtos.yaml
+        - exporters/records/common/rtos.yaml        
+        - exporters/records/mcu/k20dx128/flash_algo_k20.yaml
+        - exporters/records/mcu/k20dx128/io_hal_k20.yaml
+        - exporters/records/projects/bootloader/k20dx128_bootloader.yaml
+    mkl25z128_flash_algo:
+        - exporters/records/common/flash_algo_common.yaml
+        - exporters/records/projects/flash_algo/mkl25z128_flash_algo.yaml
     k20dx128_kl25z_0x8000:
-        - exporters/records/projects/interface/k20dx128_kl25z_0x8000.yaml
-        - exporters/records/mcu/k20dx128/interface_hal_k20.yaml
         - exporters/records/common/interface_common.yaml
         - exporters/records/common/interface_usb.yaml
         - exporters/records/common/rtos.yaml
         - exporters/records/common/flash_algo_freescale_Lseries.yaml
-        - exporters/records/common/cmsis_dap.yaml
+        - exporters/records/common/cmsis_dap.yaml        
+        - exporters/records/mcu/k20dx128/io_hal_k20.yaml
+        - exporters/records/projects/interface/k20dx128_kl25z_0x8000.yaml

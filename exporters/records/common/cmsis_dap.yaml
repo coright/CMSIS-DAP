@@ -1,12 +1,12 @@
 cmsis_dap:
+    group_name:
+        cmsis_dap
     paths:
         include_paths:
             - interface/Common/inc
             - interface/Common/src
         source_paths:
             - interface/Common/src
-    virtual_dir:
-        interface_common
     common:
         source_files_c:
             - interface/Common/src/DAP.c

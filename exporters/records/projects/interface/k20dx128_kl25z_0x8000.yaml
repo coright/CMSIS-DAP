@@ -11,8 +11,6 @@ k20dx128_kl25z_0x8000:
             - interface/target/hal/DBG_Freescale/DBG_KL25Z
         source_paths:
             - shared/cmsis/TARGET_Freescale/TARGET_MK20DX
-    virtual-dir:    #TODO what does this do for the project?
-        k20_target_files
     common:
         source_files_c:
             - shared/cmsis/TARGET_Freescale/TARGET_MK20DX/system_MK20D5.c

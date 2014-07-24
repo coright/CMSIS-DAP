@@ -1,4 +1,6 @@
 bootloader_common:
+    group_name:
+        bootloader_common
     paths:
         include_paths:
             - bootloader/Common/inc
@@ -7,8 +9,6 @@ bootloader_common:
         source_paths:
             - bootloader/Common/src
             - USBStack/SRC
-    virtual_dir:
-        bootloader
     common:
         source_files_c:
             - bootloader/Common/src/flash_svc.c

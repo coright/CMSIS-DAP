@@ -1,36 +1,29 @@
-bootloader_k20:
+mkl25z128_flash_algo:
     project_name:
-        k20dx128_bootloader
-    mcu:
+        mkl25z128_flash_algo
+    mcu:    #TODO what does this do for the project?
         k20dx128
     paths:
         include_paths:
             - shared/cmsis/TARGET_Freescale/include
             - shared/cmsis/TARGET_Freescale/include/device
             - shared/cmsis/TARGET_Freescale/include/device/MK20D5
+            - interface/target/hal/DBG_Freescale/DBG_KL25Z
         source_paths:
             - shared/cmsis/TARGET_Freescale/TARGET_MK20DX
-            - bootloader/hal/TARGET_Freescale/TARGET_MK20DX
     common:
         source_files_c:
             - shared/cmsis/TARGET_Freescale/TARGET_MK20DX/system_MK20D5.c
     macros:
-        - TARGET_MK20DX
-        - CPU_MK20DX128VFM5
-        - __RTX
+        - TARGET_MK20D5
     tool_specific:
         uvision:
             source_files_s:
                 - shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/startup_MK20D5.s
             linker_file:
-                shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/MK20D5.sct
+                shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/MK20D5_openSDA_bootloader.sct
             cc_flags:
                 - --debug
                 - --c99
                 - -g
                 - -O3   # if set as option in uvision, the dialog is different. What does the compiler use? last parsed or largest number?!?
-        gcc:
-            source_files_s:
-                - shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_GCC_ARM/startup_MK20D5.s
-            linker_file:
-                - shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_GCC_ARM/MK20D5.ld

@@ -1,14 +1,13 @@
-usb:
+interface_usb:
+    group_name:
+        interface_usb
     paths:
         include_paths:
             - shared/USBStack/INC
         source_paths:
             - shared/USBStack/SRC
-    virtual_dir:
-        usb
     common:
         source_files_c:
-            # - shared/USBStack/INC/usb_lib.c
             - shared/USBStack/SRC/usbd_cdc_acm.c
             - shared/USBStack/SRC/usbd_core.c
             - shared/USBStack/SRC/usbd_core_cdc.c

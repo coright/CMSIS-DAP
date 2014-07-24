@@ -1,11 +1,11 @@
-interface_hal_k20:
+io_hal_k20:
+    group_name:
+        io_hal_k20
     paths:
         include_paths:
             - interface\interface\hal\TARGET_Freescale\TARGET_MK20DX
         source_paths:
             - interface\interface\hal\TARGET_Freescale\TARGET_MK20DX
-    virtual_dir:
-        k20_hal
     common:
         source_files_c:
             - interface\interface\hal\TARGET_Freescale\TARGET_MK20DX\gpio.c

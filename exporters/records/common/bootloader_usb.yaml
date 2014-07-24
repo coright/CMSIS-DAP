@@ -1,11 +1,11 @@
-usb:
+bootloader_usb:
+    group_name:
+        bootloader_usb
     paths:
         include_paths:
             - shared/USBStack/INC
         source_paths:
             - shared/USBStack/SRC
-    virtual_dir:
-        usb
     common:
         source_files_c:
             # - shared/USBStack/INC/usb_lib.c

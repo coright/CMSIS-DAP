@@ -1,4 +1,6 @@
 flash_algo_k20:
+    group_name:
+        flash_algo_k20
     paths:
         include_paths:
             - shared/flash_algo/TARGET_FREESCALE
@@ -6,8 +8,6 @@ flash_algo_k20:
             - shared/flash_algo/TARGET_FREESCALE/flash/src
         source_paths:
             - shared/flash_algo/TARGET_FREESCALE/flash/src
-    virtual_dir:
-        flash_algo
     common:
         source_files_c:
             - shared/flash_algo/TARGET_FREESCALE/flash/src/flash_command_sequence.c
