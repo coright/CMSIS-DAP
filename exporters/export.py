@@ -72,7 +72,7 @@ def scrape_dir():
     source_list_path = os.getcwd() + '\\exporters\\records\\tmp\\'
     if not os.path.exists(source_list_path):
         os.makedirs(source_list_path)
-    target_path = join(source_list_path, 'scrape.yaml')
+    target_path = join(source_list_path, 'scrape.log')
     logging.debug("Generating: %s" % target_path)
     with open(target_path, 'w') as logfile:
         logfile.write('%s' % logbody)
