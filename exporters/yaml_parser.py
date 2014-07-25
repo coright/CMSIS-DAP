@@ -30,7 +30,7 @@ class YAML_parser():
         self.data['source_paths'] = get_source_paths(dic)
         #print self.data['include-paths']
 
-        virtual_dir = get_virtual_dir(dic)
+        group_name = get_group_name(dic)
         self.data['source_files_c'] = {}
         self.data['source_files_c'][virtual_dir] = {}
         self.data['source_files_cpp'] = {}
@@ -188,8 +188,8 @@ def _finditem(obj, key):
 def get_linker_file(dic):
     return _finditem(dic, 'linker_file')
 
-def get_virtual_dir(dic):
-    return _finditem(dic, 'virtual_dir')
+def get_group_name(dic):
+    return _finditem(dic, 'group_name')
 
 def get_project_files(dic, name):
     return flatten(find_all_values(dic, name))
