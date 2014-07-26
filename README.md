@@ -124,5 +124,5 @@ Dependencies for tools and exporters
  
 Notes
 -----
-**All scripts should be run from the projects root directory**
+**All scripts should be run from the projects tools directory**
 >python exporters/export.py -f exporters/records/projects.yaml

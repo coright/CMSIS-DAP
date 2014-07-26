@@ -69,7 +69,7 @@ def scrape_dir():
         logbody += "<< Results with the extension '%s' >>" % search
         logbody += '\n\n%s\n\n' % '\n'.join(found[search])
     # Write results to the logfile
-    source_list_path = os.getcwd() + '\\exporters\\records\\tmp\\'
+    source_list_path = os.getcwd() + '\\tools\\exporters\\records\\tmp\\'
     if not os.path.exists(source_list_path):
         os.makedirs(source_list_path)
     target_path = join(source_list_path, 'scrape.log')
@@ -79,6 +79,10 @@ def scrape_dir():
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
+    # Should be launched from root/tools but all scripts are referenced to root
+    root = os.path.normpath(os.getcwd() + os.sep + os.pardir)
+    os.chdir(root)
+    logging.debug('This should be the project root: %s', os.getcwd())
 
     # Parse Options
     parser = OptionParser()
@@ -100,11 +104,11 @@ if __name__ == '__main__':
 
     # always run from the root directory
     script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
-    os.chdir(script_dir)
-    os.chdir('../')
+    #os.chdir(script_dir)
+    #os.chdir('../')
 
     print "Processing projects file."
-    project_file = open(options.file)
+    project_file = open('tools//' + options.file)
     config = yaml.load(project_file)
 
     if options.project:

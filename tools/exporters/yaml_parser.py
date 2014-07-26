@@ -32,17 +32,17 @@ class YAML_parser():
 
         group_name = get_group_name(dic)
         self.data['source_files_c'] = {}
-        self.data['source_files_c'][virtual_dir] = {}
+        self.data['source_files_c'][group_name] = {}
         self.data['source_files_cpp'] = {}
-        self.data['source_files_cpp'][virtual_dir] = {}
+        self.data['source_files_cpp'][group_name] = {}
         self.data['source_files_s'] = {}
-        self.data['source_files_s'][virtual_dir] = {}
+        self.data['source_files_s'][group_name] = {}
 
         # load all common attributes - source files
         common_attributes = find_all_values(dic, 'common')
         for common_attribute in common_attributes:
             for k,v in common_attribute.items():
-                self.data[k][virtual_dir] = v
+                self.data[k][group_name] = v
 
         #load all specific files
         specific_dic = {}
@@ -59,7 +59,7 @@ class YAML_parser():
         for k,v in specific_dic.items():
             if "source_files" in k:
                 # source files have virtual dir
-                self.data[k][virtual_dir] = v
+                self.data[k][group_name] = v
             else:
                 self.data[k] = v
 
