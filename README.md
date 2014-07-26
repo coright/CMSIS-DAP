@@ -12,6 +12,8 @@ Current Status
 -------------
 **Nothing on this branch is guaranteed to work. Current efforts are with the bootloader and then the interface project**
 
+[List of progress](https://docs.google.com/spreadsheets/d/1zZUFL7tFEOW9WSvjQx4NOZjAowWSAgiHxeV6c4Dt2kw/edit#gid=0) - not all work is incorporated on this branch yet
+
 Bootloader:
 
 * K20DX128: working / work in progress
@@ -74,13 +76,21 @@ Directory
        +---freescale
        +---nordic
        +---nxp
-+---flash
++---flash_algorithms
     +---common
     +---hal
        +---freescale
        +---nxp
++---host_interface_app
+    +---common
+    +---hal
+       +---freescale
+       +---nordic
+       +---nxp
 +---shared
     +---cmsis
+       +---freescale
+       +---nxp
     +---common
        +---freescale
        +---nxp
@@ -88,7 +98,7 @@ Directory
     +---usb
 +---tools
     +---build
-    +---export
+    +---exporters
     +---test
 </pre>
 
@@ -116,4 +126,3 @@ Notes
 -----
 **All scripts should be run from the projects root directory**
 >python exporters/export.py -f exporters/records/projects.yaml
-

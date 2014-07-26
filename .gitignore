@@ -25,6 +25,8 @@ tmp/
 .pydevproject
 
 # uVision generated files
+uvision_project_files
+gcc_project_files
 *.uvopt
 *.uvgui.*
 
