@@ -20,10 +20,10 @@
 #include "device_cfg.h"
 
 // Specific respource for device FLASH read/write
-#include "SSD_Types.h"
-#include "SSD_FTFx.h"
-#include "SSD_FTFx_Internal.h"
-#include "ConfigureKeil.h"
+//#include "SSD_Types.h"
+//#include "SSD_FTFx.h"
+//#include "SSD_FTFx_Internal.h"
+//#include "ConfigureKeil.h"
 
 /* FTFL module base */
 #define FTFL_REG_BASE           0x40020000
@@ -37,30 +37,30 @@
 #define WDOG_STCTRLH            *((volatile unsigned short *)0x40052000)
 #define WDOG_STCTRLH_WDOGEN_MASK_X      0x00000001
 
-static FLASH_SSD_CONFIG flashSSDConfig;
+//static FLASH_SSD_CONFIG flashSSDConfig;
 
 uint32_t flash_init(uint32_t clk)
 {
-    /* Write 0xC520 to the unlock register */
-    WDOG_UNLOCK = 0xC520;
-    /* Followed by 0xD928 to complete the unlock */
-    WDOG_UNLOCK = 0xD928;
-    /* Clear the WDOGEN bit to disable the watchdog */
-    WDOG_STCTRLH &= ~WDOG_STCTRLH_WDOGEN_MASK_X;
+//    /* Write 0xC520 to the unlock register */
+//    WDOG_UNLOCK = 0xC520;
+//    /* Followed by 0xD928 to complete the unlock */
+//    WDOG_UNLOCK = 0xD928;
+//    /* Clear the WDOGEN bit to disable the watchdog */
+//    WDOG_STCTRLH &= ~WDOG_STCTRLH_WDOGEN_MASK_X;
 
-    flashSSDConfig.ftfxRegBase        = FTFL_REG_BASE;           /* FTFL control register base */
-    flashSSDConfig.PFlashBlockBase    = 0;                       /* base address of PFlash block */
-    flashSSDConfig.PFlashBlockSize    = PBLOCK_SIZE;             /* size of PFlash block */
-#if(DEBLOCK_SIZE != 0)
-    flashSSDConfig.DFlashBlockBase    = DEFLASH_BLOCK_BASE;      /* base address of DFlash block */
-#endif
-    flashSSDConfig.EERAMBlockBase     = EERAM_BLOCK_BASE;        /* base address of EERAM block */
-    flashSSDConfig.EERAMBlockSize     = EERAM_BLOCK_SIZE;        /* size of EERAM block */
-    flashSSDConfig.DebugEnable        = 0;                       /* background debug mode enable bit */
-    flashSSDConfig.CallBack           = NULL_CALLBACK;           /* pointer to callback function */
-    if (FTFx_OK != pFlashInit(&flashSSDConfig)) {
-        return 0;
-    }
+//    flashSSDConfig.ftfxRegBase        = FTFL_REG_BASE;           /* FTFL control register base */
+//    flashSSDConfig.PFlashBlockBase    = 0;                       /* base address of PFlash block */
+//    flashSSDConfig.PFlashBlockSize    = PBLOCK_SIZE;             /* size of PFlash block */
+//#if(DEBLOCK_SIZE != 0)
+//    flashSSDConfig.DFlashBlockBase    = DEFLASH_BLOCK_BASE;      /* base address of DFlash block */
+//#endif
+//    flashSSDConfig.EERAMBlockBase     = EERAM_BLOCK_BASE;        /* base address of EERAM block */
+//    flashSSDConfig.EERAMBlockSize     = EERAM_BLOCK_SIZE;        /* size of EERAM block */
+//    flashSSDConfig.DebugEnable        = 0;                       /* background debug mode enable bit */
+//    flashSSDConfig.CallBack           = NULL_CALLBACK;           /* pointer to callback function */
+//    if (FTFx_OK != pFlashInit(&flashSSDConfig)) {
+//        return 0;
+//    }
     return 1;
 }
 
@@ -71,65 +71,65 @@ uint32_t flash_uninit(void)
 
 static uint32_t erase_sector(uint32_t num)
 {
-    if (FTFx_OK != pFlashEraseSector(&flashSSDConfig, num*FLASH_SECTOR_SIZE, FTFx_PSECTOR_SIZE, pFlashCommandSequence)) {
-        return 0;
-    }
+//    if (FTFx_OK != pFlashEraseSector(&flashSSDConfig, num*FLASH_SECTOR_SIZE, FTFx_PSECTOR_SIZE, pFlashCommandSequence)) {
+//        return 0;
+//    }
     return 1;
 }
 
 uint32_t flash_erase_chip(void)
 {
-    uint32_t i = APP_START_ADR;
-    for( ; i<END_FLASH; i+=FLASH_SECTOR_SIZE) {
-        if (!flash_erase_sector(i/FLASH_SECTOR_SIZE)) {
-            return 0;
-        }
-    }
+//    uint32_t i = APP_START_ADR;
+//    for( ; i<END_FLASH; i+=FLASH_SECTOR_SIZE) {
+//        if (!flash_erase_sector(i/FLASH_SECTOR_SIZE)) {
+//            return 0;
+//        }
+//    }
     return 1;
 }
 
 uint32_t __SVC_2 (uint32_t addr) 
 {
-    return erase_sector(addr);
+    return 1;//erase_sector(addr);
 }
 
 uint32_t flash_erase_sector(uint32_t num)
 {
-    uint32_t res = 0;
-    NVIC_DisableIRQ(USB0_IRQn);
-    res = erase_sector_svc(num);
-    NVIC_EnableIRQ(USB0_IRQn);
-    return res;
+//    uint32_t res = 0;
+//    NVIC_DisableIRQ(USB0_IRQn);
+//    res = erase_sector_svc(num);
+//    NVIC_EnableIRQ(USB0_IRQn);
+    return 1;//res;
 }
 
 uint32_t program_page(uint32_t adr, uint8_t * buf, uint32_t size)
 {
-    if (FTFx_OK != pFlashProgramLongword(&flashSSDConfig, adr, size, (uint32_t)buf, pFlashCommandSequence)) {
-        return 0;
-    }
+//    if (FTFx_OK != pFlashProgramLongword(&flashSSDConfig, adr, size, (uint32_t)buf, pFlashCommandSequence)) {
+//        return 0;
+//    }
     return 1;
 }
 
 uint32_t __SVC_3 (uint32_t adr, uint8_t * buf, uint32_t size)
 {
-    return program_page(adr, buf, size);
+    return 1;//program_page(adr, buf, size);
 }
    
 
 uint32_t flash_program_page(uint32_t adr, uint8_t * buf, uint32_t size)
 {
-    uint32_t res = 0;
-    NVIC_DisableIRQ(USB0_IRQn);
-    res = program_page_svc(adr, buf, size);
-    NVIC_EnableIRQ(USB0_IRQn);
-    return res;
+//    uint32_t res = 0;
+//    NVIC_DisableIRQ(USB0_IRQn);
+//    res = program_page_svc(adr, buf, size);
+//    NVIC_EnableIRQ(USB0_IRQn);
+    return 1;//res;
 }
 
 uint32_t read_memory(uint32_t adr, uint8_t *buf, uint32_t size)
 {
-	uint8_t *start_address = (uint8_t *)adr;
-    while(size--) {
-        *buf++ = *(uint8_t *)adr++;
-    }
-    return adr - *(uint8_t *)start_address;
+//	uint8_t *start_address = (uint8_t *)adr;
+//    while(size--) {
+//        *buf++ = *(uint8_t *)adr++;
+//    }
+    return 1;//adr - *(uint8_t *)start_address;
 }

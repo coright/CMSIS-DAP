@@ -99,7 +99,7 @@ class YAML_parser():
                 self.data['source_paths'].append(source_paths)
             linker_file = _finditem(dic, 'linker_file')
             if linker_file:
-                self.data['linker_file'] = linker_file
+                self.data['linker_file'] = ''.join(linker_file)
             source_c = find_all_values(dic, 'source_files_c')
             if source_c:
                 self.data['source_files_c'].append(source_c)
@@ -136,11 +136,11 @@ def get_cc_flags(dic):
     return _finditem(dic, 'cc_flags')
 
 def get_project_name(dic):
-    return _finditem(dic, 'project_name')
+    return _finditem(dic, 'name')
 
 def get_project_name_list(dic_list):
     for dic in dic_list:
-        result = _finditem(dic, 'project_name')
+        result = _finditem(dic, 'name')
         # print result
         # print dic
         if result:

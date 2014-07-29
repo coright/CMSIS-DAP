@@ -1,0 +1,13 @@
+drag_n_drop:
+    group_name:
+        drag_n_drop
+    paths:
+        include_paths:
+            - shared/common
+        source_paths:
+            - shared/common
+    common:
+        source_files_c: 
+            - shared/common/usbd_user_msc.c
+            - shared/common/virtual_fs.c
+            - shared/common/validate_user_application.c

@@ -1,0 +1,21 @@
+flash_algo_k20dx128:
+    group_name:
+        flash_algo_k20dx128
+    paths:
+        include_paths:
+            - flash_algorithms/hal/freescale/flash
+            - flash_algorithms/hal/freescale/device
+            - flash_algorithms/hal/freescale/device/MK20D5
+        source_paths:
+            - flash_algorithms/hal/freescale/flash
+    common:
+        source_files_c:
+            - flash_algorithms/hal/freescale/flash/flash_command_sequence.c
+            - flash_algorithms/hal/freescale/flash/flash_densities_k_series.c
+            - flash_algorithms/hal/freescale/flash/flash_erase.c
+            - flash_algorithms/hal/freescale/flash/flash_erase_all.c
+            - flash_algorithms/hal/freescale/flash/flash_init.c
+            - flash_algorithms/hal/freescale/flash/flash_program.c
+            - flash_algorithms/hal/freescale/flash/flash_verify_erase.c
+            - flash_algorithms/hal/freescale/flash/flash_verify_erase_all.c
+            - flash_algorithms/hal/freescale/flash/flash_verify_program.c

@@ -3,18 +3,13 @@ bootloader_common:
         bootloader_common
     paths:
         include_paths:
-            - bootloader/Common/inc
-            - bootloader/Common/src
-            - shared/cmsis
+            - bootloader/common
         source_paths:
-            - bootloader/Common/src
-            - USBStack/SRC
+            - bootloader/common
     common:
+        source_files_s:    
+            - bootloader/common/SVC_Table.s
         source_files_c:
-            - bootloader/Common/src/flash_svc.c
-            - bootloader/Common/src/main.c
-            - bootloader/Common/src/RTX_Config.c
-            - bootloader/Common/src/SVC_Table.s
-            - bootloader/Common/src/usb_config.c
-            - bootloader/Common/src/usbd_user_msc.c
-            - bootloader/Common/src/version.c
+            - bootloader/common/main.c
+            - bootloader/common/RTX_Config.c
+            - bootloader/common/usb_config.c

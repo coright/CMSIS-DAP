@@ -1,0 +1,13 @@
+common_src:
+    group_name:
+        common_src
+    paths:
+        include_paths:
+            - shared/common
+        source_paths:
+            - shared/common
+    common:
+        source_files_c: 
+            - shared/common/retarget.c
+            - shared/common/mbed_htm.c
+            - shared/common/board.c
