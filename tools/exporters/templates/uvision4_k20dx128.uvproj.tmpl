@@ -347,9 +347,9 @@
             <uSurpInc>0</uSurpInc>
             <VariousControls>
               <MiscControls>{% for f in flags %}{{f}} {% endfor %}</MiscControls>
-              <Define>{% for s in symbols %} {{s}}, {% endfor %}</Define>
+              <Define>{% for s in symbols %}{{s}}, {% endfor %}</Define>
               <Undefine></Undefine>
-              <IncludePath> {% for path in include_paths %} ../../{{path}}; {% endfor %} </IncludePath>
+              <IncludePath> {% for path in include_paths %}../../{{path}}; {% endfor %} </IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -363,7 +363,7 @@
             <uSurpInc>0</uSurpInc>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>{% for s in symbols %} {{s}}, {% endfor %}</Define>
+              <Define>{% for s in symbols %}{{s}}, {% endfor %}</Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>
             </VariousControls>
