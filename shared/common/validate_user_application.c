@@ -39,7 +39,7 @@ uint32_t validate_user_application(uint32_t address)
     // Initial_SP
     for( ; i<(1*4); i+=4)
     {	
-        read_memory(address+i, (uint8_t*)mem, 4);
+        dnd_read_memory(address+i, (uint8_t*)mem, 4);
         test_val = mem[0];
         // check for a valid ram address.
         if (0 == check_range(test_val, START_RAM, END_RAM)) {
@@ -54,7 +54,7 @@ uint32_t validate_user_application(uint32_t address)
     // UsageFault_Handler (Reserved on CM0+)
     for( ; i<(7*4); i+=4)
     {	
-        read_memory(address+i, (uint8_t*)mem, 4);
+        dnd_read_memory(address+i, (uint8_t*)mem, 4);
         test_val = mem[0];    
         // check for a valid flash address.
         if (0 == check_range(test_val, (address+START_FLASH), END_FLASH)) {
@@ -64,7 +64,7 @@ uint32_t validate_user_application(uint32_t address)
     // RESERVED * 4
     for( ; i<(11*4); i+=4)
     {
-        read_memory(address+i, (uint8_t*)mem, 4);
+        dnd_read_memory(address+i, (uint8_t*)mem, 4);
         test_val = mem[0];    
         // check for a known value.
         if (0 == check_value(test_val, 0)) {
@@ -75,7 +75,7 @@ uint32_t validate_user_application(uint32_t address)
     // DebugMon_Handler (Reserved on CM0+)
     for( ; i<(13*4); i+=4)
     {	
-        read_memory(address+i, (uint8_t*)mem, 4);
+        dnd_read_memory(address+i, (uint8_t*)mem, 4);
         test_val = mem[0];    
         // check for a valid flash address.
         if (0 == check_range(test_val, (address+START_FLASH), END_FLASH)) {
@@ -85,7 +85,7 @@ uint32_t validate_user_application(uint32_t address)
     // RESERVED * 1
     for( ; i<(14*4); i+=4)
     {
-        read_memory(address+i, (uint8_t*)mem, 4);
+        dnd_read_memory(address+i, (uint8_t*)mem, 4);
         test_val = mem[0];    
         // check for a known value
         if (0 == check_value(test_val, 0)) {
@@ -96,7 +96,7 @@ uint32_t validate_user_application(uint32_t address)
     // SysTick_Handler
     for( ; i<(16*4); i+=4)
     {	
-        read_memory(address+i, (uint8_t*)mem, 4);
+        dnd_read_memory(address+i, (uint8_t*)mem, 4);
         test_val = mem[0];    
         // check for a valid flash address.
         if (0 == check_range(test_val, (address+START_FLASH), END_FLASH)) {

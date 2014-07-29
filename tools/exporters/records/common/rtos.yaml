@@ -8,7 +8,6 @@ rtos:
             - shared/rtos
     common:
         source_files_c:
-            - shared/rtos/HAL_CM1.c
             - shared/rtos/rt_Event.c
             - shared/rtos/rt_List.c
             - shared/rtos/rt_Mailbox.c

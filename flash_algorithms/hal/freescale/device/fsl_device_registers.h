@@ -58,40 +58,40 @@
 #elif (defined(CPU_MK22FN256VDC12) || defined(CPU_MK22FN256VLH12) || defined(CPU_MK22FN256VLL12) || \
     defined(CPU_MK22FN256VMP12))
     // Extension register headers. (These will eventually be merged into the CMSIS-style header.)
-    #include "device/MK22F25612/MK22F25612_fmc.h"
-    #include "device/MK22F25612/MK22F25612_ftfa.h"
-    #include "device/MK22F25612/MK22F25612_mcm.h"
-    #include "device/MK22F25612/MK22F25612_sim.h"
+    #include "MK22F25612_fmc.h"
+    #include "MK22F25612_ftfa.h"
+    #include "MK22F25612_mcm.h"
+    #include "MK22F25612_sim.h"
 
     // CMSIS-style register definitions
     #include "MK22F25612.h"
 
 #elif (defined(CPU_MK22FN512VDC12) || defined(CPU_MK22FN512VLH12) || defined(CPU_MK22FN512VLL12))
     // Extension register headers. (These will eventually be merged into the CMSIS-style header.)
-    #include "device/MK22F51212/MK22F51212_fmc.h"
-    #include "device/MK22F51212/MK22F51212_ftfa.h"
-    #include "device/MK22F51212/MK22F51212_mcm.h"
-    #include "device/MK22F51212/MK22F51212_sim.h"
+    #include "MK22F51212_fmc.h"
+    #include "MK22F51212_ftfa.h"
+    #include "MK22F51212_mcm.h"
+    #include "MK22F51212_sim.h"
 
     // CMSIS-style register definitions
     #include "MK22F51212.h"
 
 #elif (defined(CPU_MK24FN1M0VDC12) || defined(CPU_MK24FN1M0VLQ12))
     // Extension register headers. (These will eventually be merged into the CMSIS-style header.)
-    #include "device/MK24F12/MK24F12_fmc.h"
-    #include "device/MK24F12/MK24F12_ftfe.h"
-    #include "device/MK24F12/MK24F12_mcm.h"
-    #include "device/MK24F12/MK24F12_sim.h"
+    #include "MK24F12_fmc.h"
+    #include "MK24F12_ftfe.h"
+    #include "MK24F12_mcm.h"
+    #include "MK24F12_sim.h"
 
     // CMSIS-style register definitions
     #include "MK24F12.h"
 
 #elif (defined(CPU_MK63FN1M0VLQ12) || defined(CPU_MK63FN1M0VMD12))
     // Extension register headers. (These will eventually be merged into the CMSIS-style header.)
-    #include "device/MK63F12/MK63F12_fmc.h"
-    #include "device/MK63F12/MK63F12_ftfe.h"
-    #include "device/MK63F12/MK63F12_mcm.h"
-    #include "device/MK63F12/MK63F12_sim.h"
+    #include "MK63F12_fmc.h"
+    #include "MK63F12_ftfe.h"
+    #include "MK63F12_mcm.h"
+    #include "MK63F12_sim.h"
 
     // CMSIS-style register definitions
     #include "MK63F12.h"
@@ -99,10 +99,10 @@
 #elif (defined(CPU_MK64FN1M0VDC12) || defined(CPU_MK64FN1M0VLL12) || defined(CPU_MK64FN1M0VLQ12) || \
     defined(CPU_MK64FX512VLQ12) || defined(CPU_MK64FN1M0VMD12) || defined(CPU_MK64FX512VMD12))
     // Extension register headers. (These will eventually be merged into the CMSIS-style header.)
-    #include "device/MK64F12/MK64F12_fmc.h"
-    #include "device/MK64F12/MK64F12_ftfe.h"
-    #include "device/MK64F12/MK64F12_mcm.h"
-    #include "device/MK64F12/MK64F12_sim.h"
+    #include "MK64F12_fmc.h"
+    #include "MK64F12_ftfe.h"
+    #include "MK64F12_mcm.h"
+    #include "MK64F12_sim.h"
 
     // CMSIS-style register definitions
     #include "MK64F12.h"
@@ -111,10 +111,10 @@
     defined(CPU_MK70FX512VMF15) || defined(CPU_MK70FN1M0VMJ12) || defined(CPU_MK70FX512VMJ12) || \
     defined(CPU_MK70FN1M0VMJ15) || defined(CPU_MK70FX512VMJ15))
     // Extension register headers. (These will eventually be merged into the CMSIS-style header.)
-    #include "device/MK70F12/MK70F12_fmc.h"
-    #include "device/MK70F12/MK70F12_ftfe.h"
-    #include "device/MK70F12/MK70F12_mcm.h"
-    #include "device/MK70F12/MK70F12_sim.h"
+    #include "MK70F12_fmc.h"
+    #include "MK70F12_ftfe.h"
+    #include "MK70F12_mcm.h"
+    #include "MK70F12_sim.h"
 
     // CMSIS-style register definitions
     #include "MK70F12.h"
@@ -123,19 +123,19 @@
     defined(CPU_MK70FX512VMF15) || defined(CPU_MK70FN1M0VMJ12) || defined(CPU_MK70FX512VMJ12) || \
     defined(CPU_MK70FN1M0VMJ15) || defined(CPU_MK70FX512VMJ15))
     // Extension register headers. (These will eventually be merged into the CMSIS-style header.)
-    #include "device/MK70F15/MK70F15_fmc.h"
-    #include "device/MK70F15/MK70F15_ftfe.h"
-    #include "device/MK70F15/MK70F15_mcm.h"
-    #include "device/MK70F15/MK70F15_sim.h"
+    #include "MK70F15_fmc.h"
+    #include "MK70F15_ftfe.h"
+    #include "MK70F15_mcm.h"
+    #include "MK70F15_sim.h"
 
     // CMSIS-style register definitions
     #include "MK70F15.h"
 
 #elif (defined(CPU_MKL02Z32VFM4) || defined(CPU_MKL02Z16VFM4) || defined(CPU_MKL02Z16VFK4) || defined(CPU_MKL02Z32VFK4) || defined(CPU_MKL02Z8VFG4) || defined(CPU_MKL02Z16VFG4) || defined(CPU_MKL02Z32VFG4) || defined(CPU_MKL02Z32CAF4))
 
-    #include "device/MKL02Z4/MKL02Z4_ftfa.h"
-    #include "device/MKL02Z4/MKL02Z4_mcm.h"
-    #include "device/MKL02Z4/MKL02Z4_sim.h"
+    #include "MKL02Z4_ftfa.h"
+    #include "MKL02Z4_mcm.h"
+    #include "MKL02Z4_sim.h"
 
     // CMSIS-style register definitions
     #include "MKL02Z4.h"
@@ -145,9 +145,9 @@
     defined(CPU_MKL05Z8VFM4) || defined(CPU_MKL05Z16VFM4) || defined(CPU_MKL05Z32VFM4) || \
     defined(CPU_MKL05Z16VLF4) || defined(CPU_MKL05Z32VLF4))
     // Extension register headers. (These will eventually be merged into the CMSIS-style header.)
-    #include "device/MKL05Z4/MKL05Z4_ftfa.h"
-    #include "device/MKL05Z4/MKL05Z4_mcm.h"
-    #include "device/MKL05Z4/MKL05Z4_sim.h"
+    #include "MKL05Z4_ftfa.h"
+    #include "MKL05Z4_mcm.h"
+    #include "MKL05Z4_sim.h"
 
     // CMSIS-style register definitions
     #include "MKL05Z4.h"
@@ -157,9 +157,9 @@
     defined(CPU_MKL25Z32VLH4) || defined(CPU_MKL25Z64VLH4) || defined(CPU_MKL25Z128VLH4) || \
     defined(CPU_MKL25Z32VLK4) || defined(CPU_MKL25Z64VLK4) || defined(CPU_MKL25Z128VLK4))
     // Extension register headers. (These will eventually be merged into the CMSIS-style header.)
-    #include "device/MKL25Z4/MKL25Z4_ftfa.h"
-    #include "device/MKL25Z4/MKL25Z4_mcm.h"
-    #include "device/MKL25Z4/MKL25Z4_sim.h"
+    #include "MKL25Z4_ftfa.h"
+    #include "MKL25Z4_mcm.h"
+    #include "MKL25Z4_sim.h"
 
     // CMSIS-style register definitions
     #include "MKL25Z4.h"
@@ -167,9 +167,9 @@
 #elif (defined(CPU_MKL46Z128VLH4) || defined(CPU_MKL46Z256VLH4) || defined(CPU_MKL46Z128VLL4) || \
     defined(CPU_MKL46Z256VLL4) || defined(CPU_MKL46Z128VMC4) || defined(CPU_MKL46Z256VMC4))
     // Extension register headers. (These will eventually be merged into the CMSIS-style header.)
-    #include "device/MKL46Z4/MKL46Z4_ftfa.h"
-    #include "device/MKL46Z4/MKL46Z4_mcm.h"
-    #include "device/MKL46Z4/MKL46Z4_sim.h"
+    #include "MKL46Z4_ftfa.h"
+    #include "MKL46Z4_mcm.h"
+    #include "MKL46Z4_sim.h"
 
     // CMSIS-style register definitions
     #include "MKL46Z4.h"

@@ -230,7 +230,7 @@ int jtag_init() {
 /*DAP*///        PORT_SWD_SETUP();
 
 /*DAP*///        target_set_state(RESET_PROGRAM);
-        if (!flash_init(SystemCoreClock)) {
+        if (!dnd_flash_init(SystemCoreClock)) {
             failSWD();
             return 1;
         }
@@ -376,15 +376,15 @@ int search_bin_file(uint8_t * root, uint8_t sector) {
                 move_sector_start = (begin_sector - start_sector)*MBR_BYTES_PER_SECTOR;
                 nb_sector_to_move = (nb_sector % 2) ? nb_sector/2 + 1 : nb_sector/2;
                 for (i = 0; i < nb_sector_to_move; i++) {
-                    if (!read_memory(move_sector_start + i*FLASH_SECTOR_SIZE, (uint8_t *)usb_buffer, FLASH_SECTOR_SIZE)) {
+                    if (!dnd_read_memory(move_sector_start + i*FLASH_SECTOR_SIZE, (uint8_t *)usb_buffer, FLASH_SECTOR_SIZE)) {
                         failSWD();
                         return -1;
                     }
-                    if (!flash_erase_sector(i)) {
+                    if (!dnd_flash_erase_sector(i)) {
                         failSWD();
                         return -1;
                     }
-                    if (!flash_program_page(i*FLASH_SECTOR_SIZE, (uint8_t *)usb_buffer, FLASH_SECTOR_SIZE)) {
+                    if (!dnd_flash_program_page(i*FLASH_SECTOR_SIZE, (uint8_t *)usb_buffer, FLASH_SECTOR_SIZE)) {
                         failSWD();
                         return -1;
                     }
@@ -422,7 +422,7 @@ static int programPage() {
     }
 
     // if we have received two sectors, write into flash
-    if (!flash_program_page(flashPtr + flash_addr_offset + APP_START_ADR, (uint8_t *)usb_buffer, FLASH_PROGRAM_PAGE_SIZE)) {
+    if (!dnd_flash_program_page(flashPtr + flash_addr_offset + APP_START_ADR, (uint8_t *)usb_buffer, FLASH_PROGRAM_PAGE_SIZE)) {
         // even if there is an error, adapt flashptr
         flashPtr += FLASH_PROGRAM_PAGE_SIZE;
         return 1;
@@ -569,7 +569,7 @@ void usbd_msc_write_sect (uint32_t block, uint8_t *buf, uint32_t num_of_blocks) 
             if (maybe_erase && (block == theoretical_start_sector)) {
                 // avoid erasing the internal flash if only the external flash will be updated
                 if (flash_addr_offset == 0) {
-                    if (!flash_erase_chip()) {
+                    if (!dnd_flash_erase_chip()) {
                         return;
                     }
                 }
@@ -613,7 +613,7 @@ void usbd_msc_write_sect (uint32_t block, uint8_t *buf, uint32_t num_of_blocks) 
             if (flash_started && (block == theoretical_start_sector)) {
                 // avoid erasing the internal flash if only the external flash will be updated
                 if (flash_addr_offset == 0) {
-                    if (!flash_erase_chip()) {
+                    if (!dnd_flash_erase_chip()) {
                         return;
                     }
                 }

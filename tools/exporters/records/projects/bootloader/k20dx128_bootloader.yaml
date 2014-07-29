@@ -8,13 +8,16 @@ bootloader_k20:
             - bootloader/hal/freescale/mk20dx128
             - shared/cmsis/freescale/mk20dx128
             - shared/cmsis/freescale/mk20dx128/arm
+            - shared/rtos
         source_paths:
             - bootloader/hal/freescale/mk20dx128
             - shared/cmsis/freescale/mk20dx128
             - shared/cmsis/freescale/mk20dx128/arm
+            - shared/rtos
     common:
         source_files_c:
             - shared/cmsis/freescale/mk20dx128/system_MK20D5.c
+            - shared/rtos/HAL_CM3.c
             - bootloader/hal/freescale/mk20dx128/flash_erase_read_write.c
     macros:
         - TARGET_MK20DX

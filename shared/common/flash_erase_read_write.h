@@ -24,28 +24,28 @@
  @param  clk - parameter should be SystemCoreClock or the equivelant
  @return 1 on success and 0 otherwise
 */
-uint32_t flash_init(uint32_t clk);
+uint32_t dnd_flash_init(uint32_t clk);
 
 /**
  Un-initialize the flash
  @param  none
  @return 1 on success and 0 otherwise
 */
-uint32_t flash_uninit(void);
+uint32_t dnd_flash_uninit(void);
 
 /**
  Erase the entire contents of flash memory
  @param  none
  @return 1 on success and 0 otherwise
 */
-uint32_t flash_erase_chip(void);
+uint32_t dnd_flash_erase_chip(void);
 
 /**
  Erase a sector in flash memory
  @param  num - The sector number to erase
  @return 1 on success and 0 otherwise
 */
-uint32_t flash_erase_sector(uint32_t num);
+uint32_t dnd_flash_erase_sector(uint32_t num);
 
 /**
  Program a page into flash memory
@@ -54,7 +54,7 @@ uint32_t flash_erase_sector(uint32_t num);
  @param  size - The amount of data in buf
  @return 1 on success and 0 otherwise
 */
-uint32_t flash_program_page(uint32_t adr, uint8_t * buf, uint32_t size);
+uint32_t dnd_flash_program_page(uint32_t adr, uint8_t * buf, uint32_t size);
 
 /**
  Read the contents of memory
@@ -63,7 +63,7 @@ uint32_t flash_program_page(uint32_t adr, uint8_t * buf, uint32_t size);
  @param  size - The amount of data to read into buf
  @return The amount of data written into buf
 */
-uint32_t read_memory(uint32_t adr, uint8_t *buf, uint32_t size);
+uint32_t dnd_read_memory(uint32_t adr, uint8_t *buf, uint32_t size);
 
 // These are called in in software interrupt mode. Was done this way for the bootloader
 // and just moved over. Not sure if this is entirly necessary
