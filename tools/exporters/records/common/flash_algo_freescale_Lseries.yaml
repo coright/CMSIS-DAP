@@ -3,10 +3,10 @@ flash_algo_freescale_Lseries:
         flash_algo_freescale_Lseries
     paths:
         include_paths:
-            - interface\target\hal\DBG_Freescale\common
+            - source/interface\target\hal\DBG_Freescale\common
         source_paths:
-            - interface\target\hal\DBG_Freescale\common
+            - source/interface\target\hal\DBG_Freescale\common
     common:
         source_files_c:
-            - interface\target\hal\DBG_Freescale\common\target_flash_common.c
-            - interface\target\hal\DBG_Freescale\common\target_reset_Lseries.c
+            - source/interface\target\hal\DBG_Freescale\common\target_flash_common.c
+            - source/interface\target\hal\DBG_Freescale\common\target_reset_Lseries.c

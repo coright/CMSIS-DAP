@@ -5,15 +5,15 @@ k20dx128_kl25z_0x8000:
         k20dx128
     paths:
         include_paths:
-            - shared/cmsis/TARGET_Freescale/include
-            - shared/cmsis/TARGET_Freescale/include/device
-            - shared/cmsis/TARGET_Freescale/include/device/MK20D5
-            - interface/target/hal/DBG_Freescale/DBG_KL25Z
+            - source/shared/cmsis/TARGET_Freescale/include
+            - source/shared/cmsis/TARGET_Freescale/include/device
+            - source/shared/cmsis/TARGET_Freescale/include/device/MK20D5
+            - source/interface/target/hal/DBG_Freescale/DBG_KL25Z
         source_paths:
-            - shared/cmsis/TARGET_Freescale/TARGET_MK20DX
+            - source/shared/cmsis/TARGET_Freescale/TARGET_MK20DX
     common:
         source_files_c:
-            - shared/cmsis/TARGET_Freescale/TARGET_MK20DX/system_MK20D5.c
+            - source/shared/cmsis/TARGET_Freescale/TARGET_MK20DX/system_MK20D5.c
     macros:
         - TARGET_MK20D5
         - __RTX
@@ -25,9 +25,9 @@ k20dx128_kl25z_0x8000:
     tool_specific:
         uvision:
             source_files_s:
-                - shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/startup_MK20D5.s
+                - source/shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/startup_MK20D5.s
             linker_file:
-                shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/MK20D5_openSDA_bootloader.sct
+                source/shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/MK20D5_openSDA_bootloader.sct
             cc_flags:
                 - --debug
                 - --c99

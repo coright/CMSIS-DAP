@@ -3,13 +3,13 @@ bootloader_common:
         bootloader_common
     paths:
         include_paths:
-            - bootloader/common
+            - source/bootloader/common
         source_paths:
-            - bootloader/common
+            - source/bootloader/common
     common:
         source_files_s:    
-            - bootloader/common/SVC_Table.s
+            - source/bootloader/common/SVC_Table.s
         source_files_c:
-            - bootloader/common/main.c
-            - bootloader/common/RTX_Config.c
-            - bootloader/common/usb_config.c
+            - source/bootloader/common/main.c
+            - source/bootloader/common/RTX_Config.c
+            - source/bootloader/common/usb_config.c

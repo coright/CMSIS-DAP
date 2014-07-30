@@ -3,12 +3,12 @@ io_hal_k20:
         io_hal_k20dx128
     paths:
         include_paths:
-            - shared/common/freescale/mk20dx128
+            - source/shared/common/freescale/mk20dx128
         source_paths:
-            - shared/common/freescale/mk20dx128
+            - source/shared/common/freescale/mk20dx128
     common:
         source_files_c:
-            - shared/common/freescale/mk20dx128/gpio.c
-            - shared/common/freescale/mk20dx128/read_uid.c
-            - shared/common/freescale/mk20dx128/usbd_MK20D5.c
-            - shared/common/freescale/mk20dx128/vector_table.c
+            - source/shared/common/freescale/mk20dx128/gpio.c
+            - source/shared/common/freescale/mk20dx128/read_uid.c
+            - source/shared/common/freescale/mk20dx128/usbd_MK20D5.c
+            - source/shared/common/freescale/mk20dx128/vector_table.c

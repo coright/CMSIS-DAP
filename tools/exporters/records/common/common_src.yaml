@@ -3,11 +3,11 @@ common_src:
         common_src
     paths:
         include_paths:
-            - shared/common
+            - source/shared/common
         source_paths:
-            - shared/common
+            - source/shared/common
     common:
         source_files_c: 
-            - shared/common/retarget.c
-            - shared/common/mbed_htm.c
-            - shared/common/board.c
+            - source/shared/common/retarget.c
+            - source/shared/common/mbed_htm.c
+            - source/shared/common/board.c

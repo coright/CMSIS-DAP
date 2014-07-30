@@ -3,16 +3,16 @@ interface_usb:
         interface_usb
     paths:
         include_paths:
-            - shared/USBStack/INC
+            - source/shared/USBStack/INC
         source_paths:
-            - shared/USBStack/SRC
+            - source/shared/USBStack/SRC
     common:
         source_files_c:
-            - shared/USBStack/SRC/usbd_cdc_acm.c
-            - shared/USBStack/SRC/usbd_core.c
-            - shared/USBStack/SRC/usbd_core_cdc.c
-            - shared/USBStack/SRC/usbd_core_hid.c
-            - shared/USBStack/SRC/usbd_core_msc.c
-            - shared/USBStack/SRC/usbd_msc.c
-            - shared/USBStack/SRC/usbd_hid.c
+            - source/shared/USBStack/SRC/usbd_cdc_acm.c
+            - source/shared/USBStack/SRC/usbd_core.c
+            - source/shared/USBStack/SRC/usbd_core_cdc.c
+            - source/shared/USBStack/SRC/usbd_core_hid.c
+            - source/shared/USBStack/SRC/usbd_core_msc.c
+            - source/shared/USBStack/SRC/usbd_msc.c
+            - source/shared/USBStack/SRC/usbd_hid.c
 

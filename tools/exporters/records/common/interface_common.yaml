@@ -3,22 +3,22 @@ interface_common:
         interface_common
     paths:
         include_paths:
-            - interface/Common/inc
-            - interface/Common/src
+            - source/interface/Common/inc
+            - source/interface/Common/src
         source_paths:
-            - interface/Common/src
+            - source/interface/Common/src
     common:
         source_files_c:
-            - interface/Common/src/board.c
-            - interface/Common/src/main.c
-            - interface/Common/src/RTX_Config.c
-            - interface/Common/src/serial.c
-            - interface/Common/src/usb_config.c
-            - interface/Common/src/usbd_user_cdc_acm.c
-            - interface/Common/src/usbd_user_hid.c
-            - interface/Common/src/usbd_user_msc.c
-            - interface/Common/src/version.c
+            - source/interface/Common/src/board.c
+            - source/interface/Common/src/main.c
+            - source/interface/Common/src/RTX_Config.c
+            - source/interface/Common/src/serial.c
+            - source/interface/Common/src/usb_config.c
+            - source/interface/Common/src/usbd_user_cdc_acm.c
+            - source/interface/Common/src/usbd_user_hid.c
+            - source/interface/Common/src/usbd_user_msc.c
+            - source/interface/Common/src/version.c
         source_files_s:
-            - interface/Common/src/SVC_Table.s
+            - source/interface/Common/src/SVC_Table.s
 
 

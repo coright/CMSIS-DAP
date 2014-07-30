@@ -5,20 +5,20 @@ bootloader_k20:
         k20dx128
     paths:
         include_paths:
-            - bootloader/hal/freescale/mk20dx128
-            - shared/cmsis/freescale/mk20dx128
-            - shared/cmsis/freescale/mk20dx128/arm
-            - shared/rtos
+            - source/bootloader/hal/freescale/mk20dx128
+            - source/shared/cmsis/freescale/mk20dx128
+            - source/shared/cmsis/freescale/mk20dx128/arm
+            - source/shared/rtos
         source_paths:
-            - bootloader/hal/freescale/mk20dx128
-            - shared/cmsis/freescale/mk20dx128
-            - shared/cmsis/freescale/mk20dx128/arm
-            - shared/rtos
+            - source/bootloader/hal/freescale/mk20dx128
+            - source/shared/cmsis/freescale/mk20dx128
+            - source/shared/cmsis/freescale/mk20dx128/arm
+            - source/shared/rtos
     common:
         source_files_c:
-            - shared/cmsis/freescale/mk20dx128/system_MK20D5.c
-            - shared/rtos/HAL_CM3.c
-            - bootloader/hal/freescale/mk20dx128/flash_erase_read_write.c
+            - source/shared/cmsis/freescale/mk20dx128/system_MK20D5.c
+            - source/shared/rtos/HAL_CM3.c
+            - source/bootloader/hal/freescale/mk20dx128/flash_erase_read_write.c
     macros:
         - TARGET_MK20DX
         - K20DX128
@@ -28,9 +28,9 @@ bootloader_k20:
     tool_specific:
         uvision:
             source_files_s:
-                - shared/cmsis/freescale/mk20dx128/arm/startup_MK20D5.s
+                - source/shared/cmsis/freescale/mk20dx128/arm/startup_MK20D5.s
             linker_file:
-                - shared/cmsis/freescale/mk20dx128/arm/MK20D5_0x0000.sct
+                - source/shared/cmsis/freescale/mk20dx128/arm/MK20D5_0x0000.sct
             cc_flags:
                 - --debug
                 - --c99
@@ -38,6 +38,6 @@ bootloader_k20:
                 - -O3   # if set as option in uvision, the dialog is different. What does the compiler use? last parsed or largest number?!?
         gcc:
             source_files_s:
-                - shared/cmsis/freescale/gcc/startup_MK20D5.s
+                - source/shared/cmsis/freescale/gcc/startup_MK20D5.s
             linker_file:
-                - shared/cmsis/freescale/gcc/MK20D5.ld
+                - source/shared/cmsis/freescale/gcc/MK20D5.ld
