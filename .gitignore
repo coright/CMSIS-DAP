@@ -67,7 +67,3 @@ debug.txt
 
 # PyCharm project files
 .idea
-
-# generated project files
-uvision_project_files
-gcc_project_files
