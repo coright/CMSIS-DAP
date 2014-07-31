@@ -1,0 +1,21 @@
+flash_algo_freescale:
+    group_name:
+        flash_algo_freescale
+    paths:
+        include_paths:
+            - source/commom/flash_algorithms/hal/freescale/device
+            - source/commom/flash_algorithms/hal/freescale/flash
+        source_paths:
+            - source/commom/flash_algorithms/hal/freescale/flash            
+    common:
+        source_files_c:
+            - source/commom/flash_algorithms/hal/freescale/flash/flash_algo.c
+            - source/commom/flash_algorithms/hal/freescale/flash/flash_command_sequence.c
+            - source/commom/flash_algorithms/hal/freescale/flash/flash_erase.commom
+            - source/commom/flash_algorithms/hal/freescale/flash/flash_erase_all.c
+            - source/commom/flash_algorithms/hal/freescale/flash/flash_init.c
+            - source/commom/flash_algorithms/hal/freescale/flash/flash_program.c
+            - source/commom/flash_algorithms/hal/freescale/flash/flash_verify_erase.c
+            - source/commom/flash_algorithms/hal/freescale/flash/flash_verify_erase_all.c
+            - source/commom/flash_algorithms/hal/freescale/flash/flash_verify_program.c
+            - source/commom/flash_algorithms/hal/freescale/flash/flash_command_sequence.c

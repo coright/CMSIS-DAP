@@ -1,29 +1,25 @@
 mkl25z128_flash_algo:
     project_name:
         mkl25z128_flash_algo
-    mcu:    #TODO what does this do for the project?
-        k20dx128
+    mcu:
     paths:
         include_paths:
-            - source/shared/cmsis/TARGET_Freescale/include
-            - source/shared/cmsis/TARGET_Freescale/include/device
-            - source/shared/cmsis/TARGET_Freescale/include/device/MK20D5
-            - source/interface/target/hal/DBG_Freescale/DBG_KL25Z
         source_paths:
-            - source/shared/cmsis/TARGET_Freescale/TARGET_MK20DX
     common:
         source_files_c:
-            - source/shared/cmsis/TARGET_Freescale/TARGET_MK20DX/system_MK20D5.c
+            - source/commom/flash_algorithms/hal/freescale/flash/flash_densities_kl_series.c
     macros:
-        - TARGET_MK20D5
+        - __NO_EMBEDDED_ASM
+        - CPU_MK20DX128VLH5
     tool_specific:
         uvision:
             source_files_s:
-                - source/shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/startup_MK20D5.s
             linker_file:
-                source/shared/cmsis/TARGET_Freescale/TARGET_MK20DX/TOOLCHAIN_ARM_STD/MK20D5_openSDA_bootloader.sct
+                - source/common/flash_algorithms/shared/Target.lin
             cc_flags:
                 - --debug
                 - --c99
                 - -g
                 - -O3   # if set as option in uvision, the dialog is different. What does the compiler use? last parsed or largest number?!?
+                - --diag_suppress=1
+                - --gnu
