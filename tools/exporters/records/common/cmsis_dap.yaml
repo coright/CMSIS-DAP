@@ -3,15 +3,14 @@ cmsis_dap:
         cmsis_dap
     paths:
         include_paths:
-            - source/interface/Common/inc
-            - source/interface/Common/src
+            - source/common/cmsis_dap
         source_paths:
-            - source/interface/Common/src
+            - source/common/cmsis_dap
     common:
         source_files_c:
-            - source/interface/Common/src/DAP.c
-            - source/interface/Common/src/dap_vendor_command.c
-            - source/interface/Common/src/JTAG_DP.c
-            - source/interface/Common/src/semihost.c
-            - source/interface/Common/src/SW_DP.c
-            - source/interface/Common/src/swd_host.c
+            - source/common/cmsis_dap/DAP.c
+            - source/common/cmsis_dap/dap_vendor_command.c
+            - source/common/cmsis_dap/JTAG_DP.c
+            - source/common/cmsis_dap/semihost.c
+            - source/common/cmsis_dap/SW_DP.c
+            - source/common/cmsis_dap/swd_host.c

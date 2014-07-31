@@ -19,6 +19,8 @@
 
 #include <stdint.h>
 
+// dnd prefix is drag-n-drop. These handlers are called during USB MSC writes
+
 /**
  Initialize the flash programming algorithm
  @param  clk - parameter should be SystemCoreClock or the equivelant

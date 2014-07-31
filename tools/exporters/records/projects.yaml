@@ -7,5 +7,5 @@ projects:
         - tools/exporters/records/common/drag_n_drop.yaml
         - tools/exporters/records/common/bootloader_common.yaml
         - tools/exporters/records/mcu/k20dx128/io_hal_k20dx128.yaml
-        - tools/exporters/records/mcu/k20dx128/flash_algo_k20dx128.yaml
+        - tools/exporters/records/mcu/k20dx128/flash_write_k20dx128.yaml
         - tools/exporters/records/projects/bootloader/k20dx128_bootloader.yaml

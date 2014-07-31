@@ -3,11 +3,11 @@ drag_n_drop:
         drag_n_drop
     paths:
         include_paths:
-            - source/shared/common
+            - source/common/shared
         source_paths:
-            - source/shared/common
+            - source/common/shared
     common:
         source_files_c: 
-            - source/shared/common/usbd_user_msc.c
-            - source/shared/common/virtual_fs.c
-            - source/shared/common/validate_user_application.c
+            - source/common/shared/usbd_user_msc.c
+            - source/common/shared/virtual_fs.c
+            - source/common/shared/validate_user_application.c

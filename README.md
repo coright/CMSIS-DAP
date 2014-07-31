@@ -65,37 +65,36 @@ Directory
 * **tools** - python files for building and testing the projects as well as exporting project files for debugging
 
 <pre>
-+---bootloader
++---source
+    +---bootloader
+        +---shared
+        +---hal
+            +---freescale
+            +---nxp
+    +---openlink
+        +---shared
+        +---hal
+            +---freescale
+            +---nxp
     +---common
-    +---hal
-       +---freescale
-       +---nxp
-+---dap
-    +---common
-    +---hal
-       +---freescale
-       +---nordic
-       +---nxp
-+---flash_algorithms
-    +---common
-    +---hal
-       +---freescale
-       +---nxp
-+---host_interface_app
-    +---common
-    +---hal
-       +---freescale
-       +---nordic
-       +---nxp
-+---shared
-    +---cmsis
-       +---freescale
-       +---nxp
-    +---common
-       +---freescale
-       +---nxp
-    +---rtos
-    +---usb
+        +---cmsis_core
+            +---freescale
+            +---nxp
+        +---cmsis_dap
+            +---shared
+            +---hal
+                +---freescale
+                +---nxp
+        +---flash_algorithms
+            +---shared
+            +---hal
+                +---freescale
+                +---nxp
+        +---shared
+            +---freescale
+            +---nxp
+        +---rtos
+        +---usb
 +---tools
     +---build
     +---exporters

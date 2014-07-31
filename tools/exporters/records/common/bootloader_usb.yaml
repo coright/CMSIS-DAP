@@ -3,12 +3,12 @@ bootloader_usb:
         bootloader_usb
     paths:
         include_paths:
-            - source/shared/usb
+            - source/common/usb
         source_paths:
-            - source/shared/usb
+            - source/common/usb
     common:
         source_files_c:
-            - source/shared/usb/usbd_core.c
-            - source/shared/usb/usbd_core_msc.c
-            - source/shared/usb/usbd_msc.c
+            - source/common/usb/usbd_core.c
+            - source/common/usb/usbd_core_msc.c
+            - source/common/usb/usbd_msc.c
 

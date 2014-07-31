@@ -3,19 +3,19 @@ rtos:
         rtos
     paths:
         include_paths:
-            - source/shared/rtos
+            - source/common/rtos
         source_paths:
-            - source/shared/rtos
+            - source/common/rtos
     common:
         source_files_c:
-            - source/shared/rtos/rt_Event.c
-            - source/shared/rtos/rt_List.c
-            - source/shared/rtos/rt_Mailbox.c
-            - source/shared/rtos/rt_MemBox.c
-            - source/shared/rtos/rt_Mutex.c
-            - source/shared/rtos/rt_Robin.c
-            - source/shared/rtos/rt_Semaphore.c
-            - source/shared/rtos/rt_System.c
-            - source/shared/rtos/rt_Task.c
-            - source/shared/rtos/rt_Time.c
-            - source/shared/rtos/rt_Timer.c
+            - source/common/rtos/rt_Event.c
+            - source/common/rtos/rt_List.c
+            - source/common/rtos/rt_Mailbox.c
+            - source/common/rtos/rt_MemBox.c
+            - source/common/rtos/rt_Mutex.c
+            - source/common/rtos/rt_Robin.c
+            - source/common/rtos/rt_Semaphore.c
+            - source/common/rtos/rt_System.c
+            - source/common/rtos/rt_Task.c
+            - source/common/rtos/rt_Time.c
+            - source/common/rtos/rt_Timer.c

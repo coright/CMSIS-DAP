@@ -49,7 +49,7 @@ __asm void modify_stack_pointer_and_start_app(uint32_t r0_sp, uint32_t r1_pc)
 // Used by msd when flashing a new binary
 #define FLAGS_LED_BLINK_30MS      (1 << 6)
 
-// Timing constants (in 90mS ticks)
+// Timing constants (in 90mS units)
 // USB busy time
 #define USB_BUSY_TIME           (10)
 // Delay before a USB device connect may occur
@@ -70,18 +70,19 @@ typedef enum {
 // Global state of usb used in 
 USB_CONNECT usb_state;
 
-// Reference to our main task
+// Reference to our main task and the msc programming task
 OS_TID main_task_id, msc_task;
 
 static uint8_t msd_led_usb_activity = 0;
 static LED_STATE msd_led_state = LED_FLASH;
 
-static USB_BUSY usb_busy;
-static uint32_t usb_busy_count;
+static USB_BUSY usb_busy = USB_IDLE;
+static uint32_t usb_busy_count = STARTUP_DELAY;
 
-static U64 stk_timer_task[TIMER_TASK_STACK/8];
-static U64 stk_main_task [MAIN_TASK_STACK/8];
-static U64 stk_msc_task  [MSC_TASK_STACK/8];
+// align stack on 64bit boundry
+static uint64_t stk_timer_task[TIMER_TASK_STACK/8];
+static uint64_t stk_main_task [MAIN_TASK_STACK/8];
+static uint64_t stk_msc_task  [MSC_TASK_STACK/8];
 
 // Timer task, set flags every 30mS and 90mS
 __task void timer_task_30mS(void) {
@@ -120,11 +121,11 @@ void main_usb_disconnect_event(void) {
 __task void main_task(void) 
 {
     // State processing
-    uint16_t flags;
+    uint16_t flags = 0;
     // LED
     uint8_t msd_led_value = 1;
     // USB
-    uint32_t usb_state_count;
+    uint32_t usb_state_count = 0;
 
     // Get a reference to this task
     main_task_id = os_tsk_self();
@@ -196,8 +197,8 @@ __task void main_task(void)
                     if ((usb_busy == USB_IDLE) && (DECZERO(usb_state_count) == 0)) {
                         usbd_connect(0);
                         usb_state = USB_CONNECTING;
-						// Delay the connecting state before reconnecting to the host - improved usage with VMs
-						usb_state_count = 10; //(90ms * 10 = 900ms)
+                        // Delay the connecting state before reconnecting to the host - improved usage with VMs
+                        usb_state_count = 10; //(90ms * 10 = 900ms)
                     }
                     break;
 
@@ -217,6 +218,7 @@ __task void main_task(void)
                     break;
 
                 case USB_DISCONNECTED:
+                    // reboot the MCU
                     NVIC_SystemReset();
                     break;
                 
