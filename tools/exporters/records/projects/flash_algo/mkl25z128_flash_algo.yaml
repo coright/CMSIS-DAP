@@ -1,19 +1,22 @@
 mkl25z128_flash_algo:
-    project_name:
+    name:
         mkl25z128_flash_algo
-    mcu:
+    mcu:    #template name
+        flash_algo
     paths:
         include_paths:
+            - source/common/flash_algorithms/shared
+            - source/common/flash_algorithms/hal/freescale/device/MKL25Z4
         source_paths:
+            - source/common/flash_algorithms/shared
     common:
         source_files_c:
-            - source/commom/flash_algorithms/hal/freescale/flash/flash_densities_kl_series.c
+            - source/common/flash_algorithms/hal/freescale/flash/flash_densities_kl_series.c
     macros:
         - __NO_EMBEDDED_ASM
-        - CPU_MK20DX128VLH5
+        - CPU_MKL25Z128VLH4
     tool_specific:
         uvision:
-            source_files_s:
             linker_file:
                 - source/common/flash_algorithms/shared/Target.lin
             cc_flags:

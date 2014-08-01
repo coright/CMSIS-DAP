@@ -10,7 +10,5 @@ projects:
         - tools/exporters/records/mcu/k20dx128/flash_write_k20dx128.yaml
         - tools/exporters/records/projects/bootloader/k20dx128_bootloader.yaml
     mkl25z128_flash_algo:
-        - tools/exporters/records/common/flash_algo_common.yaml
         - tools/exporters/records/common/flash_algo_freescale.yaml
         - tools/exporters/records/projects/flash_algo/mkl25z128_flash_algo.yaml
-        
