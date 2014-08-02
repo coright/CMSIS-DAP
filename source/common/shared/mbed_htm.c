@@ -103,6 +103,11 @@ static void setup_string_web_auth() {
     string_web_auth[idx] = 0;
 }
 
+// need to change this to be boardID + target UUID
+//  every board would become a new instance to the host but 
+//  would not require updating USB drivers when OpenLINK app firmware is updated
+//  do we need to know the firmware version of the OpenLINK firmware?? I dont think so
+//  because any host could query the MSC and parse mbed.htm for this info
 static void setup_string_usb_descriptor() {
     uint8_t i = 0;
     uint8_t idx = 0;

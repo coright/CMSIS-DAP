@@ -23,6 +23,6 @@ mkl25z128_flash_algo:
                 - --debug
                 - --c99
                 - -g
-                - -O3   # if set as option in uvision, the dialog is different. What does the compiler use? last parsed or largest number?!?
+                - -O3 # This doesn't work to override the gui setting in uvision
                 - --diag_suppress=1
                 - --gnu

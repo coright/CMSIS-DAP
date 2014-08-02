@@ -24,26 +24,32 @@
 
 uint32_t dnd_flash_init(uint32_t clk)
 {
-    // from flash_algo, 1 is failing and 0 is passing
+    // from flash_algo.c, 1 is failing and 0 is passing
     return (Init(0,0,0)) ? 0 : 1;
 }
 
 uint32_t dnd_flash_uninit(void)
 {
-    // from flash_algo, 1 is failing and 0 is passing
+    // from flash_algo.c, 1 is failing and 0 is passing
     return (UnInit(0)) ? 0 : 1;
 }
 
 uint32_t dnd_erase_sector(uint32_t num)
 {
-    // from flash_algo, 1 is failing and 0 is passing
-    return (EraseSector(num)) ? 0 : 1;
+    // from flash_algo.c, 1 is failing and 0 is passing
+    // EraseSector wants sector address, not sector number as passed
+    return (EraseSector(num*FLASH_SECTOR_SIZE)) ? 0 : 1;
 }
 
 uint32_t dnd_flash_erase_chip(void)
 {
-    // from flash_algo, 1 is failing and 0 is passing
-    return (EraseChip()) ? 0 : 1;
+    uint32_t i = APP_START_ADR;
+    for( ; i<END_FLASH; i+=FLASH_SECTOR_SIZE) {
+        if (!dnd_flash_erase_sector(i/FLASH_SECTOR_SIZE)) {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 uint32_t __SVC_2 (uint32_t addr) 
@@ -62,7 +68,7 @@ uint32_t dnd_flash_erase_sector(uint32_t num)
 
 uint32_t dnd_program_page(uint32_t adr, uint8_t * buf, uint32_t size)
 {
-    // from flash_algo, 1 is failing and 0 is passing
+    // from flash_algo.c, 1 is failing and 0 is passing
     return (ProgramPage(adr, size, buf)) ? 0 : 1;
 }
 
