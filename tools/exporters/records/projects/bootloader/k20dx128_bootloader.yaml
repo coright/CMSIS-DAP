@@ -33,7 +33,7 @@ bootloader_k20:
             source_files_s:
                 - source/common/cmsis_core/freescale/mk20dx128/arm/startup_MK20D5.s
             linker_file:
-                - source/common/cmsis_core/freescale/mk20dx128/arm/MK20D5_0x0000.sct
+                source/common/cmsis_core/freescale/mk20dx128/arm/MK20D5_0x0000.sct
             cc_flags:
                 - --debug
                 - --c99

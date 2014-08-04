@@ -18,7 +18,7 @@ mkl25z128_flash_algo:
     tool_specific:
         uvision:
             linker_file:
-                - source/common/flash_algorithms/shared/Target.lin
+                source/common/flash_algorithms/shared/Target.lin
             cc_flags:
                 - --debug
                 - --c99

@@ -99,7 +99,7 @@ class YAML_parser():
                 self.data['source_paths'].append(source_paths)
             linker_file = _finditem(dic, 'linker_file')
             if linker_file:
-                self.data['linker_file'] = ''.join(linker_file)
+                self.data['linker_file'] = linker_file
             source_c = find_all_values(dic, 'source_files_c')
             if source_c:
                 self.data['source_files_c'].append(source_c)
