@@ -103,5 +103,5 @@ BOARD board = {
 };
 
 /* Weak declaration of the board_init function for boards that don't use it */
-__weak void board_init(void) {
+__weak void board_init(void) {  
 }

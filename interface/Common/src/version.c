@@ -26,11 +26,11 @@ extern uint8_t usb_buffer[];
 // Pointers to substitution strings
 const char *fw_version = (const char *)FW_BUILD;
 
-static uint32_t unique_id;
+static uint32_t unique_id[4];
 static uint8_t already_unique_id = 0;
 static uint32_t auth;
-uint8_t string_auth[25 + 4];
-uint8_t string_auth_descriptor[2+25*2];
+uint8_t string_auth[49 + 4]; //25 + 4
+uint8_t string_auth_descriptor[2+49*2];
 static const char nybble_chars[] = "0123456789ABCDEF";
 
 static void setup_string_id_auth(void);
@@ -57,7 +57,7 @@ static uint32_t atoi(uint8_t * str, uint8_t size, uint8_t base) {
 }
 
 static void setup_string_id_auth() {
-    uint8_t i;
+    uint8_t i,j;
     uint8_t idx = 0;
 
     string_auth[0] = '$';
@@ -71,9 +71,11 @@ static void setup_string_id_auth() {
         string_auth[idx++] = board.id[i];
     for (i = 0; i < 4; i++)
         string_auth[idx++] = fw_version[i];
-    for (i = 0; i < 4; i++)
-        get_byte_hex((unique_id >> 8*(3 - i)) & 0xff, &string_auth[idx + 2*i], &string_auth[idx + 2*i + 1]);
-    idx+=8;
+    for (i = 0; i < 4; i++){
+       for(j=0;j<4;j++)
+         get_byte_hex((unique_id[j] >> 8*(3 - i)) & 0xff, &string_auth[idx + 2*i + 8*j], &string_auth[idx + 2*i + 1 + 8*j]);
+    }
+    idx+=32;//8
 
     //string auth
     for (i = 0; i < 4; i++)
@@ -118,7 +120,7 @@ static void compute_auth() {
     id = atoi((uint8_t *)board.id  , 4, 16);
     fw = atoi((uint8_t *)fw_version, 4, 16);
     auth = (id) | (fw << 16);
-    auth ^= unique_id;
+    auth ^= unique_id[0];
     sec = atoi((uint8_t *)(board.secret), 8, 16);
     auth ^= sec;
 }
@@ -214,7 +216,7 @@ uint8_t update_html_file(void) {
     uint32_t i = 0;
 
     if (already_unique_id == 0) {
-        read_unique_id(&unique_id);
+        read_unique_id(unique_id);
         compute_auth();
         setup_string_id_auth();
         setup_string_descriptor();
