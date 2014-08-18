@@ -20,6 +20,10 @@
 
 void read_unique_id(uint32_t * id);
 
+#ifdef TARGET_ATSAM3U2C
+void create_unique_id(void);
+#endif
+
 #ifdef BOARD_UBLOX_C027
 void __svc(2) enter_isp(void);
 #endif

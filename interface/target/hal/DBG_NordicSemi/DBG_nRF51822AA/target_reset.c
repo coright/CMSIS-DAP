@@ -57,6 +57,9 @@ static void blinkLED(){
     os_dly_wait(5);
     gpio_set_dap_led(1);
 }
+
+
+
 //Erase NRF and blink every 50ms in the process
 static void nrf_Emergency_Erase(){
     //make sure SWD is initialized

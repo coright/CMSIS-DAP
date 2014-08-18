@@ -7,6 +7,7 @@ LR_IROM1 0x00005000 0x1b000  {    ; load region size_region
    .ANY (+RO)
   }
   RW_IRAM1 0x20000200 0x3E00  {
+    read_uid.o (+RO)
    .ANY (+RW +ZI)
   }
   RW_IRAM2 0x20080000 0x4000  {
