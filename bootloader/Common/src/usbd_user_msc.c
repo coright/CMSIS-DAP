@@ -34,7 +34,7 @@
 #elif defined(TARGET_MK20DX)
 #   define WANTED_SIZE_IN_KB        (128)
 #elif defined(TARGET_ATSAM3U2C)
-#   define WANTED_SIZE_IN_KB        (46)
+#   define WANTED_SIZE_IN_KB        (112)
 #endif
 
 //------------------------------------------------------------------- CONSTANTS

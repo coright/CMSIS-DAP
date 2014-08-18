@@ -16,8 +16,11 @@
 #ifndef USB_BUF_H
 #define USB_BUF_H
 
-#include <absacc.h>
+
 #include <stdint.h>
+
+/* "absacc.h" defines __at(addr) for __attribute__((at(addr))) as shown below, and the file is deprecated */
+#define __at(_addr) __attribute__ ((at(_addr)))
 
 uint32_t usb_buffer[FLASH_SECTOR_SIZE/2];// __at(0x20000000);
 
