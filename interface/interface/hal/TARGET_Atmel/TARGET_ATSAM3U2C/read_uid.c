@@ -26,7 +26,7 @@ void read_unique_id(uint32_t * id) {
 
 void create_unique_id(void){
 
-  EFC0->EEFC_FMR |= (1UL << 16);
+    EFC0->EEFC_FMR |= (1UL << 16);
 	EFC0->EEFC_FCR = 0x5A00000E;
 	/*Monitor FRDY*/
 	while ((EFC0->EEFC_FSR & EEFC_FSR_FRDY) == EEFC_FSR_FRDY);
@@ -39,5 +39,5 @@ void create_unique_id(void){
 	EFC0->EEFC_FCR = 0x5A00000F;
 	/*Monitor FRDY*/
 	while ((EFC0->EEFC_FSR & EEFC_FSR_FRDY) != EEFC_FSR_FRDY);
-  EFC0->EEFC_FMR &= ~(1UL << 16);
+    EFC0->EEFC_FMR &= ~(1UL << 16);
 }
