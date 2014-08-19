@@ -13,22 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef VERSION_H
-#define VERSION_H
+#include "target_reset.h"
+#include "swd_host.h"
 
-#include <stdint.h>
+void gpio_set_isp_pin(uint8_t state);
 
-#define FW_BUILD "0203"
+void target_before_init_debug(void) {
+    return;
+}
 
-#ifdef TARGET_ATSAM3U2C
-#define FW_BUILD "0217"
-#endif
+uint8_t target_unlock_sequence(void) {
+    return 1;
+}
 
-
-
-uint8_t update_html_file          (void);
-uint8_t * get_uid_string          (void);
-uint8_t   get_len_string_interface(void);
-uint8_t * get_uid_string_interface(void);
-
-#endif
+uint8_t target_set_state(TARGET_RESET_STATE state) {
+    volatile uint8_t res;
+    if (state == RESET_PROGRAM)
+    {
+        gpio_set_isp_pin(0);
+        res = swd_set_target_state(state);
+        gpio_set_isp_pin(1);
+    }
+    else
+    {
+        gpio_set_isp_pin(1);
+        res = swd_set_target_state(state);
+    }
+    return res;
+}

@@ -43,6 +43,28 @@
 #define REGWnR (1 << 16)
 
 #define MAX_SWD_RETRY 10
+#define MAX_TIMEOUT   10000  // Timeout for syscalls on target
+
+// Some targets require a soft reset for flash programming (RESET_PROGRAM).
+// Otherwise a hardware reset is the default. This will not affect
+// DAP operations as they are controlled by the remote debugger.
+#if defined(BOARD_BAMBINO_210) || defined(BOARD_BAMBINO_210E) || defined(BOARD_NRF51822AA)
+#define CONF_SYSRESETREQ
+#elif defined(BOARD_LPC4337)
+#define CONF_VECTRESET
+#endif
+
+#if defined(CONF_SYSRESETREQ)
+// SYSRESETREQ - Software reset of the Cortex-M core and on-chip peripherals
+#define SOFT_RESET  SYSRESETREQ
+
+#elif defined(CONF_VECTRESET)
+// VECTRESET - Software reset of Cortex-M core
+// For some Cortex-M devices, VECTRESET is the only way to reset the core.
+// VECTRESET is not supported on Cortex-M0 and Cortex-M1 cores.
+#define SOFT_RESET  VECTRESET
+
+#endif
 
 typedef struct {
     uint32_t select;
@@ -95,6 +117,7 @@ uint8_t swd_read_dp(uint8_t adr, uint32_t *val) {
     ack = swd_transfer_retry(tmp_in, (uint32_t *)tmp_out);
 
     *val = (tmp_out[3] << 24) | (tmp_out[2] << 16) | (tmp_out[1] << 8) | tmp_out[0];
+
     return (ack == 0x01);
 }
 
@@ -592,7 +615,7 @@ uint8_t swd_is_semihost_event(uint32_t *r0, uint32_t *r1) {
 
 static uint8_t swd_wait_until_halted(void) {
     // Wait for target to stop
-    uint32_t val, i, timeout = 10000;
+    uint32_t val, i, timeout = MAX_TIMEOUT;
     for (i = 0; i < timeout; i++) {
 
         if (!swd_read_word(DBG_HCSR, &val)) {
@@ -604,7 +627,6 @@ static uint8_t swd_wait_until_halted(void) {
         }
     }
     return 0;
-
 }
 
 // Restart target after BKPT
@@ -635,10 +657,6 @@ uint8_t swd_semihost_restart(uint32_t r0) {
 
 uint8_t swd_flash_syscall_exec(const FLASH_SYSCALL *sysCallParam, uint32_t entry, uint32_t arg1, uint32_t arg2, uint32_t arg3, uint32_t arg4) {
     DEBUG_STATE state;
-    //
-	  // 1 == O.K.
-	  // 0 == Error
-	  //
     // Call flash algorithm function on target and wait for result.
     state.xpsr     = 0x01000000;          // xPSR: T = 1, ISR = 0
     state.r[0]     = arg1;                   // R0: Argument 1
@@ -747,7 +765,7 @@ uint8_t swd_init_debug(void) {
 
     DAP_Setup();
     PORT_SWD_SETUP();
-    
+
     // call a target dependant function
     // this function can do several stuff before really
     // initing the debug
@@ -803,7 +821,7 @@ void swd_set_target_reset(uint8_t asserted) {
 }
 
 uint8_t swd_set_target_state(TARGET_RESET_STATE state) {
-    uint32_t val;    
+    uint32_t val;
     switch (state) {
         case RESET_HOLD:
             swd_set_target_reset(1);
@@ -833,7 +851,7 @@ uint8_t swd_set_target_state(TARGET_RESET_STATE state) {
             if (!swd_write_word(DBG_HCSR, DBGKEY | C_DEBUGEN)) {
                 return 0;
             }
-            
+
             // Reset again
             #if defined(DBG_NRF51822AA)
             //SysReset
@@ -848,13 +866,15 @@ uint8_t swd_set_target_state(TARGET_RESET_STATE state) {
             break;
 
         case RESET_PROGRAM:
+#if !defined(SOFT_RESET)
+            // Use hardware reset (HW RESET)
             // First reset
             swd_set_target_reset(1);
             os_dly_wait(2);
 
             swd_set_target_reset(0);
-            os_dly_wait(2);            
-        
+            os_dly_wait(2);
+
             if (!swd_init_debug()) {
                 return 0;
             }
@@ -868,32 +888,54 @@ uint8_t swd_set_target_state(TARGET_RESET_STATE state) {
             if (!swd_write_word(DBG_EMCR, VC_CORERESET)) {
                 return 0;
             }
-            
+
             // Reset again
-            #if defined(DBG_NRF51822AA)
-            //SysReset
-            swd_write_word(NVIC_AIRCR, VECTKEY | SYSRESETREQ);
-            #else                        
             swd_set_target_reset(1);
             os_dly_wait(2);
 
             swd_set_target_reset(0);
-            os_dly_wait(2);
-            #endif
-			
+#else            
+            if (!swd_init_debug()) {
+                return 0;
+            }
+
+            // Enable debug and halt the core (DHCSR <- 0xA05F0003)
+            if (!swd_write_word(DBG_HCSR, DBGKEY | C_DEBUGEN | C_HALT)) {
+                return 0;
+            }
+            
+            // Wait until core is halted
             do {
                 if (!swd_read_word(DBG_HCSR, &val)) {
                     return 0;
                 }
             } while((val & S_HALT) == 0);
-            
+
+            // Enable halt on reset
+            if (!swd_write_word(DBG_EMCR, VC_CORERESET)) {
+                return 0;
+            }
+
+            // Perform a soft reset
+            if (!swd_write_word(NVIC_AIRCR, VECTKEY | SOFT_RESET)) {
+                return 0;
+            }
+#endif
+            os_dly_wait(2);
+
+            do {
+                if (!swd_read_word(DBG_HCSR, &val)) {
+                    return 0;
+                }
+            } while((val & S_HALT) == 0);
+
             // Disable halt on reset
             if (!swd_write_word(DBG_EMCR, 0)) {
                 return 0;
             }
-            
 
             break;
+
 
         case NO_DEBUG:
             if (!swd_write_word(DBG_HCSR, DBGKEY)) {

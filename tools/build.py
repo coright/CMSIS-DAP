@@ -79,7 +79,7 @@ INTERFACE_PROJECTS = [
                             'lpc11u35_lpc812_mbed_bootloader',
                             'lpc11u35_lpc1768_if',
                             'lpc11u35_lpc1768_mbed_bootloader',
-                            'lpc11u35_ublox_if',
+                            'lpc11u35_ublox_lpc1768_if',
                             'lpc11u35_lpc1114_if',
                             'lpc11u35_lpc1114_mbed_bootloader',
                             #'lpc11u35_lpc810_if' # fails build
@@ -93,6 +93,7 @@ INTERFACE_PROJECTS = [
                             'lpc4322_lpc1549_dbg_sram',
                             'lpc4322_lpc11U68_if',
                             'lpc4322_lpc11U68_dbg_sram',
+                            'lpc4322_lpc4337_if',
                          ],
         }
     ]
@@ -122,10 +123,11 @@ FLASH_ALGO_PROJECTS = [
                             'LPC1700_IAP_64',
                             'LPC1700_IAP_32',
                             'LPC1700_IAP_512_MBED_60MHz',
-                            'LPC11xx_IAP_32',
+                            #'LPC11xx_IAP_32',
                             'LPC8xx_IAP_4',
                             'LPC1549_IAP_256',
-                            'LPC11U68_IAP_256'
+                            'LPC11U68_IAP_256',
+                            'LPC4337_IAP_1024'
                         ]
         },
         {
@@ -178,7 +180,7 @@ class UV4Project(object):
     # @return The integer status code from the uVision build.
     def build(self, target=None, logFile=None):
         # Build list of arguments to UV4.
-        argList = [settings.UV4, '-b', self.project]
+        argList = [settings.UV4, '-j0', '-b', self.project]
         if target:
             argList += ['-t', target]
         if logFile:
