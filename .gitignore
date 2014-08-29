@@ -24,11 +24,8 @@ tmp/
 .project
 .pydevproject
 
-# uVision generated files
-uvision_project_files
-gcc_project_files
-*.uvopt
-*.uvgui.*
+# generated project files
+generated_projects
 
 *.plg
 *.map
@@ -43,8 +40,10 @@ gcc_project_files
 *.axf
 *.S19
 *.bin
+*.hex
 *.dep
 *.FLM
+*.log
 
 # JLink files
 JLink*.*

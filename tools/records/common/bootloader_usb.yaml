@@ -1,14 +1,9 @@
-bootloader_usb:
+common:
     group_name:
-        bootloader_usb
-    paths:
-        include_paths:
-            - source/common/usb
-        source_paths:
-            - source/common/usb
-    common:
-        source_files_c:
-            - source/common/usb/usbd_core.c
-            - source/common/usb/usbd_core_msc.c
-            - source/common/usb/usbd_msc.c
-
+        - bootloader_usb
+    include_paths:
+        - source/common/usb
+    source_files:
+        - source/common/usb/usbd_core.c
+        - source/common/usb/usbd_core_msc.c
+        - source/common/usb/usbd_msc.c

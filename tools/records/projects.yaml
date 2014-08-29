@@ -1,14 +1,23 @@
 # all paths relative to project root dir
 projects:
     k20dx128_bootloader:
-        - tools/exporters/records/common/bootloader_usb.yaml
-        - tools/exporters/records/common/rtos.yaml
-        - tools/exporters/records/common/common_src.yaml
-        - tools/exporters/records/common/drag_n_drop.yaml
-        - tools/exporters/records/common/bootloader_common.yaml
-        - tools/exporters/records/mcu/k20dx128/io_hal_k20dx128.yaml
-        - tools/exporters/records/mcu/k20dx128/flash_write_k20dx128.yaml
-        - tools/exporters/records/projects/bootloader/k20dx128_bootloader.yaml
+        - tools/records/common/bootloader_usb.yaml
+        - tools/records/common/rtos.yaml
+        - tools/records/common/common_src.yaml
+        - tools/records/common/drag_n_drop.yaml
+        - tools/records/common/bootloader.yaml
+        - tools/records/mcu/k20dx128/io_hal_k20dx128.yaml
+        - tools/records/mcu/k20dx128/flash_write_k20dx128.yaml
+        - tools/records/projects/bootloader/k20dx128_bootloader.yaml
     mkl25z128_flash_algo:
-        - tools/exporters/records/common/flash_algo_freescale.yaml
-        - tools/exporters/records/projects/flash_algo/mkl25z128_flash_algo.yaml
+        - tools/records/common/flash_algo_freescale.yaml
+        - tools/records/projects/flash_algo/mkl25z128_flash_algo.yaml
+    k20dx128_kl25z_0x8000:
+        - tools/records/common/openlink_usb.yaml
+        - tools/records/common/rtos.yaml
+        - tools/records/common/common_src.yaml
+        - tools/records/common/drag_n_drop.yaml
+        - tools/records/common/openlink.yaml
+        - tools/records/mcu/k20dx128/io_hal_k20dx128.yaml
+        - tools/records/projects/interface/k20dx128_kl25z_0x8000.yaml
+        

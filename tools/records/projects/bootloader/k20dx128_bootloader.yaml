@@ -1,51 +1,37 @@
-bootloader_k20:
-    name:
-        k20dx128_bootloader
-    mcu:
-        k20dx128
-    paths:
-        include_paths:
-            - source/bootloader/hal/freescale/mk20dx128
-            - source/common/cmsis_core/freescale/mk20dx128
-            - source/common/rtos
-        source_paths:
-            - source/bootloader/hal/freescale/mk20dx128
-            - source/common/cmsis_core/freescale/mk20dx128
-            - source/common/rtos
-    common:
-        source_files_c:
-            - source/common/cmsis_core/freescale/mk20dx128/system_MK20D5.c
-            - source/common/rtos/HAL_CM3.c
-            - source/bootloader/hal/freescale/mk20dx128/flash_erase_read_write.c
+name:
+    - k20dx128_bootloader
+core:
+    - cortex-m4
+common:
+    include_paths:
+        - source/bootloader/hal/freescale/mk20dx128
+        - source/common/cmsis_core/freescale/mk20dx128
+        - source/common/rtos
+    source_files:
+        - source/common/cmsis_core/freescale/mk20dx128/system_MK20D5.c
+        - source/common/rtos/HAL_CM3.c
+        - source/bootloader/hal/freescale/mk20dx128/flash_erase_read_write.c
     macros:
         - TARGET_MK20DX
         - K20DX128
         - CPU_MK20DX128VFM5
         - __RTX
         - BOOTLOADER
-    tool_specific:
-        uvision:
-            paths:
-                include_paths:
-                    - source/common/cmsis_core/freescale/mk20dx128/arm
-                source_paths:
-                    - source/common/cmsis_core/freescale/mk20dx128/arm
-            source_files_s:
-                - source/common/cmsis_core/freescale/mk20dx128/arm/startup_MK20D5.s
-            linker_file:
-                source/common/cmsis_core/freescale/mk20dx128/arm/MK20D5_0x0000.sct
-            cc_flags:
-                - --debug
-                - --c99
-                - -g
-                - -O3 # This doesn't work to override the gui setting in uvision
-        gcc:
-            paths:
-                include_paths:
-                    - source/common/cmsis_core/freescale/mk20dx128/gcc
-                source_paths:
-                    - source/common/cmsis_core/freescale/mk20dx128/gcc
-            source_files_s:
-                - source/shared/cmsis/freescale/gcc/startup_MK20D5.s
-            linker_file:
-                - source/shared/cmsis/freescale/gcc/MK20D5.ld
+tool_specific:
+    uvision:
+        mcu:
+            - MK20DX128xxx5
+        include_paths:
+            - source/common/cmsis_core/freescale/mk20dx128/arm
+        source_files:
+            - source/common/cmsis_core/freescale/mk20dx128/arm/startup_MK20D5.s
+        linker_file:
+            - source/common/cmsis_core/freescale/mk20dx128/arm/MK20D5_0x0000.sct
+        misc:
+            Cads:
+                MiscControls:
+                    - --debug
+                    - -g
+                    - --c99
+                Optim:
+                    - 3

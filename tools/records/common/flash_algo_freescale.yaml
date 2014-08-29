@@ -1,21 +1,17 @@
-flash_algo_freescale:
+common:
     group_name:
-        flash_algo_freescale
-    paths:
-        include_paths:
-            - source/common/flash_algorithms/hal/freescale/device
-            - source/common/flash_algorithms/hal/freescale/flash
-        source_paths:
-            - source/common/flash_algorithms/hal/freescale/flash            
-    common:
-        source_files_c:
-            - source/common/flash_algorithms/hal/freescale/flash/flash_algo.c
-            - source/common/flash_algorithms/hal/freescale/flash/flash_command_sequence.c
-            - source/common/flash_algorithms/hal/freescale/flash/flash_erase.c
-            - source/common/flash_algorithms/hal/freescale/flash/flash_erase_all.c
-            - source/common/flash_algorithms/hal/freescale/flash/flash_init.c
-            - source/common/flash_algorithms/hal/freescale/flash/flash_program.c
-            - source/common/flash_algorithms/hal/freescale/flash/flash_verify_erase.c
-            - source/common/flash_algorithms/hal/freescale/flash/flash_verify_erase_all.c
-            - source/common/flash_algorithms/hal/freescale/flash/flash_verify_program.c
-            - source/common/flash_algorithms/hal/freescale/flash/flash_command_sequence.c
+        - flash_algo_freescale
+    include_paths:
+        - source/common/flash_algorithms/hal/freescale/device
+        - source/common/flash_algorithms/hal/freescale/flash
+    source_files:
+        - source/common/flash_algorithms/hal/freescale/flash/flash_algo.c
+        - source/common/flash_algorithms/hal/freescale/flash/flash_command_sequence.c
+        - source/common/flash_algorithms/hal/freescale/flash/flash_erase.c
+        - source/common/flash_algorithms/hal/freescale/flash/flash_erase_all.c
+        - source/common/flash_algorithms/hal/freescale/flash/flash_init.c
+        - source/common/flash_algorithms/hal/freescale/flash/flash_program.c
+        - source/common/flash_algorithms/hal/freescale/flash/flash_verify_erase.c
+        - source/common/flash_algorithms/hal/freescale/flash/flash_verify_erase_all.c
+        - source/common/flash_algorithms/hal/freescale/flash/flash_verify_program.c
+        - source/common/flash_algorithms/hal/freescale/flash/flash_command_sequence.c

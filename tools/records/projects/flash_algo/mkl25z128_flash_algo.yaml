@@ -1,28 +1,29 @@
-mkl25z128_flash_algo:
-    name:
-        mkl25z128_flash_algo
-    mcu:    #template name
-        flash_algo
-    paths:
-        include_paths:
-            - source/common/flash_algorithms/shared
-            - source/common/flash_algorithms/hal/freescale/device/MKL25Z4
-        source_paths:
-            - source/common/flash_algorithms/shared
-    common:
-        source_files_c:
-            - source/common/flash_algorithms/hal/freescale/flash/flash_densities_kl_series.c
+name:
+    - mkl25z128_flash_algo
+common:
+    include_paths:
+        - source/common/flash_algorithms/shared
+        - source/common/flash_algorithms/hal/freescale/device/MKL25Z4
+    source_files:
+        - source/common/flash_algorithms/hal/freescale/flash/flash_densities_kl_series.c
     macros:
         - __NO_EMBEDDED_ASM
         - CPU_MKL25Z128VLH4
-    tool_specific:
-        uvision:
-            linker_file:
-                source/common/flash_algorithms/shared/Target.lin
-            cc_flags:
-                - --debug
-                - --c99
-                - -g
-                - -O3 # This doesn't work to override the gui setting in uvision
-                - --diag_suppress=1
-                - --gnu
+tool_specific:
+    uvision:
+        mcu:
+            - Cortex-M0
+        linker_file:
+            - source/common/flash_algorithms/shared/Target.lin
+        misc:
+            Cads:
+                MiscControls:
+                    - --debug
+                    - -g
+                    - --c99
+                Optim:
+                    - 0
+                Ropi:
+                    - enable
+                Rwpi:
+                    - enable
