@@ -7,9 +7,30 @@ k20dx128_bootloader:
     - tools/records/mcu/k20dx128/io_hal_k20dx128.yaml
     - tools/records/mcu/k20dx128/flash_write_k20dx128.yaml
     - tools/records/projects/bootloader/k20dx128_bootloader.yaml
-mkl25z128_flash_algo:
+mkl25z4_flash_algo:
     - tools/records/common/flash_algo_freescale.yaml
-    - tools/records/projects/flash_algo/mkl25z128_flash_algo.yaml
+    - tools/records/projects/flash_algo/mkl25z4_flash_algo.yaml
+mkl46z4_flash_algo:
+    - tools/records/common/flash_algo_freescale.yaml
+    - tools/records/projects/flash_algo/mkl46z4_flash_algo.yaml
+mkl05z4_flash_algo:
+    - tools/records/common/flash_algo_freescale.yaml
+    - tools/records/projects/flash_algo/mkl05z4_flash_algo.yaml
+mkl02z4_flash_algo:
+    - tools/records/common/flash_algo_freescale.yaml
+    - tools/records/projects/flash_algo/mkl02z4_flash_algo.yaml
+mk70f12_flash_algo:
+    - tools/records/common/flash_algo_freescale.yaml
+    - tools/records/projects/flash_algo/mk70f12_flash_algo.yaml
+mk64f12_flash_algo:
+    - tools/records/common/flash_algo_freescale.yaml
+    - tools/records/projects/flash_algo/mk64f12_flash_algo.yaml
+mk22f51212_flash_algo:
+    - tools/records/common/flash_algo_freescale.yaml
+    - tools/records/projects/flash_algo/mk22f51212_flash_algo.yaml
+mk20d5_flash_algo:
+    - tools/records/common/flash_algo_freescale.yaml
+    - tools/records/projects/flash_algo/mk20d5_flash_algo.yaml
 k20dx128_kl25z_0x8000:
     - tools/records/common/openlink_usb.yaml
     - tools/records/common/rtos.yaml

@@ -1,14 +1,14 @@
 name:
-    - mkl25z128_flash_algo
+    - mk70f12_flash_algo
 common:
     include_paths:
         - source/common/flash_algorithms/shared
-        - source/common/flash_algorithms/hal/freescale/device/MKL25Z4
+        - source/common/flash_algorithms/hal/freescale/device/MK70F12
     source_files:
         - source/common/flash_algorithms/hal/freescale/flash/flash_densities_kl_series.c
     macros:
         - __NO_EMBEDDED_ASM
-        - CPU_MKL25Z128VLH4
+        - CPU_MK70FN1M0VMF12
 tool_specific:
     uvision:
         mcu:
