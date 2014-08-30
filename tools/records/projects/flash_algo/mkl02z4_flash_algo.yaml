@@ -8,7 +8,7 @@ common:
         - source/common/flash_algorithms/hal/freescale/flash/flash_densities_kl_series.c
     macros:
         - __NO_EMBEDDED_ASM
-        - CPU_MKL02Z32VFG4
+        - CPU_MKL02Z32VFM4
 tool_specific:
     uvision:
         mcu:

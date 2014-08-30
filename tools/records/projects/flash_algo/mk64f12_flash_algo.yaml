@@ -5,14 +5,14 @@ common:
         - source/common/flash_algorithms/shared
         - source/common/flash_algorithms/hal/freescale/device/MK64F12
     source_files:
-        - source/common/flash_algorithms/hal/freescale/flash/flash_densities_kl_series.c
+        - source/common/flash_algorithms/hal/freescale/flash/flash_densities_k_series.c
     macros:
         - __NO_EMBEDDED_ASM
         - CPU_MK64FN1M0VLL12
 tool_specific:
     uvision:
         mcu:
-            - Cortex-M0
+            - Cortex-M4
         linker_file:
             - source/common/flash_algorithms/shared/Target.lin
         misc:

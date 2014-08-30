@@ -30,8 +30,8 @@ ToDo
 * Implement XON/XOFF flowcontrol
 * Incorporate mbed build system
 * Automate basic cross OS tests
-* Change offset address to 0x8000 to match OpenSDA for Freescale only targets. NXP stays at 0x5000
-* Only erase sectors that code fits in
+* Change application offset address to 0x8000 for all targets with a bootloader
+* Only erase sectors that code fits in (when needed)
 * Use media eject for MSD
 * Verify semi-hosting on HID connection
 * RAM allocation for virtual file-system hidden files and folders
@@ -124,4 +124,9 @@ Dependencies for tools and exporters
 Notes
 -----
 **All scripts should be run from the projects tools directory**
->python exporters/export.py -f exporters/records/projects.yaml
+<pre>
+# Create project files from yaml descriptions
+tools>python exporters/export.py -f exporters/records/projects.yaml
+# Build all projects that were generated
+tools>python build.py
+</pre>
