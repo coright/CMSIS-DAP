@@ -121,12 +121,16 @@ Dependencies for tools and exporters
  * [Setuptools](https://pypi.python.org/pypi/distribute)
  * [Jinja2](https://pypi.python.org/pypi/Jinja2)
  
-Notes
+Getting Started
 -----
 **All scripts should be run from the projects tools directory**
+
+Step 1 - Create project files from yaml descriptions
 <pre>
-# Create project files from yaml descriptions
 tools>python exporters/export.py -f exporters/records/projects.yaml
-# Build all projects that were generated
+</pre>
+
+Step 2 - Build all projects that were generated
+<pre>
 tools>python build.py
 </pre>
