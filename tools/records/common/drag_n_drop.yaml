@@ -2,9 +2,9 @@ common:
     group_name:
         - drag_n_drop
     include_paths:
-        - source/common/shared
+        - source/common
     source_files:
-        - source/common/shared/usbd_user_msc.c
-        - source/common/shared/virtual_fs.c
-        - source/common/shared/validate_user_application.c
+        - source/common/usbd_user_msc.c
+        - source/common/virtual_fs.c
+        - source/common/validate_user_application.c
         

@@ -2,9 +2,9 @@ common:
     group_name:
         - common_src
     include_paths:
-        - source/common/shared
+        - source/common
     source_files:
-        - source/common/shared/retarget.c
-        - source/common/shared/mbed_htm.c
-        - source/common/shared/board.c
+        - source/common/retarget.c
+        - source/common/mbed_htm.c
+        - source/common/board.c
         

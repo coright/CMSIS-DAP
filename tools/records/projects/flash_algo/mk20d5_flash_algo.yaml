@@ -2,8 +2,8 @@ name:
     - mk20d5_flash_algo
 common:
     include_paths:
-        - source/common/cmsis_core/freescale/mk20dx128
-        - source/common/flash_algorithms/shared
+        - source/common/cmsis_core/hal/freescale/mk20dx128
+        - source/common/flash_algorithms
         - source/common/flash_algorithms/hal/freescale/device/MK20D5
     source_files:
         - source/common/flash_algorithms/hal/freescale/flash/flash_densities_k_series.c
@@ -15,7 +15,7 @@ tool_specific:
         mcu:
             - Cortex-M4
         linker_file:
-            - source/common/flash_algorithms/shared/Target.lin
+            - source/common/flash_algorithms/Target.lin
         misc:
             Cads:
                 MiscControls:

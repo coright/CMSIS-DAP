@@ -2,15 +2,12 @@ common:
     group_name:
         - openlink
     include_paths:
-        - source/openlink/shared
+        - source/openlink
     source_files:
-        - source/openlink/shared/board.c
-        - source/openlink/shared/main.c
-        - source/openlink/shared/RTX_Config.c
-        - source/openlink/shared/serial.c
-        - source/openlink/shared/usb_config.c
-        - source/openlink/shared/usbd_user_cdc_acm.c
-        - source/openlink/shared/usbd_user_hid.c
-        - source/openlink/shared/usbd_user_msc.c
-        - source/openlink/shared/version.c
-        - source/openlink/shared/SVC_Table.s
+        - source/openlink/main.c
+        - source/openlink/RTX_Config.c
+        - source/openlink/serial.c
+        - source/openlink/usb_config.c
+        - source/openlink/usbd_user_cdc_acm.c
+        - source/openlink/usbd_user_hid.c
+        - source/openlink/SVC_Table.s

@@ -2,7 +2,7 @@ common:
     group_name:
         - flash_write_k20dx128
     include_paths:
-        - source/common/flash_algorithms/shared
+        - source/common/flash_algorithms
         - source/common/flash_algorithms/hal/freescale/flash
         - source/common/flash_algorithms/hal/freescale/device
         - source/common/flash_algorithms/hal/freescale/device/MK20D5

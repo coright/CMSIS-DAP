@@ -2,7 +2,7 @@ name:
     - mkl02z4_flash_algo
 common:
     include_paths:
-        - source/common/flash_algorithms/shared
+        - source/common/flash_algorithms
         - source/common/flash_algorithms/hal/freescale/device/MKL02Z4
     source_files:
         - source/common/flash_algorithms/hal/freescale/flash/flash_densities_kl_series.c
@@ -14,7 +14,7 @@ tool_specific:
         mcu:
             - Cortex-M0
         linker_file:
-            - source/common/flash_algorithms/shared/Target.lin
+            - source/common/flash_algorithms/Target.lin
         misc:
             Cads:
                 MiscControls:

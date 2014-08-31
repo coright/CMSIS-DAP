@@ -5,10 +5,10 @@ core:
 common:
     include_paths:
         - source/bootloader/hal/freescale/mk20dx128
-        - source/common/cmsis_core/freescale/mk20dx128
+        - source/common/cmsis_core/hal/freescale/mk20dx128
         - source/common/rtos
     source_files:
-        - source/common/cmsis_core/freescale/mk20dx128/system_MK20D5.c
+        - source/common/cmsis_core/hal/freescale/mk20dx128/system_MK20D5.c
         - source/common/rtos/HAL_CM3.c
         - source/bootloader/hal/freescale/mk20dx128/flash_erase_read_write.c
     macros:
@@ -22,11 +22,11 @@ tool_specific:
         mcu:
             - MK20DX128xxx5
         include_paths:
-            - source/common/cmsis_core/freescale/mk20dx128/arm
+            - source/common/cmsis_core/hal/freescale/mk20dx128/arm
         source_files:
-            - source/common/cmsis_core/freescale/mk20dx128/arm/startup_MK20D5.s
+            - source/common/cmsis_core/hal/freescale/mk20dx128/arm/startup_MK20D5.s
         linker_file:
-            - source/common/cmsis_core/freescale/mk20dx128/arm/MK20D5_0x0000.sct
+            - source/common/cmsis_core/hal/freescale/mk20dx128/arm/MK20D5_0x0000.sct
         misc:
             Cads:
                 MiscControls:
@@ -34,4 +34,4 @@ tool_specific:
                     - -g
                     - --c99
                 Optim:
-                    - 3
+                    - 0
