@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 #include <stdint.h>
 #include <string.h>
 
@@ -34,7 +34,7 @@ static uint8_t const WebSide[] = {
 "<!-- Version: " FW_BUILD " Build: " __DATE__ " " __TIME__ " -->\r\n"
 "<html>\r\n"
 "<head>\r\n"
-"<meta http-equiv=\"refresh\" content=\"0; url=http://mbed.org/device/?code=@A\"/>\r\n"
+"<meta http-equiv=\"refresh\" content=\"0; url=https://mbed.org/handbook/OpenLINK\"/>\r\n"
 "<title>mbed Website Shortcut</title>\r\n"
 "</head>\r\n"
 "<body></body>\r\n"
@@ -53,8 +53,8 @@ static uint32_t atoi(uint8_t * str, uint8_t size, uint8_t base) {
     uint32_t k = 0;
     uint8_t idx = 0;
     uint8_t i = 0;
-    
-    for (i = 0; i < size; i++) 
+
+    for (i = 0; i < size; i++)
     {
         if (*str >= '0' && *str <= '9') {
             idx = '0';
@@ -104,7 +104,7 @@ static void setup_string_web_auth() {
 }
 
 // need to change this to be boardID + target UUID
-//  every board would become a new instance to the host but 
+//  every board would become a new instance to the host but
 //  would not require updating USB drivers when OpenLINK app firmware is updated
 //  do we need to know the firmware version of the OpenLINK firmware?? I dont think so
 //  because any host could query the MSC and parse mbed.htm for this info
@@ -112,7 +112,7 @@ static void setup_string_usb_descriptor() {
     uint8_t i = 0;
     uint8_t idx = 0;
     uint8_t len = 0;
-    
+
     len = strlen((const char *)(string_web_auth+4));
     string_uid_wchar[0] = len*2 + 2;
     string_uid_wchar[1] = 3;
@@ -148,7 +148,7 @@ static void compute_auth() {
     uint32_t id = 0;
     uint32_t fw = 0;
     uint32_t sec = 0;
-    
+
     id = atoi((uint8_t *)board.id  , 4, 16);
     fw = atoi((uint8_t *)fw_version, 4, 16);
     auth = (id) | (fw << 16);

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 // common to all bootloader implementations
 #include "main.h"
 #include "gpio.h"
@@ -30,7 +30,7 @@
 #include "validate_user_application.h"
 
 // debug macros that use ITM0. Does current implementation not working with RTX or
-//  when called from tasks maybe usless. Only good for debugging bootloader and 
+//  when called from tasks maybe usless. Only good for debugging bootloader and
 //  CMSIS-DAP when compiled for non-bootloader use
 #include "retarget.h"
 
@@ -67,7 +67,7 @@ typedef enum {
     LED_FLASH_PERMANENT
 } LED_STATE;
 
-// Global state of usb used in 
+// Global state of usb used in
 USB_CONNECT usb_state;
 
 // Reference to our main task and the msc programming task
@@ -118,7 +118,7 @@ void main_usb_disconnect_event(void) {
     return;
 }
 
-__task void main_task(void) 
+__task void main_task(void)
 {
     // State processing
     uint16_t flags = 0;
@@ -126,10 +126,11 @@ __task void main_task(void)
     uint8_t msd_led_value = 1;
     // USB
     uint32_t usb_state_count = 0;
+    uint32_t blink_count = 0;
 
     // Get a reference to this task
     main_task_id = os_tsk_self();
-    
+
     // Turn on LEDs
     gpio_set_dap_led(1);
     gpio_set_cdc_led(1);
@@ -157,7 +158,7 @@ __task void main_task(void)
         flags = os_evt_get();
 
         // this happens when programming is complete. Need to check if we were successful
-        //  or not and alert the user. Currently we reset but a partial or bad application 
+        //  or not and alert the user. Currently we reset but a partial or bad application
         //  flash can leave the device in a state that is undesired
         if (flags & FLAGS_MAIN_USB_DISCONNECT) {
             usb_busy = USB_IDLE;            // USB not busy
@@ -167,6 +168,17 @@ __task void main_task(void)
 
         if (flags & FLAGS_MAIN_90MS) {
             // Update USB busy status
+            blink_count++;
+
+            if (!(blink_count % 6))
+            {
+                gpio_set_msd_led(1);
+            }
+            else
+            {
+                gpio_set_msd_led(0);
+            }
+
             switch (usb_busy) {
 
                 case USB_ACTIVE:
@@ -221,7 +233,7 @@ __task void main_task(void)
                     // reboot the MCU
                     NVIC_SystemReset();
                     break;
-                
+
                 case USB_CONNECTED:
                 default:
                     break;
