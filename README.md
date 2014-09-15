@@ -127,7 +127,7 @@ Getting Started
 
 Step 1 - Create project files from yaml descriptions
 <pre>
-tools>python exporters/export.py -f exporters/records/projects.yaml
+tools>python project_generator/export.py -f records/projects.yaml
 </pre>
 
 Step 2 - Build all projects that were generated

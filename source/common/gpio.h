@@ -18,10 +18,7 @@
 
 #include <stdint.h>
 
-// THIS file is common between bootloader and CMSIS-DAP
-
-// CMSIS-DAP each target needs a name_gpio.c file with #ifdef for the target type
-//  BOOTLOADER has a project file and one target so no problems, yet.
+// This file is common between bootloader and OpenLINK
 
 /**
  Initialize the device IO for inputs and outputs
@@ -52,10 +49,17 @@ void gpio_set_cdc_led(uint8_t state);
 void gpio_set_msd_led(uint8_t state);
 
 /**
+ Change the state of the all the status LEDs
+ @param  state 1 is on and 0 is off. Write implementation logic accordingly
+ @return none
+*/
+void gpio_set_all_leds(uint8_t state);
+
+/**
  Get the logic level of the reset button
  @param  none
  @return 1 if hi and 0 if lo
 */
-uint8_t gpio_get_rst_pin_state(void);
+uint32_t gpio_get_rst_pin_state(void);
 
 #endif

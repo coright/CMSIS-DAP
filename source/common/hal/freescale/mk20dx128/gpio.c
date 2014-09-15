@@ -70,12 +70,14 @@ void gpio_set_msd_led(uint8_t state)
     gpio_set_dap_led(state);
 }
 
-uint8_t gpio_get_button_state(void)
+void gpio_set_all_leds(uint8_t state)
 {
-    return 0;
+    gpio_set_cdc_led(state);
+    gpio_set_dap_led(state);
+    gpio_set_msd_led(state);
 }
 
-uint8_t gpio_get_rst_pin_state(void)
+uint32_t gpio_get_rst_pin_state(void)
 {
     return (PTB->PDIR & (1UL << 1));
 }

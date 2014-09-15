@@ -36,18 +36,18 @@ uint32_t dnd_flash_init(uint32_t clk);
 uint32_t dnd_flash_uninit(void);
 
 /**
- Erase the entire contents of flash memory
- @param  none
- @return 1 on success and 0 otherwise
-*/
-uint32_t dnd_flash_erase_chip(void);
-
-/**
  Erase a sector in flash memory
  @param  num - The sector number to erase
  @return 1 on success and 0 otherwise
 */
-uint32_t dnd_flash_erase_sector(uint32_t num);
+uint32_t dnd_erase_sector(uint32_t num);
+
+/**
+ Erase the entire contents of flash memory
+ @param  none
+ @return 1 on success and 0 otherwise
+*/
+uint32_t dnd_erase_chip(void);
 
 /**
  Program a page into flash memory
@@ -56,7 +56,7 @@ uint32_t dnd_flash_erase_sector(uint32_t num);
  @param  size - The amount of data in buf
  @return 1 on success and 0 otherwise
 */
-uint32_t dnd_flash_program_page(uint32_t adr, uint8_t * buf, uint32_t size);
+uint32_t dnd_program_page(uint32_t adr, uint8_t *buf, uint32_t size);
 
 /**
  Read the contents of memory
@@ -67,10 +67,9 @@ uint32_t dnd_flash_program_page(uint32_t adr, uint8_t * buf, uint32_t size);
 */
 uint32_t dnd_read_memory(uint32_t adr, uint8_t *buf, uint32_t size);
 
-// These are called in in software interrupt mode. Was done this way for the bootloader
-// and just moved over. Not sure if this is entirly necessary
+// These are called in in software interrupt mode.
 uint32_t __swi(2) erase_sector_svc(uint32_t num);
-uint32_t __swi(3) program_page_svc(uint32_t adr, uint8_t * buf, uint32_t size);
+uint32_t __swi(3) program_page_svc(uint32_t adr, uint8_t *buf, uint32_t size);
 
 #endif
 

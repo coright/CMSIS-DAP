@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-#include "validate_user_application.h"
+#include "validate_application.h"
 #include "flash_erase_read_write.h"
 #include "device_cfg.h"
-
-extern inline uint32_t check_range(const uint32_t test, const uint32_t min, const uint32_t max)
+// TARGET_MK20DX,  K20DX128,  CPU_MK20DX128VFM5,  __RTX,  BOOTLOADER, 
+static inline uint32_t check_range(const uint32_t test, const uint32_t min, const uint32_t max)
 {
     return ((test < min) || (test > max)) ? 0 : 1;
 }
@@ -31,7 +31,7 @@ static inline uint32_t check_value(const uint32_t test, const uint32_t val)
 //The verification algorithm will simply check that vectors 0-6, 11-12, 
 //	and 14-15 all point to a valid memory region and are non-zero and
 //  7-10 should be 0
-uint32_t validate_user_application(uint32_t address)
+uint32_t validate_application(uint32_t offset_address)
 {
     uint32_t i = 0;
     uint32_t mem[1];
@@ -39,7 +39,7 @@ uint32_t validate_user_application(uint32_t address)
     // Initial_SP
     for( ; i<(1*4); i+=4)
     {	
-        dnd_read_memory(address+i, (uint8_t*)mem, 4);
+        dnd_read_memory(offset_address+i, (uint8_t*)mem, 4);
         test_val = mem[0];
         // check for a valid ram address.
         if (0 == check_range(test_val, START_RAM, END_RAM)) {
@@ -54,17 +54,17 @@ uint32_t validate_user_application(uint32_t address)
     // UsageFault_Handler (Reserved on CM0+)
     for( ; i<(7*4); i+=4)
     {	
-        dnd_read_memory(address+i, (uint8_t*)mem, 4);
+        dnd_read_memory(offset_address+i, (uint8_t*)mem, 4);
         test_val = mem[0];    
         // check for a valid flash address.
-        if (0 == check_range(test_val, (address+START_FLASH), END_FLASH)) {
+        if (0 == check_range(test_val, (offset_address+START_FLASH), END_FLASH)) {
             return 0;
         }
     }
     // RESERVED * 4
     for( ; i<(11*4); i+=4)
     {
-        dnd_read_memory(address+i, (uint8_t*)mem, 4);
+        dnd_read_memory(offset_address+i, (uint8_t*)mem, 4);
         test_val = mem[0];    
         // check for a known value.
         if (0 == check_value(test_val, 0)) {
@@ -75,17 +75,17 @@ uint32_t validate_user_application(uint32_t address)
     // DebugMon_Handler (Reserved on CM0+)
     for( ; i<(13*4); i+=4)
     {	
-        dnd_read_memory(address+i, (uint8_t*)mem, 4);
+        dnd_read_memory(offset_address+i, (uint8_t*)mem, 4);
         test_val = mem[0];    
         // check for a valid flash address.
-        if (0 == check_range(test_val, (address+START_FLASH), END_FLASH)) {
+        if (0 == check_range(test_val, (offset_address+START_FLASH), END_FLASH)) {
             return 0;
         }
     }
     // RESERVED * 1
     for( ; i<(14*4); i+=4)
     {
-        dnd_read_memory(address+i, (uint8_t*)mem, 4);
+        dnd_read_memory(offset_address+i, (uint8_t*)mem, 4);
         test_val = mem[0];    
         // check for a known value
         if (0 == check_value(test_val, 0)) {
@@ -96,10 +96,10 @@ uint32_t validate_user_application(uint32_t address)
     // SysTick_Handler
     for( ; i<(16*4); i+=4)
     {	
-        dnd_read_memory(address+i, (uint8_t*)mem, 4);
+        dnd_read_memory(offset_address+i, (uint8_t*)mem, 4);
         test_val = mem[0];    
         // check for a valid flash address.
-        if (0 == check_range(test_val, (address+START_FLASH), END_FLASH)) {
+        if (0 == check_range(test_val, (offset_address+START_FLASH), END_FLASH)) {
             return 0;
         }
     }

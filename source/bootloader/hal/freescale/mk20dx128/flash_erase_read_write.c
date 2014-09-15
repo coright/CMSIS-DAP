@@ -15,7 +15,6 @@
  */
  
 // common API for MSC to call (CMSIS-DAP or BOOTLOADER)
-#include "MK20D5.H"
 #include "flash_erase_read_write.h"
 #include "device_cfg.h"
 
@@ -25,7 +24,7 @@
 uint32_t dnd_flash_init(uint32_t clk)
 {
     // from flash_algo.c, 1 is failing and 0 is passing
-    return (Init(0,0,0)) ? 0 : 1;
+    return (Init(0, 0, 0)) ? 0 : 1;
 }
 
 uint32_t dnd_flash_uninit(void)
@@ -34,57 +33,46 @@ uint32_t dnd_flash_uninit(void)
     return (UnInit(0)) ? 0 : 1;
 }
 
-uint32_t dnd_erase_sector(uint32_t num)
+uint32_t __SVC_2 (uint32_t num) 
 {
+    uint32_t res = 0;
+    NVIC_DisableIRQ(USB0_IRQn);
+    res = EraseSector(num * FLASH_SECTOR_SIZE);
+    NVIC_EnableIRQ(USB0_IRQn);
     // from flash_algo.c, 1 is failing and 0 is passing
-    // EraseSector wants sector address, not sector number as passed
-    return (EraseSector(num*FLASH_SECTOR_SIZE)) ? 0 : 1;
+    return !res;
 }
 
-uint32_t dnd_flash_erase_chip(void)
+uint32_t dnd_erase_sector(uint32_t num)
+{
+    return erase_sector_svc(num);
+}
+
+uint32_t dnd_erase_chip(void)
 {
     uint32_t i = APP_START_ADR;
-    for( ; i<END_FLASH; i+=FLASH_SECTOR_SIZE) {
-        if (!dnd_flash_erase_sector(i/FLASH_SECTOR_SIZE)) {
+    // dont erase the bootloader, just the app region 
+    for( ; i < END_FLASH; i += FLASH_SECTOR_SIZE) {
+        if (!erase_sector_svc(i / FLASH_SECTOR_SIZE)) {
             return 0;
         }
     }
     return 1;
 }
 
-uint32_t __SVC_2 (uint32_t addr) 
-{
-    return dnd_erase_sector(addr);
-}
-
-uint32_t dnd_flash_erase_sector(uint32_t num)
+uint32_t __SVC_3 (uint32_t adr, uint8_t * buf, uint32_t size)
 {
     uint32_t res = 0;
     NVIC_DisableIRQ(USB0_IRQn);
-    res = erase_sector_svc(num);
+    res = ProgramPage(adr, size, buf);
     NVIC_EnableIRQ(USB0_IRQn);
-    return res;
+    // from flash_algo.c, 1 is failing and 0 is passing 
+    return !res;
 }
 
 uint32_t dnd_program_page(uint32_t adr, uint8_t * buf, uint32_t size)
 {
-    // from flash_algo.c, 1 is failing and 0 is passing
-    return (ProgramPage(adr, size, buf)) ? 0 : 1;
-}
-
-uint32_t __SVC_3 (uint32_t adr, uint8_t * buf, uint32_t size)
-{
-    return dnd_program_page(adr, buf, size);
-}
-   
-
-uint32_t dnd_flash_program_page(uint32_t adr, uint8_t * buf, uint32_t size)
-{
-    uint32_t res = 0;
-    NVIC_DisableIRQ(USB0_IRQn);
-    res = program_page_svc(adr, buf, size);
-    NVIC_EnableIRQ(USB0_IRQn);
-    return res;
+    return program_page_svc(adr, buf, size);
 }
 
 uint32_t dnd_read_memory(uint32_t adr, uint8_t *buf, uint32_t size)

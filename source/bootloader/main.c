@@ -27,7 +27,7 @@
 #include "rl_usb.h"
 #include "MK20D5.h"
 #include "usbd_user_msc.h"
-#include "validate_user_application.h"
+#include "validate_application.h"
 
 // debug macros that use ITM0. Does current implementation not working with RTX or
 //  when called from tasks maybe usless. Only good for debugging bootloader and
@@ -168,17 +168,6 @@ __task void main_task(void)
 
         if (flags & FLAGS_MAIN_90MS) {
             // Update USB busy status
-            blink_count++;
-
-            if (!(blink_count % 6))
-            {
-                gpio_set_msd_led(1);
-            }
-            else
-            {
-                gpio_set_msd_led(0);
-            }
-
             switch (usb_busy) {
 
                 case USB_ACTIVE:
@@ -188,6 +177,13 @@ __task void main_task(void)
                     break;
 
                 case USB_IDLE:
+                    blink_count++;
+                    if (!(blink_count % 11)) {
+                        gpio_set_all_leds(1);
+                    }
+                    else {
+                        gpio_set_all_leds(0);
+                    }
                 default:
                     break;
             }
@@ -266,7 +262,7 @@ int main (void)
     // leds and button
     gpio_init();
     // check for invalid app image or rst button press
-    if (gpio_get_rst_pin_state() && validate_user_application(APP_START_ADR))
+    if (gpio_get_rst_pin_state() && validate_application(APP_START_ADR))
     {
         // change to the new vector table
         relocate_vector_table_app();

@@ -6,5 +6,5 @@ common:
     source_files:
         - source/common/usbd_user_msc.c
         - source/common/virtual_fs.c
-        - source/common/validate_user_application.c
+        - source/common/validate_application.c
         

@@ -16,13 +16,13 @@
 #ifndef __USB_H__
 #define __USB_H__
 
-/* General USB header files                                                   */
+/* General USB header files */
 #include "usb_def.h"
 #include "usb_cdc.h"
 #include "usb_hid.h"
 #include "usb_msc.h"
 
-/* USB Device header files                                                    */
+/* USB Device header files */
 #include "usbd_core.h"
 #include "usbd_core_cdc.h"
 #include "usbd_core_hid.h"

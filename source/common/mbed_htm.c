@@ -24,7 +24,7 @@
 // Pointers to substitution strings
 static char const *fw_version = (const char *)FW_BUILD;
 
-static uint32_t unique_id = 0;
+static uint32_t unique_id[4] = {0};
 static uint32_t auth = 0;
 static uint8_t string_web_auth[25+4] = {""};
 static uint8_t string_uid_wchar[2+25*2] = {""};
@@ -90,7 +90,7 @@ static void setup_string_web_auth() {
     }
     // writes 2 bytes in string_web_auth at a time
     for (i = 0; i < 4; i++) {
-        write_byte_ascii_hex((unique_id >> 8*(3 - i)) & 0xff, &string_web_auth[idx + 2*i], &string_web_auth[idx + 2*i + 1]);
+        write_byte_ascii_hex((unique_id[0] >> 8*(3 - i)) & 0xff, &string_web_auth[idx + 2*i], &string_web_auth[idx + 2*i + 1]);
     }
     idx+=8;
 
@@ -152,7 +152,7 @@ static void compute_auth() {
     id = atoi((uint8_t *)board.id  , 4, 16);
     fw = atoi((uint8_t *)fw_version, 4, 16);
     auth = (id) | (fw << 16);
-    auth ^= unique_id;
+    auth ^= unique_id[0];   // only using lower 32 bits :(
     sec = atoi((uint8_t *)(board.secret), 8, 16);
     auth ^= sec;
 }
@@ -242,7 +242,7 @@ static uint8_t get_html_character(HTMLCTX *h) {
 
 void unique_string_auth_config(void)
 {
-    unique_id = read_unique_id();
+    read_uuid(unique_id);
     compute_auth();
     setup_string_web_auth();
     setup_string_usb_descriptor();

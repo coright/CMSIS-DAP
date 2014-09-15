@@ -17,6 +17,8 @@
 #ifndef DEVICE_CFG_H
 #define DEVICE_CFG_H
 
+#include "MK20D5.h"
+
 /**
  This file is for the Freescale MK20DX bootloader
  Each device (bootloader) or target (CMSIS-DAP app)

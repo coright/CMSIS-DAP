@@ -30,7 +30,7 @@ __initial_sp
 ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Heap_Size       EQU     0x0000100
+Heap_Size       EQU     0x0000200
 
                 AREA    HEAP, NOINIT, READWRITE, ALIGN=3
 __heap_base
@@ -462,7 +462,7 @@ FSEC            EQU     0xFE
                 DCB     BackDoorK4, BackDoorK5, BackDoorK6, BackDoorK7
                 DCB     FPROT0,     FPROT1,     FPROT2,     FPROT3
                 DCB     FSEC,       FOPT,       FEPROT,     FDPROT
-                ELIF    :DEF:LOAD_WITH_BOOTLOADER
+                ELIF    :DEF:APP_OFFSET_32K
                 AREA    |.ARM.__at_0x8400|, CODE, READONLY
                 DCB     BackDoorK0, BackDoorK1, BackDoorK2, BackDoorK3
                 DCB     BackDoorK4, BackDoorK5, BackDoorK6, BackDoorK7

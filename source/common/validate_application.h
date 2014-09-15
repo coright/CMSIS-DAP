@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-#ifndef VALIDATE_USER_APPLICATION_H
-#define VALIDATE_USER_APPLICATION_H
+#ifndef VALIDATE_APPLICATION_H
+#define VALIDATE_APPLICATION_H
 
 #include <stdint.h>
 
 /**
  Validate the memory locations in the common part of ARM NVIC table
  Would still be good to write a CRC or checksum of the program flash somewhere
- @param  address - The starting address of the NVIC table to verify
+ @param  offset_address - The starting address of the NVIC table to verify
  @return 1 on success and 0 otherwise
 */
-uint32_t validate_user_application(uint32_t address);
+uint32_t validate_application(uint32_t offset_address);
 
 #endif
