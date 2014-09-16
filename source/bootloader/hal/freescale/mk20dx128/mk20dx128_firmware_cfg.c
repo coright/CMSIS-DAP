@@ -14,26 +14,16 @@
  * limitations under the License.
  */
 
-#include "vector_table.h"
 #include "firmware_cfg.h"
-#include "MK20D5.h"
 
-void relocate_vector_table_ram(void)
-{
-    uint32_t *vectors;
-    uint32_t i;
-    // Copy and switch to dynamic vectors if the first time called
-    if (SCB->VTOR != app.ram_start) {
-        uint32_t *old_vectors = (uint32_t *)app.flash_start;
-        vectors = (uint32_t *)app.ram_start;
-        for (i = 0; i < (16+46); i++) {
-            vectors[i] = old_vectors[i];
-        }
-        SCB->VTOR = app.ram_start;
-    }
-}
-
-void relocate_vector_table_app(void)
-{
-    SCB->VTOR = app.flash_start;
-}
+fw_cfg_t const app = {
+    .board_id   = "ffff",
+    .secret     = "00000000",
+    .sector_size    = 0x400,
+    // .sector_cnt = ((.flash_end - flash_start) / sector_size);
+    .sector_cnt     = ((0x20000-0x8000)/0x400),
+    .flash_start    = 0x8000,
+    .flash_end      = 0x20000,
+    .ram_start      = 0x1FFFE000,
+    .ram_end        = 0x20002000
+};

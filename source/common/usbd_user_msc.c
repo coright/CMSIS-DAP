@@ -376,7 +376,7 @@ int search_bin_file(uint8_t * root, uint8_t sector) {
                 move_sector_start = (begin_sector - start_sector)*MBR_BYTES_PER_SECTOR;
                 nb_sector_to_move = (nb_sector % 2) ? nb_sector/2 + 1 : nb_sector/2;
                 for (i = 0; i < nb_sector_to_move; i++) {
-                    if (!dnd_read_memory(move_sector_start + i*FLASH_SECTOR_SIZE, (uint8_t *)usb_buffer, FLASH_SECTOR_SIZE)) {
+                    if (!dnd_read_memory(move_sector_start + (i*app.sector_size), (uint8_t *)usb_buffer, app.sector_size)) {
                         failSWD();
                         return -1;
                     }
@@ -384,7 +384,7 @@ int search_bin_file(uint8_t * root, uint8_t sector) {
                         failSWD();
                         return -1;
                     }
-                    if (!dnd_program_page(i*FLASH_SECTOR_SIZE, (uint8_t *)usb_buffer, FLASH_SECTOR_SIZE)) {
+                    if (!dnd_program_page((i*app.sector_size), (uint8_t *)usb_buffer, app.sector_size)) {
                         failSWD();
                         return -1;
                     }
@@ -422,7 +422,7 @@ static int programPage() {
     }
 
     // if we have received two sectors, write into flash
-    if (!dnd_program_page(flashPtr + flash_addr_offset + APP_START_ADR, (uint8_t *)usb_buffer, FLASH_PROGRAM_PAGE_SIZE)) {
+    if (!dnd_program_page((flashPtr+flash_addr_offset+app.flash_start), (uint8_t *)usb_buffer, FLASH_PROGRAM_PAGE_SIZE)) {
         // even if there is an error, adapt flashptr
         flashPtr += FLASH_PROGRAM_PAGE_SIZE;
         return 1;

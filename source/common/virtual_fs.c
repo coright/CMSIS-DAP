@@ -16,9 +16,6 @@
 
 #include "virtual_fs.h"
 
-#include <stdint.h>
-#include "device_cfg.h"
-
 //---------------------------------------------------------------- VERIFICATION
 
 /* Sanity check */

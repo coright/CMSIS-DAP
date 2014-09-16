@@ -18,7 +18,7 @@
 #define BOARD_H
 
 #include <stdint.h>
-#include "device_cfg.h"
+#include "firmware_cfg.h"
 
 /**
  @addtogroup

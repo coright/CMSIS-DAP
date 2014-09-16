@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-#include <stdint.h>
-#include <string.h>
-
 #include "mbed_htm.h"
 #include "read_uid.h"
-#include "board.h"
+#include "firmware_cfg.h"
+#include <string.h>
 
 // Pointers to substitution strings
 static char const *fw_version = (const char *)FW_BUILD;
@@ -83,7 +81,7 @@ static void setup_string_web_auth() {
 
     // string id
     for (i = 0; i < 4; i++) {
-        string_web_auth[idx++] = board.id[i];
+        string_web_auth[idx++] = app.board_id[i];
     }
     for (i = 0; i < 4; i++) {
         string_web_auth[idx++] = fw_version[i];
@@ -149,11 +147,11 @@ static void compute_auth() {
     uint32_t fw = 0;
     uint32_t sec = 0;
 
-    id = atoi((uint8_t *)board.id  , 4, 16);
+    id = atoi((uint8_t *)app.board_id , 4, 16);
     fw = atoi((uint8_t *)fw_version, 4, 16);
     auth = (id) | (fw << 16);
     auth ^= unique_id[0];   // only using lower 32 bits :(
-    sec = atoi((uint8_t *)(board.secret), 8, 16);
+    sec = atoi((uint8_t *)(app.secret), 8, 16);
     auth ^= sec;
 }
 

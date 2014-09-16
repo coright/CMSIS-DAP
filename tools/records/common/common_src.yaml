@@ -6,5 +6,4 @@ common:
     source_files:
         - source/common/retarget.c
         - source/common/mbed_htm.c
-        - source/common/board.c
         

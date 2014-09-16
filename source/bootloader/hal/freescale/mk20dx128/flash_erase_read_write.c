@@ -14,11 +14,8 @@
  * limitations under the License.
  */
  
-// common API for MSC to call (CMSIS-DAP or BOOTLOADER)
 #include "flash_erase_read_write.h"
-#include "device_cfg.h"
-
-// header from flash_algo.c that manages all device programming routines
+#include "firmware_cfg.h"
 #include "flash_algo.h"
 
 uint32_t dnd_flash_init(uint32_t clk)
@@ -37,7 +34,7 @@ uint32_t __SVC_2 (uint32_t num)
 {
     uint32_t res = 0;
     NVIC_DisableIRQ(USB0_IRQn);
-    res = EraseSector(num * FLASH_SECTOR_SIZE);
+    res = EraseSector(num * app.sector_size);
     NVIC_EnableIRQ(USB0_IRQn);
     // from flash_algo.c, 1 is failing and 0 is passing
     return !res;
@@ -50,10 +47,10 @@ uint32_t dnd_erase_sector(uint32_t num)
 
 uint32_t dnd_erase_chip(void)
 {
-    uint32_t i = APP_START_ADR;
+    uint32_t i = app.flash_start;
     // dont erase the bootloader, just the app region 
-    for( ; i < END_FLASH; i += FLASH_SECTOR_SIZE) {
-        if (!erase_sector_svc(i / FLASH_SECTOR_SIZE)) {
+    for( ; i < app.flash_end; i += app.sector_size) {
+        if (!erase_sector_svc(i / app.sector_size)) {
             return 0;
         }
     }

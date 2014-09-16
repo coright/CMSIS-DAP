@@ -21,12 +21,12 @@
 extern "C" {
 #endif
 
-int Init (unsigned long adr, unsigned long clk, unsigned long fnc);
-int UnInit (unsigned long fnc);
-int BlankCheck (unsigned long adr, unsigned long sz, unsigned char pat);
-int EraseChip (void);
-int EraseSector (unsigned long adr);
-int ProgramPage (unsigned long adr, unsigned long sz, unsigned char *buf);
+int Init(unsigned long adr, unsigned long clk, unsigned long fnc);
+int UnInit(unsigned long fnc);
+int BlankCheck(unsigned long adr, unsigned long sz, unsigned char pat);
+int EraseChip(void);
+int EraseSector(unsigned long adr);
+int ProgramPage(unsigned long adr, unsigned long sz, unsigned char *buf);
 
 #ifdef __cplusplus
 }

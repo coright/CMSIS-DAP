@@ -19,7 +19,7 @@
 #include "gpio.h"
 #include "tasks.h"
 #include "mbed_htm.h"
-#include "device_cfg.h"
+#include "firmware_cfg.h"
 #include "vector_table.h"
 
 // common to bootloader and CMSIS-DAP
@@ -262,12 +262,12 @@ int main (void)
     // leds and button
     gpio_init();
     // check for invalid app image or rst button press
-    if (gpio_get_rst_pin_state() && validate_application(APP_START_ADR))
+    if (gpio_get_rst_pin_state() && validate_application())
     {
         // change to the new vector table
         relocate_vector_table_app();
         // modify stack pointer and start app
-        modify_stack_pointer_and_start_app(INITIAL_SP, RESET_HANDLER);
+        modify_stack_pointer_and_start_app(*(uint32_t *)app.flash_start, *(uint32_t *)(app.flash_start+4));
     }
     // config the usb interface descriptor and web auth token before USB connects
     unique_string_auth_config();

@@ -11,6 +11,7 @@ common:
         - source/common/cmsis_core/hal/freescale/mk20dx128/system_MK20D5.c
         - source/common/rtos/HAL_CM3.c
         - source/bootloader/hal/freescale/mk20dx128/flash_erase_read_write.c
+        - source/bootloader/hal/freescale/mk20dx128/mk20dx128_firmware_cfg.c
     macros:
         - TARGET_MK20DX
         - K20DX128
