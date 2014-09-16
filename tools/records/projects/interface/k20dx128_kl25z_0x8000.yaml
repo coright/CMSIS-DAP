@@ -7,6 +7,9 @@ common:
         - source/openlink/hal/freescale/DBG_KL25Z
     source_files:
         - source/common/cmsis_core/hal/freescale/mk20dx128/system_MK20D5.c
+        - source/openlink/hal/freescale/target_reset.c
+        - source/openlink/hal/freescale/flash_erase_read_write.c
+        - source/openlink/hal/freescale/DBG_KL25Z/kl25z_firmware_cfg.c
         - source/common/rtos/HAL_CM3.c
     macros:
         - TARGET_MK20D5

@@ -62,6 +62,8 @@ extern fw_cfg_t const app;
 #if defined (DBG_KL25Z)
 // TARGET_MK20D5,  __RTX,  OFFSET_VTABLE_32K,  DBG_KL25Z,  BOARD_FRDM_KL25Z,  INTERFACE_GEN_32KHZ,  OPENSDA_BOOTLOADER, 
 #define FLASH_SIZE_KB   128
+// L ID is 0x001c0020
+// K ID is 0x001c0000
 #endif
 
 /**

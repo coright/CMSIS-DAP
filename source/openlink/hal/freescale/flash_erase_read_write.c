@@ -17,7 +17,7 @@
 // common API for MSC to work from (CMSIS-DAP or BOOTLOADER)
 #include "MK20D5.H"
 #include "flash_erase_read_write.h"
-#include "device_cfg.h"
+#include "firmware_cfg.h"
 
 // Specific respource for device FLASH read/write
 //#include "SSD_Types.h"
@@ -39,7 +39,7 @@
 
 //static FLASH_SSD_CONFIG flashSSDConfig;
 
-uint32_t flash_init(uint32_t clk)
+uint32_t dnd_flash_init(uint32_t clk)
 {
 //    /* Write 0xC520 to the unlock register */
 //    WDOG_UNLOCK = 0xC520;
@@ -65,12 +65,12 @@ uint32_t flash_init(uint32_t clk)
     return 0;
 }
 
-uint32_t flash_uninit(void)
+uint32_t dnd_flash_uninit(void)
 {
     return 0;
 }
 
-static uint32_t erase_sector(uint32_t num)
+uint32_t dnd_erase_sector(uint32_t num)
 {
 //    if (FTFx_OK != pFlashEraseSector(&flashSSDConfig, num*FLASH_SECTOR_SIZE, FTFx_PSECTOR_SIZE, pFlashCommandSequence)) {
 //        return 0;
@@ -79,7 +79,7 @@ static uint32_t erase_sector(uint32_t num)
     return 0;
 }
 
-uint32_t flash_erase_chip(void)
+uint32_t dnd_erase_chip(void)
 {
 //    uint32_t i = APP_START_ADR;
 //    for( ; i<END_FLASH; i+=FLASH_SECTOR_SIZE) {
@@ -91,23 +91,23 @@ uint32_t flash_erase_chip(void)
     return 0;
 }
 
-uint32_t __SVC_2 (uint32_t addr) 
-{
-//    return erase_sector(addr);
-    return 0;
-}
+//uint32_t __SVC_2 (uint32_t addr) 
+//{
+////    return erase_sector(addr);
+//    return 0;
+//}
 
-uint32_t flash_erase_sector(uint32_t num)
-{
-//    uint32_t res = 0;
-//    NVIC_DisableIRQ(USB0_IRQn);
-//    res = erase_sector_svc(num);
-//    NVIC_EnableIRQ(USB0_IRQn);
-//    return res;
-    return 0;
-}
+//uint32_t flash_erase_sector(uint32_t num)
+//{
+////    uint32_t res = 0;
+////    NVIC_DisableIRQ(USB0_IRQn);
+////    res = erase_sector_svc(num);
+////    NVIC_EnableIRQ(USB0_IRQn);
+////    return res;
+//    return 0;
+//}
 
-uint32_t program_page(uint32_t adr, uint8_t * buf, uint32_t size)
+uint32_t dnd_program_page(uint32_t adr, uint8_t *buf, uint32_t size)
 {
 //    if (FTFx_OK != pFlashProgramLongword(&flashSSDConfig, adr, size, (uint32_t)buf, pFlashCommandSequence)) {
 //        return 0;
@@ -116,24 +116,24 @@ uint32_t program_page(uint32_t adr, uint8_t * buf, uint32_t size)
     return 0;
 }
 
-uint32_t __SVC_3 (uint32_t adr, uint8_t * buf, uint32_t size)
-{
-//    return program_page(adr, buf, size);
-    return 0;
-}
+//uint32_t __SVC_3 (uint32_t adr, uint8_t * buf, uint32_t size)
+//{
+////    return program_page(adr, buf, size);
+//    return 0;
+//}
    
 
-uint32_t flash_program_page(uint32_t adr, uint8_t * buf, uint32_t size)
-{
-//    uint32_t res = 0;
-//    NVIC_DisableIRQ(USB0_IRQn);
-//    res = program_page_svc(adr, buf, size);
-//    NVIC_EnableIRQ(USB0_IRQn);
-//    return res;
-    return 0;
-}
+//uint32_t flash_program_page(uint32_t adr, uint8_t * buf, uint32_t size)
+//{
+////    uint32_t res = 0;
+////    NVIC_DisableIRQ(USB0_IRQn);
+////    res = program_page_svc(adr, buf, size);
+////    NVIC_EnableIRQ(USB0_IRQn);
+////    return res;
+//    return 0;
+//}
 
-uint32_t read_memory(uint32_t adr, uint8_t *buf, uint32_t size)
+uint32_t dnd_read_memory(uint32_t adr, uint8_t *buf, uint32_t size)
 {
 //	uint8_t *start_address = (uint8_t *)adr;
 //    while(size--) {
