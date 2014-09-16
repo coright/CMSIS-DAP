@@ -3,8 +3,10 @@ common:
         - io_hal_k20dx128
     include_paths:
         - source/common/hal/freescale/mk20dx128
+        - source/openlink
     source_files:
         - source/common/hal/freescale/mk20dx128/gpio.c
+        - source/common/hal/freescale/mk20dx128/uart.c
         - source/common/hal/freescale/mk20dx128/read_uid.c
         - source/common/hal/freescale/mk20dx128/usbd_MK20D5.c
         - source/common/hal/freescale/mk20dx128/vector_table.c

@@ -1,7 +1,0 @@
-common:
-    group_name:
-        - cdc
-    include_paths:
-        - source/openlink
-    source_files:
-        - source/openlink/usbd_user_cdc_acm.c
