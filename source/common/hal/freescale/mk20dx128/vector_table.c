@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "MK20D5.h"
+
+#include "vector_table.h"
 #include "device_cfg.h"
 
 #define NVIC_NUM_VECTORS (16 + 46)            // CORE + MCU Peripherals
 #define NVIC_RAM_VECTOR_ADDRESS (0x1FFFE000)  // Vectors positioned at start of RAM
 
-void relocate_vector_table_ram() {
+void relocate_vector_table_ram(void)
+{
     uint32_t *vectors;
     uint32_t i;
     // Copy and switch to dynamic vectors if the first time called
@@ -33,7 +35,8 @@ void relocate_vector_table_ram() {
     }
 }
 
-void relocate_vector_table_app() {
+void relocate_vector_table_app(void)
+{
     // just change to the new app handlers in application flash
     SCB->VTOR = APP_START_ADR;
 }

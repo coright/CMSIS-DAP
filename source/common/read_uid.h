@@ -20,11 +20,20 @@
 #include <stdint.h>
 
 /**
+ @addtogroup
+ @{
+ */
+
+/**
  Get a unique ID from the MCU. This is a 32-bit xor value created from the devices
  UUID or similar registers
  @param  storage for 128bits of UUID info
  @return none
 */
 void read_uuid(uint32_t *uuid);
+
+/**
+ @}
+ */
 
 #endif

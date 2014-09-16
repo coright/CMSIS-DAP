@@ -14,8 +14,8 @@
  * limitations under the License.
  */
  
-#include "MK20D5.h"
 #include "gpio.h"
+#include "MK20D5.h"
 
 #define MSD_LED_BIT_NUMBER  (1UL << 4)
 #define CDC_LED_BIT_NUMBER

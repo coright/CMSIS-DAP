@@ -16,7 +16,27 @@
 #ifndef VECTOR_TABLE_H
 #define VECTOR_TABLE_H
 
+/**
+ @addtogroup
+ @{
+ */
+
+/**
+ Copy the vector table from flash to RAM
+ @param  none
+ @return none
+*/
 void relocate_vector_table_ram(void);
+
+/**
+ Change the vector table offset from bootloader to application flash space
+ @param  none
+ @return none
+*/
 void relocate_vector_table_app(void);
+
+/**
+ @}
+ */
 
 #endif

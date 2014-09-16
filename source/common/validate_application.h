@@ -20,11 +20,20 @@
 #include <stdint.h>
 
 /**
+ @addtogroup
+ @{
+ */
+
+/**
  Validate the memory locations in the common part of ARM NVIC table
  Would still be good to write a CRC or checksum of the program flash somewhere
  @param  offset_address - The starting address of the NVIC table to verify
  @return 1 on success and 0 otherwise
 */
 uint32_t validate_application(uint32_t offset_address);
+
+/**
+ @}
+ */
 
 #endif

@@ -19,6 +19,11 @@
 #include <stdint.h>
 
 /**
+ @addtogroup
+ @{
+ */
+
+/**
  @enum USB_BUSY
  @brief Defines the state of the USB connection
  */ 
@@ -60,5 +65,9 @@ void main_usb_disconnect_event(void);
  @return none
 */
 void main_blink_msd_led(uint8_t permanent);
+
+/**
+ @}
+ */
 
 #endif

@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "MK20D5.h"
+
 #include "read_uid.h"
+#include "MK20D5.h"
 
 void read_uuid(uint32_t *uuid)
 {

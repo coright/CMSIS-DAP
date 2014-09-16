@@ -20,6 +20,11 @@
 #include <stdint.h>
 #include "device_cfg.h"
 
+/**
+ @addtogroup
+ @{
+ */
+
 // These error symbols messages need to match the text in reason_array and the order too
 #define SWD_ERROR               0
 #define BAD_EXTENSION_FILE      1
@@ -146,8 +151,12 @@ extern SECTOR sectors[];
 extern const uint8_t *reason_array[];
 extern uint8_t const sect6[];
 extern uint8_t const sect7[];
-extern uint8_t const fail[];
+extern FatDirectoryEntry_t const fail;
 extern uint32_t const sect6_size;
 extern uint32_t const sect7_size;
+
+/**
+ @}
+ */
 
 #endif

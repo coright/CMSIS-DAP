@@ -18,8 +18,12 @@
 #define BOARD_H
 
 #include <stdint.h>
-
 #include "device_cfg.h"
+
+/**
+ @addtogroup
+ @{
+ */
 
 /**
  @struct BOARD
@@ -31,5 +35,9 @@ typedef struct {
 } BOARD;
 
 extern BOARD board;
+
+/**
+ @}
+ */
 
 #endif

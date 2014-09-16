@@ -472,7 +472,7 @@ void usbd_msc_read_sect (uint32_t block, uint8_t *buf, uint32_t num_of_blocks) {
                     length of the error reason string. The entry's set to point to cluster
                     4 which is the first after the mbed.htm file."
                 */
-                memcpy(buf + sectors[block].length, fail, 16*2);
+                memcpy(buf + sectors[block].length, &fail, sizeof(fail));
                 // adapt size of file according fail reason
                 buf[sectors[block].length + 28] = strlen((const char *)reason_array[reason]);
                 buf[sectors[block].length + 26] = 6;

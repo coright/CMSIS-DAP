@@ -22,6 +22,11 @@
 // dnd prefix is drag-n-drop. These handlers are called during USB MSC writes
 
 /**
+ @addtogroup
+ @{
+ */
+
+/**
  Initialize the flash programming algorithm
  @param  clk - parameter should be SystemCoreClock or the equivelant
  @return 1 on success and 0 otherwise
@@ -70,6 +75,10 @@ uint32_t dnd_read_memory(uint32_t adr, uint8_t *buf, uint32_t size);
 // These are called in in software interrupt mode.
 uint32_t __swi(2) erase_sector_svc(uint32_t num);
 uint32_t __swi(3) program_page_svc(uint32_t adr, uint8_t *buf, uint32_t size);
+
+/**
+ @}
+ */
 
 #endif
 

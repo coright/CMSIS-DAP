@@ -24,6 +24,29 @@
  Each device (bootloader) or target (CMSIS-DAP app)
  Should have a file that defines the following
  */
+ 
+ /**
+  @addtogroup
+  @{
+ */
+ 
+struct flash_desc_t  {
+    uint32_t sector_size;
+    uint32_t sector_address;
+};
+ 
+typedef struct fw_conf_t fw_conf_t;
+__packed struct fw_conf_t {
+    uint8_t     board_id[4];
+    uint8_t     secret[8];
+    uint32_t    sector_size;
+    uint32_t    sector_cnt;
+    uint32_t    flash_start;
+    uint32_t    flash_end;
+    uint32_t    ram_start;
+    uint32_t    ram_end;
+    struct flash_desc_t sectors[];
+};
 
 /*!< BOARD_ID is an unique identifier for the bootloader or CMSIS-DAP application */
 #define BOARD_ID            "ffff"
@@ -60,5 +83,9 @@
 /*!< INITIAL_SP used to verify images in the NVIC table of the CMSIS-DAP debug application */
 #define INITIAL_SP      (*(uint32_t *)(APP_START_ADR))
 #define RESET_HANDLER   (*(uint32_t *)(APP_START_ADR + 4))
+
+/**
+ @}
+ */
 
 #endif
