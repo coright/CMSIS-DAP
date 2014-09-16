@@ -50,17 +50,17 @@ extern fw_cfg_t const app;
 }
 #endif
 
-// TARGET_MK20DX,  K20DX128,  CPU_MK20DX128VFM5,  __RTX,  BOOTLOADER, 
-#if defined(BOOTLOADER) && defined(K20DX128)
-#include "MK20D5.h"
 // dirty hack until virtual_vs is re-written to not use macros...
+#if defined(BOOTLOADER) && defined(K20DX128)
+// TARGET_MK20DX,  K20DX128,  CPU_MK20DX128VFM5,  __RTX,  BOOTLOADER, 
+#include "MK20D5.h"
 #define FLASH_SIZE_KB   (128-32)
 #define INITIAL_SP      (*(uint32_t *)(APP_START_ADR))
 #define RESET_HANDLER   (*(uint32_t *)(APP_START_ADR + 4))
 #endif
 
-// TARGET_MK20D5,  __RTX,  OFFSET_VTABLE_32K,  DBG_KL25Z,  BOARD_FRDM_KL25Z,  INTERFACE_GEN_32KHZ,  OPENSDA_BOOTLOADER, 
 #if defined (DBG_KL25Z)
+// TARGET_MK20D5,  __RTX,  OFFSET_VTABLE_32K,  DBG_KL25Z,  BOARD_FRDM_KL25Z,  INTERFACE_GEN_32KHZ,  OPENSDA_BOOTLOADER, 
 #define FLASH_SIZE_KB   128
 #endif
 

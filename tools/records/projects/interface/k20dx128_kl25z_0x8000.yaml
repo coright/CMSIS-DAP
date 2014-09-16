@@ -7,7 +7,8 @@ common:
         - source/openlink/hal/freescale/DBG_KL25Z
     source_files:
         - source/common/cmsis_core/hal/freescale/mk20dx128/system_MK20D5.c
-        - source/commom/hal/freescale/k20dx128/uart.c
+        - source/common/rtos/HAL_CM3.c
+        - source/common/hal/freescale/mk20dx128/uart.c
     macros:
         - TARGET_MK20D5
         - __RTX
