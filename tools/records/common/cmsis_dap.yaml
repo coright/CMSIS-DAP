@@ -7,6 +7,6 @@ common:
         - source/common/cmsis_dap/DAP.c
         - source/common/cmsis_dap/dap_vendor_command.c
 #        - source/common/cmsis_dap/JTAG_DP.c
-#        - source/common/cmsis_dap/semihost.c
+        - source/common/cmsis_dap/semihost.c
         - source/common/cmsis_dap/SW_DP.c
         - source/common/cmsis_dap/swd_host.c
