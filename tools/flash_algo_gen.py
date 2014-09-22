@@ -27,17 +27,8 @@ from utils import run_cmd
 from settings import *
 from paths import TMP_DIR
 
-
-# INPUT
-ALGO_ELF_PATH = join(TMP_DIR, "flash_algo.axf")
-
+# FIXED LENGTH
 ALGO_OFFSET = 0x20
-
-# OUTPUT
-TMP_DIR_W_TERM = TMP_DIR + '/'
-DEV_INFO_PATH = join(TMP_DIR, "DevDscr")
-ALGO_BIN_PATH = join(TMP_DIR, "PrgCode")
-ALGO_TXT_PATH = join(TMP_DIR, "flash_algo.txt")
 
 # Algorithm start addresses for each TARGET (compared with DevName in the
 # FlashDevice structure in FlashDev.c
@@ -109,7 +100,19 @@ class FlashInfo(object):
 
 
 def gen_flash_algo():
-    run_cmd([FROMELF, '--bin', ALGO_ELF_PATH, '-o', TMP_DIR_W_TERM])
+    ALGO_ELF_PATH = sys.argv[1]
+    ELF_NAME = sys.argv[2]
+    # OUTPUT
+    ALGO_ELF_PATH_NAME = ALGO_ELF_PATH + '\\' + ELF_NAME
+    #TMP_DIR_W_TERM = ALGO_ELF_PATH
+    DEV_INFO_PATH = join(ALGO_ELF_PATH, "DevDscr")
+    ALGO_BIN_PATH = join(ALGO_ELF_PATH, "PrgCode")
+    ALGO_TXT_PATH = join(ALGO_ELF_PATH, "flash_algo.txt")
+    
+    print FROMELF
+    print ALGO_ELF_PATH_NAME
+    print ALGO_ELF_PATH
+    run_cmd([FROMELF, '--bin', ALGO_ELF_PATH_NAME, '-o', ALGO_ELF_PATH])
     try:
         flash_info = FlashInfo(DEV_INFO_PATH)
         ALGO_START = flash_info.get_algo_start()

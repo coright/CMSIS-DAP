@@ -27,3 +27,9 @@ tool_specific:
                     - enable
                 Rwpi:
                     - enable
+            TargetOption:
+                AfterMake:
+                    RunUserProg1:
+                        - enable
+                    UserProg1Name:
+                        - python ../../tools/flash_algo_gen.py $L @L.axf
