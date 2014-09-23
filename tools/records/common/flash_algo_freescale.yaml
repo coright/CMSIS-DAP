@@ -6,6 +6,7 @@ common:
         - source/common/flash_algorithms/hal/freescale/flash
     source_files:
         - source/common/flash_algorithms/hal/freescale/flash/flash_algo.c
+        - source/common/flash_algorithms/hal/freescale/flash/FlashDev.c
         - source/common/flash_algorithms/hal/freescale/flash/flash_command_sequence.c
         - source/common/flash_algorithms/hal/freescale/flash/flash_erase.c
         - source/common/flash_algorithms/hal/freescale/flash/flash_erase_all.c

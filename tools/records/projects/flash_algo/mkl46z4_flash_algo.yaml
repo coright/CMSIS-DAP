@@ -32,4 +32,4 @@ tool_specific:
                     RunUserProg1:
                         - enable
                     UserProg1Name:
-                        - python ../../tools/flash_algo_gen.py $L @L.axf
+                        - python ../../tools/flash_algo_gen.py $L@L.axf

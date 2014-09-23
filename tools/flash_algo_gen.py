@@ -21,6 +21,7 @@ included in the CMSIS-DAP Interface Firmware source code.
 """
 from struct import unpack
 from os.path import join
+import os
 import sys
 
 from utils import run_cmd
@@ -100,18 +101,17 @@ class FlashInfo(object):
 
 
 def gen_flash_algo():
-    ALGO_ELF_PATH = sys.argv[1]
-    ELF_NAME = sys.argv[2]
-    # OUTPUT
-    ALGO_ELF_PATH_NAME = ALGO_ELF_PATH + '\\' + ELF_NAME
-    #TMP_DIR_W_TERM = ALGO_ELF_PATH
+    if len(sys.argv) < 2:
+        print "usage: >python flash_algo_gen.py <abs_path_w_elf_name>"
+        sys.exit()
+        
+    ALGO_ELF_PATH_NAME = sys.argv[1]
+    ALGO_ELF_PATH, ALGO_ELF_NAME = os.path.split(ALGO_ELF_PATH_NAME)
     DEV_INFO_PATH = join(ALGO_ELF_PATH, "DevDscr")
     ALGO_BIN_PATH = join(ALGO_ELF_PATH, "PrgCode")
+    # need some work here to name and locate to a collective folder
     ALGO_TXT_PATH = join(ALGO_ELF_PATH, "flash_algo.txt")
-    
-    print FROMELF
-    print ALGO_ELF_PATH_NAME
-    print ALGO_ELF_PATH
+
     run_cmd([FROMELF, '--bin', ALGO_ELF_PATH_NAME, '-o', ALGO_ELF_PATH])
     try:
         flash_info = FlashInfo(DEV_INFO_PATH)
@@ -146,7 +146,7 @@ const uint32_t flash_algorithm_blob[] = {
         res.write("\n};\n")
                 
         # Address of the functions within the flash algorithm
-        stdout, _, _ = run_cmd([FROMELF, '-s', ALGO_ELF_PATH])
+        stdout, _, _ = run_cmd([FROMELF, '-s', ALGO_ELF_PATH_NAME])
         # run a diagnostic if prompted to
         if sys.argv[1] == '-v':
             print stdout
