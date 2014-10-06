@@ -1100,6 +1100,9 @@ static int programHEXPage()
 }
 
 static int programPage() {    
+#ifdef BOARD_NRF51822AA
+    uint32_t fill_usb_buffer_counter;
+#endif
     //The timeout task's timer is resetted every 256kB that is flashed.
     if (flashPtr!=0 && (flashPtr & 0x3FFF) == 0) {
         isr_evt_set(MSC_TIMEOUT_RESTART_EVENT, msc_valid_file_timeout_task_id);
@@ -1111,6 +1114,16 @@ static int programPage() {
     }
     else
     {
+#ifdef BOARD_NRF51822AA
+        // is board if NRF51822, fill usb_buffer with FFs instead of zeros at the end of page
+        if ( (size-flashPtr) < FLASH_PROGRAM_PAGE_SIZE) // If data in USB_buffer does not fill up page_size
+        { // Append FFs to the end of the buffer
+            for(fill_usb_buffer_counter = ( (size%FLASH_PROGRAM_PAGE_SIZE)/4 ); fill_usb_buffer_counter < 128; fill_usb_buffer_counter++)
+            {
+                usb_buffer[fill_usb_buffer_counter] = 0xFFFFFFFF;
+            }
+        }
+#endif
         // if we have received two sectors, write into flash
         if (!target_flash_program_page(flashPtr + flash_addr_offset, (uint8_t *)usb_buffer, FLASH_PROGRAM_PAGE_SIZE)) {
             // even if there is an error, adapt flashptr

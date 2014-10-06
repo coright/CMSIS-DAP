@@ -15,8 +15,14 @@
  */
 #include "board.h"
 #include "read_uid.h"
+#include "sam3u2c.h"
 
 void board_init(void)
 {
   create_unique_id();
+}
+
+void HardFault_Handler(void)
+{
+    NVIC_SystemReset();
 }
