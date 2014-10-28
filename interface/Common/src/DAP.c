@@ -40,10 +40,12 @@
 // Clock Macros
 
 #define MAX_SWJ_CLOCK(delay_cycles) \
-  (CPU_CLOCK/2 / (IO_PORT_WRITE_CYCLES + delay_cycles))
+  (CPU_CLOCK / ((delay_cycles + IO_PORT_WRITE_CYCLES) * 14))
+//  (CPU_CLOCK/2 / (IO_PORT_WRITE_CYCLES + delay_cycles))
 
 #define CLOCK_DELAY(swj_clock) \
- ((CPU_CLOCK/2 / swj_clock) - IO_PORT_WRITE_CYCLES)
+  ((CPU_CLOCK / (swj_clock * 14)) - IO_PORT_WRITE_CYCLES)
+// ((CPU_CLOCK/2 / swj_clock) - IO_PORT_WRITE_CYCLES)
 
 
          DAP_Data_t DAP_Data;           // DAP Data

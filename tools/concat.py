@@ -25,6 +25,7 @@ from paths import *
 BOOTLOADER_SIZES = {
     'LPC11U35': 0x5000,
     'K20DX128': 0x5000,
+    'ATSAM3U2C': 0x5000,
 }
 
 

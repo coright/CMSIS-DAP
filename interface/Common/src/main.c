@@ -31,6 +31,7 @@
 #include "target_reset.h"
 #include "swd_host.h"
 #include "version.h"
+
 #ifdef BOARD_UBLOX_C027
 #include <LPC11Uxx.h>
 #include "DAP_config.h"
@@ -197,7 +198,7 @@ void main_disable_debug_event(void) {
     return;
 }
 
-#define SIZE_DATA (64)
+#define SIZE_DATA (256)
 os_mbx_declare(serial_mailbox, 20);
 
 __task void serial_process() {
@@ -249,7 +250,7 @@ __task void serial_process() {
             len_data = SIZE_DATA;
         if (len_data)
             len_data = USBD_CDC_ACM_DataRead(data, len_data);
-        if (len_data) {
+        if (len_data) {           
             if (uart_write_data(data, len_data))
                 main_blink_cdc_led(0);
         }
@@ -329,6 +330,10 @@ __task void main_task(void) {
     //target_set_state(RESET_RUN_WITH_DEBUG);
 #endif
 
+#ifdef BOARD_NRF51822AA
+    // Target running
+    target_set_state(RESET_RUN);
+#endif
     // start semihost task
     semihost_init();
     semihost_enable();

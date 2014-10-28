@@ -20,4 +20,8 @@
 
 void read_unique_id(uint32_t * id);
 
+#ifdef TARGET_ATSAM3U2C
+void create_unique_id(void);
+#endif
+
 #endif
