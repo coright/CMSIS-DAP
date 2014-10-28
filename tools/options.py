@@ -18,7 +18,8 @@ from optparse import OptionParser
 
 INTERFACES = ['LPC11U35',
               'K20DX128',
-              'LPC4322']
+              'LPC4322'
+              'ATSAM3U2C']
 
 TARGETS = ['LPC812',
            'LPC11U68',
@@ -27,7 +28,8 @@ TARGETS = ['LPC812',
            'KL25Z',
            'K64F',
            'K22F',
-           'K24F256']
+           'K24F256'
+           'NRF51822AA']
 
 
 def options_parser():

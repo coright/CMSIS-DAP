@@ -31,16 +31,18 @@
 #define USBD_EVT_SETUP       (1 <<  1)  /* Setup Packet                       */
 #define USBD_EVT_OUT         (1 <<  2)  /* OUT Packet                         */
 #define USBD_EVT_IN          (1 <<  3)  /*  IN Packet                         */
-#define USBD_EVT_OUT_NAK     (1 <<  4)  /* OUT Packet - Not Acknowledged      */
-#define USBD_EVT_IN_NAK      (1 <<  5)  /*  IN Packet - Not Acknowledged      */
+#define USBD_EVT_OUT_NAK     (1 <<  4)  /* OUT Packet - Not Acknowledged  --  not used */
+#define USBD_EVT_IN_NAK      (1 <<  5)  /*  IN Packet - Not Acknowledged  --  not used */
 #define USBD_EVT_OUT_STALL   (1 <<  6)  /* OUT Packet - Stalled               */
 #define USBD_EVT_IN_STALL    (1 <<  7)  /*  IN Packet - Stalled               */
-#define USBD_EVT_OUT_DMA_EOT (1 <<  8)  /* DMA OUT EP - End of Transfer       */
-#define USBD_EVT_IN_DMA_EOT  (1 <<  9)  /* DMA  IN EP - End of Transfer       */
-#define USBD_EVT_OUT_DMA_NDR (1 << 10)  /* DMA OUT EP - New Descriptor Request*/
-#define USBD_EVT_IN_DMA_NDR  (1 << 11)  /* DMA  IN EP - New Descriptor Request*/
-#define USBD_EVT_OUT_DMA_ERR (1 << 12)  /* DMA OUT EP - Error                 */
-#define USBD_EVT_IN_DMA_ERR  (1 << 13)  /* DMA  IN EP - Error                 */
+#define USBD_EVT_OUT_DMA_EOT (1 <<  8)  /* DMA OUT EP - End of Transfer  --  not used */
+#define USBD_EVT_IN_DMA_EOT  (1 <<  9)  /* DMA  IN EP - End of Transfer  --  not used */
+#define USBD_EVT_OUT_DMA_NDR (1 << 10)  /* DMA OUT EP - New Descriptor Request  --  not used */
+#define USBD_EVT_IN_DMA_NDR  (1 << 11)  /* DMA  IN EP - New Descriptor Request  --  not used */
+#define USBD_EVT_OUT_DMA_ERR (1 << 12)  /* DMA OUT EP - Error  --  not used   */
+#define USBD_EVT_IN_DMA_ERR  (1 << 13)  /* DMA  IN EP - Error  --  not used   */
+//#define USBD_EVT_CDC_IN      (1 << 14)  /* CDC IN  Packet                     */
+//#define USBD_EVT_CDC_OUT     (1 << 15)  /* CDC OUT Packet                     */
 
 /* USB Device - Core Events                                                   */
 #define USBD_EVT_SET_CFG     (1 <<  0)  /* Set Configuration                  */

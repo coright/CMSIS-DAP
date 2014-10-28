@@ -16,6 +16,8 @@
 #ifndef __USB_DEF_H__
 #define __USB_DEF_H__
 
+#include <rtl.h>
+
 #pragma anon_unions
 
 

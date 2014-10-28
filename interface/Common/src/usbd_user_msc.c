@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+
+
 #include <RTL.h>
 #include <rl_usb.h>
 #include <string.h>
-
 #include "target_flash.h"
 #include "target_reset.h"
 #include "DAP_config.h"
@@ -27,6 +29,7 @@
 #include "version.h"
 #include "swd_host.h"
 #include "usb_buf.h"
+#include "intelhex.h"
 
 #if defined(DBG_LPC1768)
 #   define WANTED_SIZE_IN_KB                        (512)
@@ -62,6 +65,8 @@
 #   define WANTED_SIZE_IN_KB                        (512)
 #elif defined(DBG_LPC11U68)
 #   define WANTED_SIZE_IN_KB                        (256)
+#elif defined(DBG_NRF51822AA)
+#   define WANTED_SIZE_IN_KB                        (1024)
 #elif defined(DBG_LPC4337)
 #   define WANTED_SIZE_IN_KB                        (1024)
 #endif
@@ -162,6 +167,7 @@ typedef enum {
     DOW_FILE,
     CRD_FILE,
     SPI_FILE,
+    HEX_FILE,
     UNSUP_FILE, /* Valid extension, but not supported */
     SKIP_FILE,  /* Unknown extension, typically Long File Name entries */
 } FILE_TYPE;
@@ -425,6 +431,19 @@ static uint8_t drag_success = 1;
 static uint8_t reason = 0;
 static uint32_t flash_addr_offset = 0;
 
+static BOOL initCalled=__FALSE;
+//default to HEX_FILE type for NRF    
+#if defined(DBG_NRF51822AA)
+    static FILE_TYPE fileTypeReceived = HEX_FILE;
+#else
+    static FILE_TYPE fileTypeReceived = BIN_FILE;
+#endif
+
+static uint32_t usedIntermediateBufSize;
+static uint8_t intermediateBuffer[FLASH_PROGRAM_PAGE_SIZE];
+static uint8_t flashBuffer[FLASH_PROGRAM_PAGE_SIZE];
+static uint32_t unrecordedUSBData[FLASH_SECTOR_SIZE/4]; //1/2 usb_buffer size
+
 #define SWD_ERROR               0
 #define BAD_EXTENSION_FILE      1
 #define NOT_CONSECUTIVE_SECTORS 2
@@ -432,6 +451,8 @@ static uint32_t flash_addr_offset = 0;
 #define RESERVED_BITS           4
 #define BAD_START_SECTOR        5
 #define TIMEOUT                 6
+#define CORRUPT_FILE            7
+#define OUT_OF_MEM              8
 
 static uint8_t * reason_array[] = {
     "SWD ERROR",
@@ -441,6 +462,8 @@ static uint8_t * reason_array[] = {
     "RESERVED BITS",
     "BAD START SECTOR",
     "TIMEOUT",
+    "CORRUPT FILE",
+    "OUT OF MEMORY"
 };
 
 #define MSC_TIMEOUT_SPLIT_FILES_EVENT   (0x1000)
@@ -458,12 +481,13 @@ static OS_TID msc_valid_file_timeout_task_id;
 
 static void init(uint8_t jtag);
 static void initDisconnect(uint8_t success);
-
+//
 // this task is responsible to check
 // when we receive a root directory where there
 // is a valid .bin file and when we have received
 // all the sectors that we don't receive new valid sectors
-// after a certain timeout
+// after a certain timeout.
+//
 __task void msc_valid_file_timeout_task(void) {
     uint32_t flags = 0;
     OS_RESULT res;
@@ -480,29 +504,29 @@ __task void msc_valid_file_timeout_task(void) {
             if (flags & MSC_TIMEOUT_SPLIT_FILES_EVENT) {
                 msc_event_timeout = 1;
                 os_dly_wait(50);
-
+                
                 if (msc_event_timeout == 1) {
                     // if the program reaches this point -> it means that no sectors have been received in the meantime
                     initDisconnect(1);
                     msc_event_timeout = 0;
                 }
             }
-
+            
             if (flags & MSC_TIMEOUT_START_EVENT) {
                 start_timeout_time = os_time_get();
                 timer_started = 1;
             }
-
+            
             if (flags & MSC_TIMEOUT_STOP_EVENT) {
                 timer_started = 0;
             }
-
+            
             if (flags & MSC_TIMEOUT_RESTART_EVENT) {
                 if (timer_started) {
                     start_timeout_time = os_time_get();
                 }
             }
-
+            
         } else {
             if (timer_started) {
                 time_now = os_time_get();
@@ -518,6 +542,9 @@ __task void msc_valid_file_timeout_task(void) {
 }
 
 void init(uint8_t jtag) {
+    uint32_t i;
+    
+    initCalled = __TRUE;
     size = 0;
     nb_sector = 0;
     current_sector = 0;
@@ -540,6 +567,18 @@ void init(uint8_t jtag) {
     USBD_MSC_BlockBuf   = (uint8_t *)usb_buffer;
     listen_msc_isr = 1;
     flash_addr_offset = 0;
+    
+    //default to HEX_FILE type for NRF
+#if defined(DBG_NRF51822AA)
+    fileTypeReceived = HEX_FILE;
+    intelHexStartData();
+#endif
+
+    for(i=0;i<FLASH_PROGRAM_PAGE_SIZE;i++)
+    {
+        //Erased cell in nRF51 is FF
+        flashBuffer[i]=0xFF;
+    }
 }
 
 void failSWD() {
@@ -554,7 +593,7 @@ extern DAP_Data_t DAP_Data;  // DAP_Data.debug_port
 #endif
 
 static void initDisconnect(uint8_t success) {
-#if defined(BOARD_UBLOX_C027)
+#ifdef BOARD_UBLOX_C027
     int autorst = (good_file == 2) && success;
     int autocrp = (good_file == 3) && success;
     if (autocrp)
@@ -567,49 +606,50 @@ static void initDisconnect(uint8_t success) {
 #else
     int autorst = 0;
 #endif
+
     drag_success = success;
-    if (autorst)
+    if (autorst) 
+    {
         swd_set_target_state(RESET_RUN);
+    }
     main_blink_msd_led(0);
     init(1);
     isr_evt_set(MSC_TIMEOUT_STOP_EVENT, msc_valid_file_timeout_task_id);
-    if (!autorst)
+    if(!autorst)
     {
         // event to disconnect the usb
         main_usb_disconnect_event();
     }
+    
     semihost_enable();
+    
 }
 
 extern uint32_t SystemCoreClock;
 
-int jtag_init() {
-    if (DAP_Data.debug_port != DAP_PORT_DISABLED) {
+int jtag_init(void) {
+    if (DAP_Data.debug_port != DAP_PORT_DISABLED) {    // Debug port already in use by another application?
         need_restart_usb = 1;
     }
-
-    if ((jtag_flash_init != 1) && (DAP_Data.debug_port == DAP_PORT_DISABLED)) {
+    if ((jtag_flash_init != 1) && (DAP_Data.debug_port == DAP_PORT_DISABLED)) {   // Target interface not initialized yet and debug port not used by another application?
         if (need_restart_usb == 1) {
             reason = SWD_PORT_IN_USE;
             initDisconnect(0);
             return 1;
         }
-
+        
         semihost_disable();
-
         PORT_SWD_SETUP();
-
         target_set_state(RESET_PROGRAM);
+        
         if (!target_flash_init(SystemCoreClock)) {
             failSWD();
             return 1;
         }
-
         jtag_flash_init = 1;
     }
     return 0;
 }
-
 
 static const FILE_TYPE_MAPPING file_type_infos[] = {
     { BIN_FILE, {'B', 'I', 'N'}, 0x00000000 },
@@ -617,6 +657,8 @@ static const FILE_TYPE_MAPPING file_type_infos[] = {
     { PAR_FILE, {'P', 'A', 'R'}, 0x00000000 },//strange extension on win IE 9...
     { DOW_FILE, {'D', 'O', 'W'}, 0x00000000 },//strange extension on mac...
     { CRD_FILE, {'C', 'R', 'D'}, 0x00000000 },//strange extension on linux...
+    { HEX_FILE, {'H', 'E', 'X'}, 0x00000000 },
+    { HEX_FILE, {'h', 'e', 'x'}, 0x00000000 },
     { UNSUP_FILE, {0,0,0},     0            },//end of table marker
 };
 
@@ -687,9 +729,17 @@ int search_bin_file(uint8_t * root, uint8_t sector) {
         // Determine file type and get the flash offset
         file_type = get_file_type(&pDirEnts[i], &offset);
 
-        if (file_type == BIN_FILE || file_type == PAR_FILE ||
+        if (file_type == BIN_FILE || file_type == PAR_FILE || file_type == HEX_FILE || 
             file_type == DOW_FILE || file_type == CRD_FILE || file_type == SPI_FILE) {
-
+           
+            #if defined(DBG_NRF51822AA)
+                if(file_type == PAR_FILE ||  file_type == CRD_FILE){
+                    file_type = HEX_FILE;
+                }            
+            #endif
+            fileTypeReceived = file_type;
+            
+            
             hidden_file = (pDirEnts[i].attributes & 0x02) ? 1 : 0;
 
             // compute the size of the file
@@ -840,49 +890,290 @@ void usbd_msc_read_sect (uint32_t block, uint8_t *buf, uint32_t num_of_blocks) {
     }
 }
 
-static int programPage() {
+static int programHEXPage()
+{
+    uint32_t bytesRead;             //Amount of data used from the data available in usb_buffer (in bytes)
+    uint32_t bytesToWrite;          //Amount of data (in bytes) extracted from the HEX records (in the usb_buffer) that needs to be written to the flash
+    uint32_t sizeOfUSB_Buffer;      //Number of words in the usb_buffer from the current USB read
+    uint32_t sizeOfOldData;         //Amount of usb_buffer data from the previous USB read that was not processed
+    uint32_t amountCopiedToFlashBuf;//tracks the data written to flash buffer for the upcoming write
+    uint16_t loadOffset;            //local variable for passing flashPtr to and from intelHexReadData
+    uint32_t i;                     //counter variable
+    uint32_t hex_data_size;         //keep track of the amount of data in usb_buffer
+    uint32_t hex_data_used;         //amount of data used from the data available in usb_buffer
+    uint32_t no_words_to_used;
+    BOOL forcePageWrite;            //Flag for forcing a page write before there is enough data to fill a page
+    sizeOfOldData=0;
+    sizeOfUSB_Buffer=0;
+    bytesRead = 0;
+    bytesToWrite = 0;
+    amountCopiedToFlashBuf=0;
+    
+
+    if(!initCalled){
+        initCalled = __TRUE;
+        intelHexStartData();
+        for(i=0;i<FLASH_PROGRAM_PAGE_SIZE;i++)
+        {
+            //Erased cell in nRF51 is FF
+            flashBuffer[i]=0xFF;
+        }
+    }
+    //count the number of words to write
+    for(i=0;(i<(FLASH_PROGRAM_PAGE_SIZE/4)) && usb_buffer[i]>0 ;i++)
+    {            
+        sizeOfUSB_Buffer++;
+    }
+    
+    //count unwritten words from the previous pass
+    for(i=0;(i<FLASH_SECTOR_SIZE/4) && unrecordedUSBData[i]>0;i++)
+    {
+        sizeOfOldData++;
+    }
+    
+    //insert old data into the usb_buffer, if any
+    if(sizeOfOldData>0)
+    {
+        //shift usb_data
+        for(i=(sizeOfOldData + sizeOfUSB_Buffer -1);i>=sizeOfOldData ;i--)
+        {
+            usb_buffer[i] = usb_buffer[i-sizeOfOldData];
+        }
+        
+        //copy unused data from the old usb_data
+        for(i=0;i<sizeOfOldData;i++)
+        {
+            usb_buffer[i] = unrecordedUSBData[i];
+        }                           
+    }
+    //update data size
+    hex_data_size =(sizeOfOldData + sizeOfUSB_Buffer)*4;
+    loadOffset = (uint16_t)flashPtr;
+    
+    //Process hex data
+    if(intelHexReadData((uint8_t *)usb_buffer, hex_data_size, &bytesRead, intermediateBuffer, &flash_addr_offset, &bytesToWrite, &loadOffset, &forcePageWrite,usedIntermediateBufSize>0))
+    {   
+        //if buffered data is already as big as half the buffer, then force write otherwise risk overflow.
+        if(sizeOfOldData>(FLASH_SECTOR_SIZE/8)){
+            forcePageWrite = __TRUE;
+        }
+        flashPtr = (uint32_t)loadOffset;
+        //Copy processed data into flashBuffer
+        for(amountCopiedToFlashBuf=0;amountCopiedToFlashBuf<(bytesToWrite) &&  amountCopiedToFlashBuf<(FLASH_PROGRAM_PAGE_SIZE-usedIntermediateBufSize) ;amountCopiedToFlashBuf++)
+        {
+            flashBuffer[amountCopiedToFlashBuf+usedIntermediateBufSize] = intermediateBuffer[amountCopiedToFlashBuf];
+        }        
+        
+        if(((usedIntermediateBufSize+amountCopiedToFlashBuf)>=FLASH_PROGRAM_PAGE_SIZE) || forcePageWrite )
+        {//we have enough data or a write is forced, either way write the flashBuffer to device            
+            
+            if (!target_flash_program_page(flashPtr + flash_addr_offset, flashBuffer, FLASH_PROGRAM_PAGE_SIZE)) 
+            {//fail
+                return 1;
+            } 
+            
+            if((usedIntermediateBufSize+amountCopiedToFlashBuf)>=FLASH_PROGRAM_PAGE_SIZE)
+            {
+                flashPtr += FLASH_PROGRAM_PAGE_SIZE;   
+            }
+            else
+            {
+                flashPtr +=(usedIntermediateBufSize+amountCopiedToFlashBuf);
+            }
+            
+           
+           
+            //flush out flashBuffer
+            for(i=0;i<FLASH_PROGRAM_PAGE_SIZE;i++)
+            {
+                //Erased cell in nRF51 is FF
+                flashBuffer[i]=0xFF;
+            }
+
+            //copy the data omitted from the flash write to the top of flashBuffer
+            if((usedIntermediateBufSize+bytesToWrite) > FLASH_PROGRAM_PAGE_SIZE)
+            {
+                for(i=0;i<(bytesToWrite-amountCopiedToFlashBuf);i++)
+                {
+                    flashBuffer[i] = intermediateBuffer[i+amountCopiedToFlashBuf];
+                }
+                usedIntermediateBufSize=i;
+                if(forcePageWrite)
+                {
+                    //don't wait for the next usb_buffer write...
+                    if (!target_flash_program_page(flashPtr + flash_addr_offset, flashBuffer, FLASH_PROGRAM_PAGE_SIZE)) 
+                    {//fail
+                        return 1;
+                    } 
+                    flashPtr +=(bytesToWrite-amountCopiedToFlashBuf);
+                    
+                    //flush out flashBuffer
+                    for(i=0;i<(bytesToWrite-amountCopiedToFlashBuf);i++)
+                    {
+                        //Erased cell in nRF51 is FF
+                        flashBuffer[i]=0xFF;
+                    }
+                    usedIntermediateBufSize=0;
+                }
+            }
+            else
+            {
+                usedIntermediateBufSize=0;
+            }
+        }
+        else
+        {
+            usedIntermediateBufSize+=amountCopiedToFlashBuf;
+        }
+        
+        //Final page is received -- make sure everything is written to flash
+        if (current_sector == nb_sector) 
+        {
+            //make sure to clear the top element from the history before finishing the transfer
+            unrecordedUSBData[0] = 0; 
+            hex_data_used=bytesRead;
+            
+            //check if there is still unwritten data -- do the last writes
+            while(hex_data_size>hex_data_used){                    
+                bytesRead =0;
+                bytesToWrite=0;
+                no_words_to_used = (hex_data_used-1)/4;
+                if(intelHexReadData((uint8_t *)(&usb_buffer[no_words_to_used]), hex_data_size-(no_words_to_used*4), &bytesRead, intermediateBuffer, &flash_addr_offset, &bytesToWrite, &loadOffset, &forcePageWrite,usedIntermediateBufSize>0))
+                {
+                    flashPtr = (uint32_t)loadOffset;                
+                    for(amountCopiedToFlashBuf=0;amountCopiedToFlashBuf<(bytesToWrite) &&  amountCopiedToFlashBuf<(FLASH_PROGRAM_PAGE_SIZE-usedIntermediateBufSize) ;amountCopiedToFlashBuf++)
+                    {
+                        flashBuffer[amountCopiedToFlashBuf+usedIntermediateBufSize] = intermediateBuffer[amountCopiedToFlashBuf];
+                    }
+                    //write the data processed
+                    if (!target_flash_program_page(flashPtr + flash_addr_offset, flashBuffer, FLASH_PROGRAM_PAGE_SIZE)) 
+                    {
+                        return 1;
+                    } 
+                    
+                    //flush out flashBuffer
+                    for(amountCopiedToFlashBuf=0;amountCopiedToFlashBuf<(bytesToWrite) &&  amountCopiedToFlashBuf<(FLASH_PROGRAM_PAGE_SIZE-usedIntermediateBufSize) ;amountCopiedToFlashBuf++)
+                    {
+                        //Erased cell in nRF51 is FF
+                        flashBuffer[amountCopiedToFlashBuf]=0xFF;
+                    }                
+                    hex_data_used += bytesRead;
+                }
+                else{
+                    reason = CORRUPT_FILE;
+                    initDisconnect(0);
+                    return 1;
+                }
+            }
+            //flush arrays and reset variables here?
+            initDisconnect(1);
+            return 0;
+        }
+        
+        no_words_to_used = bytesRead/4;
+        hex_data_size = hex_data_size/4;
+        for(i=0;i < (hex_data_size-no_words_to_used);i++)
+        {
+            unrecordedUSBData[i] = usb_buffer[no_words_to_used+i];
+        }
+        if(i>FLASH_SECTOR_SIZE/4){
+            reason = OUT_OF_MEM;
+            initDisconnect(0);
+        }
+        
+        //clear unused buffer values
+        for(;i<FLASH_SECTOR_SIZE/4;i++){
+            unrecordedUSBData[i] =0;
+        }
+        
+        for(i=FLASH_SECTOR_SIZE/8;i <FLASH_SECTOR_SIZE/2;i++){
+            usb_buffer[i] =0;
+        }
+    }
+    else
+    {
+        reason = CORRUPT_FILE;
+        initDisconnect(0);
+        return 1;
+        
+    }
+    
+    return 0;  
+}
+
+static int programPage() {    
+#ifdef BOARD_NRF51822AA
+    uint32_t fill_usb_buffer_counter;
+#endif
     //The timeout task's timer is resetted every 256kB that is flashed.
-    if ((flashPtr >= 0x40000) && ((flashPtr & 0x3ffff) == 0)) {
+    if (flashPtr!=0 && (flashPtr & 0x3FFF) == 0) {
         isr_evt_set(MSC_TIMEOUT_RESTART_EVENT, msc_valid_file_timeout_task_id);
     }
-
-    // if we have received two sectors, write into flash
-    if (!target_flash_program_page(flashPtr + flash_addr_offset, (uint8_t *)usb_buffer, FLASH_PROGRAM_PAGE_SIZE)) {
-        // even if there is an error, adapt flashptr
-        flashPtr += FLASH_PROGRAM_PAGE_SIZE;
-        return 1;
+    //We need to process the data if it's from a HEX file....
+    if(fileTypeReceived == HEX_FILE)
+    {        
+       return programHEXPage();
     }
-
+    else
+    {
+#ifdef BOARD_NRF51822AA
+        // is board if NRF51822, fill usb_buffer with FFs instead of zeros at the end of page
+        if ( (size-flashPtr) < FLASH_PROGRAM_PAGE_SIZE) // If data in USB_buffer does not fill up page_size
+        { // Append FFs to the end of the buffer
+            for(fill_usb_buffer_counter = ( (size%FLASH_PROGRAM_PAGE_SIZE)/4 ); fill_usb_buffer_counter < 128; fill_usb_buffer_counter++)
+            {
+                usb_buffer[fill_usb_buffer_counter] = 0xFFFFFFFF;
+            }
+        }
+#endif
+        // if we have received two sectors, write into flash
+        if (!target_flash_program_page(flashPtr + flash_addr_offset, (uint8_t *)usb_buffer, FLASH_PROGRAM_PAGE_SIZE)) {
+            // even if there is an error, adapt flashptr
+            flashPtr += FLASH_PROGRAM_PAGE_SIZE;
+            return 1;
+        }   
+    }
     // if we just wrote the last sector -> disconnect usb
     if (current_sector == nb_sector) {
+        
         initDisconnect(1);
         return 0;
     }
-
     flashPtr += FLASH_PROGRAM_PAGE_SIZE;
-
     return 0;
 }
 
 
 void usbd_msc_write_sect (uint32_t block, uint8_t *buf, uint32_t num_of_blocks) {
     int idx_size = 0;
+    uint32_t buf_flash_addr_offset;
+    uint32_t buf_nb_sector;
 
-    if ((usb_state != USB_CONNECTED) || (listen_msc_isr == 0))
+    if ((usb_state != USB_CONNECTED) || (listen_msc_isr == 0)) 
+    {
         return;
-
-    // we recieve the root directory
+    }
+        
+    //we received the root directory
     if ((block == SECTORS_ROOT_IDX) || (block == (SECTORS_ROOT_IDX+1))) {
-        // try to find a .bin file in the root directory
+        //try to find a valid file
+        buf_flash_addr_offset = flash_addr_offset;
+        buf_nb_sector = nb_sector;
         idx_size = search_bin_file(buf, block);
-
-        // .bin file exists
+        
+        //a valid file exits
+        
+        if(nb_sector >0 && nb_sector <=  current_sector && buf_nb_sector == 0 && fileTypeReceived == HEX_FILE){
+            usb_buffer[0]=0;
+            flash_addr_offset = buf_flash_addr_offset;
+            programPage();
+        }
+        
         if (idx_size != -1) {
-
             if (sector_received_first == 0) {
                 root_dir_received_first = 1;
             }
-
+            
             // this means that we have received the sectors before root dir (linux)
             // we have to flush the last page into the target flash
             if ((sector_received_first == 1) && (current_sector == nb_sector) && (jtag_flash_init == 1)) {
@@ -892,7 +1183,7 @@ void usbd_msc_write_sect (uint32_t block, uint8_t *buf, uint32_t num_of_blocks) 
                 }
                 return;
             }
-
+            
             // means that we are receiving additional sectors
             // at the end of the file ===> we ignore them
             if ((sector_received_first == 1) && (start_sector == begin_sector) && (current_sector > nb_sector) && (jtag_flash_init == 1)) {
@@ -901,14 +1192,14 @@ void usbd_msc_write_sect (uint32_t block, uint8_t *buf, uint32_t num_of_blocks) 
             }
         }
     }
-    if (block >= SECTORS_ERROR_FILE_IDX) {
 
+    if (block >= SECTORS_ERROR_FILE_IDX) {
         main_usb_busy_event();
 
         if (root_dir_received_first == 0) {
             sector_received_first = 1;
         }
-
+        
         // if we don't receive consecutive sectors
         // set maybe erase in case we receive other sectors
         if ((previous_sector != 0) && ((previous_sector + 1) != block)) {
@@ -916,49 +1207,53 @@ void usbd_msc_write_sect (uint32_t block, uint8_t *buf, uint32_t num_of_blocks) 
             return;
         }
 
-        if (!flash_started && (block > theoretical_start_sector)) {
-            theoretical_start_sector = block;
+        if (!flash_started && (block > theoretical_start_sector)) {   // Flash programming not started yet and block received is higher than theoretical start sector? => Assume this block as new theoretical start sector
+          theoretical_start_sector = block;
         }
 
-        // init jtag if needed
         if (jtag_init() == 1) {
-            return;
+          return;
         }
 
         if (jtag_flash_init == 1) {
-
             main_blink_msd_led(1);
-
             // We erase the chip if we received unrelated data before (mac compatibility)
             if (maybe_erase && (block == theoretical_start_sector)) {
-                // avoid erasing the internal flash if only the external flash will be updated
+                //
+                            // Original comment: avoid erasing the internal flash if only the external flash will be updated
+                              // ???
                 if (flash_addr_offset == 0) {
                     if (!target_flash_erase_chip()) {
-                    return;
+                        reason = SWD_ERROR;
+                        initDisconnect(0);
+                        return;
                     }
                 }
                 maybe_erase = 0;
                 program_page_error = 0;
             }
-
+            
             // drop block < theoretical_sector
             if (theoretical_start_sector > block) {
                 return;
             }
-
+            //
+            // Flashing not started yet and current sector is the first sector of the bin file?
+            // Inform timeout counter in background task that it is allowed to start counting
+            //
             if ((flash_started == 0) && (theoretical_start_sector == block)) {
                 flash_started = 1;
                 isr_evt_set(MSC_TIMEOUT_START_EVENT, msc_valid_file_timeout_task_id);
                 start_sector = block;
             }
-
+            
             // at the beginning, we need theoretical_start_sector == block
             if ((flash_started == 0) && (theoretical_start_sector != block)) {
                 reason = BAD_START_SECTOR;
                 initDisconnect(0);
                 return;
             }
-
+            
             // not consecutive sectors detected
             if ((flash_started == 1) && (maybe_erase == 0) && (start_sector != block) && (block != (start_sector + current_sector))) {
                 reason = NOT_CONSECUTIVE_SECTORS;
@@ -976,8 +1271,10 @@ void usbd_msc_write_sect (uint32_t block, uint8_t *buf, uint32_t num_of_blocks) 
             if (flash_started && (block == theoretical_start_sector)) {
                 // avoid erasing the internal flash if only the external flash will be updated
                 if (flash_addr_offset == 0) {
-                    if (!target_flash_erase_chip()) {
-                    return;
+                    if (target_flash_erase_chip() == 0) {
+                        reason = SWD_ERROR;
+                        initDisconnect(0);
+                        return;
                     }
                 }
                 maybe_erase = 0;

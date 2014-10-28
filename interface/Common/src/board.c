@@ -70,6 +70,10 @@
 #define BOARD_ID        "1234"
 #define BOARD_SECRET    "xxxxxxxx"
 
+#elif defined (BOARD_NRF51822AA)
+#define BOARD_ID        "1070"
+#define BOARD_SECRET    "xxxxxxxx"
+
 #elif defined (BOARD_LPC1114)
 #define BOARD_ID        "1114"
 #define BOARD_SECRET    "xxxxxxxx"
@@ -107,5 +111,5 @@ BOARD board = {
 };
 
 /* Weak declaration of the board_init function for boards that don't use it */
-__weak void board_init(void) {
+__weak void board_init(void) {  
 }

@@ -388,7 +388,7 @@ int32_t USBD_CDC_ACM_Notify (uint16_t stat) {
                                           (SERIAL_STATE)                      */
     USBD_CDC_ACM_NotifyBuf[2] = 0x00;   /* wValue                             */
     USBD_CDC_ACM_NotifyBuf[3] = 0x00;
-    USBD_CDC_ACM_NotifyBuf[4] = 0x00;   /* wIndex (Interface 0)               */
+    USBD_CDC_ACM_NotifyBuf[4] = 0x02;   /* wIndex (Interface 2)               */
     USBD_CDC_ACM_NotifyBuf[5] = 0x00;
     USBD_CDC_ACM_NotifyBuf[6] = 0x02;   /* wLength                            */
     USBD_CDC_ACM_NotifyBuf[7] = 0x00;
@@ -426,9 +426,7 @@ void USBD_CDC_ACM_Reset_Event (void) {
     (USBD_CDC_ACM_DataReceived) it also activates data send over the Bulk In
     endpoint if there is data to be sent (USBD_CDC_ACM_EP_BULKIN_HandleData).
  */
-
 void USBD_CDC_ACM_SOF_Event (void) {
-
   if ((!data_read_access)         &&    /* If not read active                 */
       (ptr_data_received == ptr_data_read) &&     /* If received and read
                                                      pointers point to same
@@ -446,7 +444,9 @@ void USBD_CDC_ACM_SOF_Event (void) {
                                                      receive buffer           */
     data_no_space_for_receive  = 0;               /* There is space for
                                                      reception available      */
-    data_read_access = 0;               /* Allow access to read data          */
+    data_read_access = 0;               /* Allow access to read data          */   
+          
+    
   }
   if (data_received_pending_pckts &&    /* If packets are pending             */
      (!data_read_access)          &&    /* and if not read active             */
@@ -458,6 +458,7 @@ void USBD_CDC_ACM_SOF_Event (void) {
       USBD_CDC_ACM_DataReceived (ptr_data_received - ptr_data_read);  /* Call
                                            received callback                  */
   }
+  
 
   if ((!data_send_access)         &&    /* If send data is not being accessed */
       (!data_send_active)         &&    /* and send is not active             */
@@ -469,6 +470,7 @@ void USBD_CDC_ACM_SOF_Event (void) {
     USBD_CDC_ACM_EP_BULKIN_HandleData();/* Handle data to send                */
     data_send_access = 0;               /* Allow access to send data          */
   }
+  
 }
 
 
@@ -494,17 +496,17 @@ void USBD_CDC_ACM_EP_INTIN_Event (uint32_t event) {
  */
 
 static void USBD_CDC_ACM_EP_BULKOUT_HandleData () {
-  int32_t len_received;
-
+  int32_t len_received; 
   if ((usbd_cdc_acm_receivebuf_sz - (ptr_data_received - USBD_CDC_ACM_ReceiveBuf)) >= usbd_cdc_acm_maxpacketsize1[USBD_HighSpeed]) {
                                         /* If there is space for 1 max packet */
                                         /* Read received packet to receive buf*/
     len_received       = USBD_ReadEP(usbd_cdc_acm_ep_bulkout, ptr_data_received);
-    ptr_data_received += len_received;  /* Correct pointer to received data   */
+    ptr_data_received += len_received;  /* Correct pointer to received data   */        
     if (data_received_pending_pckts &&  /* If packet was pending              */
        !data_receive_int_access) {      /* and not interrupt access           */
       data_received_pending_pckts--;    /* Decrement pending packets number   */
     }
+      //  data_no_space_for_receive = 0;
   } else {
     data_no_space_for_receive = 1;      /* There is no space in receive buffer
                                            for the newly received data        */
