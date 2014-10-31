@@ -30,7 +30,6 @@
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
           <SFDFile>SFD\Atmel\SAM3U\SAM3U2C.sfr</SFDFile>
-          <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
           <IncludePath></IncludePath>
@@ -98,7 +97,6 @@
           <StopOnExitCode>3</StopOnExitCode>
           <CustomArgument></CustomArgument>
           <IncludeLibraryModules></IncludeLibraryModules>
-          <ComprImg>1</ComprImg>
         </CommonProperty>
         <DllOption>
           <SimDllName>SARMCM3.DLL</SimDllName>
@@ -128,7 +126,6 @@
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
-            <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
             <UseTarget>1</UseTarget>
@@ -140,11 +137,9 @@
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <RestoreTracepoints>1</RestoreTracepoints>
-            <RestoreSysVw>1</RestoreSysVw>
-            <UsePdscDebugDescription>0</UsePdscDebugDescription>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>6</TargetSelection>
+          <TargetSelection>7</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -170,14 +165,9 @@
             <Capability>1</Capability>
             <DriverSelection>4096</DriverSelection>
           </Flash1>
-          <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
-          <pFcarmOut></pFcarmOut>
-          <pFcarmGrp></pFcarmGrp>
-          <pFcArmRoot></pFcArmRoot>
-          <FcArmLst>0</FcArmLst>
         </Utilities>
         <TargetArmAds>
           <ArmAdsMisc>
@@ -356,8 +346,6 @@
             <wLevel>0</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>1</uC99>
-            <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>__RTX, TARGET_ATSAM3U2C</Define>
@@ -374,7 +362,6 @@
             <SwStkChk>0</SwStkChk>
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
-            <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>MBED_BOOTLOADER</Define>
@@ -391,7 +378,6 @@
             <useFile>0</useFile>
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x20000000</DataAddressRange>
-            <pXoBase></pXoBase>
             <ScatterFile>..\..\..\shared\cmsis\TARGET_Atmel\TARGET_ATSAM3U2C\TOOLCHAIN_ARM_STD\ATSAM3U2C_BTL.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
@@ -449,6 +435,46 @@
               <FileName>usbd_user_msc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Common\src\usbd_user_msc.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <VariousControls>
+                      <MiscControls>--c99</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>version.c</FileName>
@@ -484,7 +510,6 @@
                   <StopOnExitCode>11</StopOnExitCode>
                   <CustomArgument></CustomArgument>
                   <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
                 </CommonProperty>
                 <FileArmAds>
                   <Cads>
@@ -501,8 +526,6 @@
                     <wLevel>0</wLevel>
                     <uThumb>2</uThumb>
                     <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <useXO>2</useXO>
                     <VariousControls>
                       <MiscControls></MiscControls>
                       <Define></Define>
@@ -547,7 +570,6 @@
               <StopOnExitCode>11</StopOnExitCode>
               <CustomArgument></CustomArgument>
               <IncludeLibraryModules></IncludeLibraryModules>
-              <ComprImg>0</ComprImg>
             </CommonProperty>
             <GroupArmAds>
               <Cads>
@@ -564,8 +586,6 @@
                 <wLevel>0</wLevel>
                 <uThumb>2</uThumb>
                 <uSurpInc>2</uSurpInc>
-                <uC99>2</uC99>
-                <useXO>2</useXO>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -582,7 +602,6 @@
                 <SwStkChk>2</SwStkChk>
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
-                <useXO>2</useXO>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -602,6 +621,46 @@
               <FileName>usbd_core_msc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\shared\USBStack\SRC\usbd_core_msc.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <VariousControls>
+                      <MiscControls>--c99</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>usbd_msc.c</FileName>
