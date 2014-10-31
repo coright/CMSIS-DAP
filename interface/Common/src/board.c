@@ -62,6 +62,10 @@
 #define BOARD_ID        "1050"
 #define BOARD_SECRET    "xxxxxxxx"
 
+#elif defined (BOARD_LPC824_MAX)
+#define BOARD_ID        "0824"
+#define BOARD_SECRET    "xxxxxxxx"
+
 #elif defined (BOARD_SEEED_ARCH_PRO)
 #define BOARD_ID        "9004"
 #define BOARD_SECRET    "xxxxxxxx"

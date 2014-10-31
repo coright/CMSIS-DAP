@@ -21,7 +21,7 @@
 static uint16_t isr_flags;
 static OS_TID isr_notify;
 
-#ifdef DBG_LPC812
+#if defined(DBG_LPC812) || defined(DBG_LPC824)
 #define SW_RESET_BUTTON    0
 #else
 #define SW_RESET_BUTTON    1
