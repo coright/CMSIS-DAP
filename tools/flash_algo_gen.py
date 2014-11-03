@@ -50,7 +50,8 @@ ALGO_START_ADDRESSES = {
     'LPC43xx':      0x10000000,
     'LPC4337':      0x10000000,
     'MKXX':         0x20000000,
-    'NRF51822AA':   0x20000000,
+    'nRF51822AA':   0x20000000,
+    'STM32F103RC':   0x20000000,	
 }
 
 class FlashInfo(object):
