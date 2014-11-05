@@ -79,6 +79,14 @@ INTERFACE_PROJECTS = [
                         ],
         },
         {
+            'target' : 'ATSAM3U2C',
+            'path' : r'interface\mdk\ATSAM3U2C\ATSAM3U2C_interface.uvproj',
+            'targets' : [
+                            'ATSAM3U2C_nRF51822AA_if',
+                            'ATSAM3U2C_nRF51822AA_if_mbed_bootloader',
+                         ],
+        },
+        {
             'target' : 'lpc11u35',
             'path' : r'interface\mdk\lpc11u35\lpc11u35_interface.uvproj',
             'targets' : [

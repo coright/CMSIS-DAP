@@ -442,7 +442,7 @@ static BOOL initCalled=__FALSE;
 static uint32_t usedIntermediateBufSize;
 static uint8_t intermediateBuffer[FLASH_PROGRAM_PAGE_SIZE];
 static uint8_t flashBuffer[FLASH_PROGRAM_PAGE_SIZE];
-static uint32_t unrecordedUSBData[FLASH_SECTOR_SIZE/4]; //1/2 usb_buffer size
+static uint32_t unrecordedUSBData[USB_MSC_BUF_SIZE/4]; //1/2 usb_buffer size
 
 #define SWD_ERROR               0
 #define BAD_EXTENSION_FILE      1
@@ -796,7 +796,7 @@ int search_bin_file(uint8_t * root, uint8_t sector) {
                 move_sector_start = (begin_sector - start_sector)*MBR_BYTES_PER_SECTOR;
                 nb_sector_to_move = (nb_sector % 2) ? nb_sector/2 + 1 : nb_sector/2;
                 for (i = 0; i < nb_sector_to_move; i++) {
-                    if (!swd_read_memory(move_sector_start + i*FLASH_SECTOR_SIZE, (uint8_t *)usb_buffer, FLASH_SECTOR_SIZE)) {
+                    if (!swd_read_memory(move_sector_start + i*USB_MSC_BUF_SIZE, (uint8_t *)usb_buffer, USB_MSC_BUF_SIZE)) {
                         failSWD();
                         return -1;
                     }
@@ -804,7 +804,7 @@ int search_bin_file(uint8_t * root, uint8_t sector) {
                         failSWD();
                         return -1;
                     }
-                    if (!target_flash_program_page(i*FLASH_SECTOR_SIZE, (uint8_t *)usb_buffer, FLASH_SECTOR_SIZE)) {
+                    if (!target_flash_program_page(i*USB_MSC_BUF_SIZE, (uint8_t *)usb_buffer, USB_MSC_BUF_SIZE)) {
                         failSWD();
                         return -1;
                     }
@@ -926,7 +926,7 @@ static int programHEXPage()
     }
     
     //count unwritten words from the previous pass
-    for(i=0;(i<FLASH_SECTOR_SIZE/4) && unrecordedUSBData[i]>0;i++)
+    for(i=0;(i<USB_MSC_BUF_SIZE/4) && unrecordedUSBData[i]>0;i++)
     {
         sizeOfOldData++;
     }
@@ -954,7 +954,7 @@ static int programHEXPage()
     if(intelHexReadData((uint8_t *)usb_buffer, hex_data_size, &bytesRead, intermediateBuffer, &flash_addr_offset, &bytesToWrite, &loadOffset, &forcePageWrite,usedIntermediateBufSize>0))
     {   
         //if buffered data is already as big as half the buffer, then force write otherwise risk overflow.
-        if(sizeOfOldData>(FLASH_SECTOR_SIZE/8)){
+        if(sizeOfOldData>(USB_MSC_BUF_SIZE/8)){
             forcePageWrite = __TRUE;
         }
         flashPtr = (uint32_t)loadOffset;
@@ -1076,17 +1076,17 @@ static int programHEXPage()
         {
             unrecordedUSBData[i] = usb_buffer[no_words_to_used+i];
         }
-        if(i>FLASH_SECTOR_SIZE/4){
+        if(i>USB_MSC_BUF_SIZE/4){
             reason = OUT_OF_MEM;
             initDisconnect(0);
         }
         
         //clear unused buffer values
-        for(;i<FLASH_SECTOR_SIZE/4;i++){
+        for(;i<USB_MSC_BUF_SIZE/4;i++){
             unrecordedUSBData[i] =0;
         }
         
-        for(i=FLASH_SECTOR_SIZE/8;i <FLASH_SECTOR_SIZE/2;i++){
+        for(i=USB_MSC_BUF_SIZE/8;i <USB_MSC_BUF_SIZE/2;i++){
             usb_buffer[i] =0;
         }
     }

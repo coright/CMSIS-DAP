@@ -19,6 +19,8 @@
 #include <stdint.h>
 #include "target_flash.h"
 
-uint32_t usb_buffer[FLASH_SECTOR_SIZE/4];
+#define USB_MSC_BUF_SIZE (512)
+
+uint32_t usb_buffer[USB_MSC_BUF_SIZE/4];
 
 #endif
