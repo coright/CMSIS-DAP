@@ -87,6 +87,17 @@ INTERFACE_PROJECTS = [
                          ],
         },
         {
+            'target' : 'lpc4322',
+            'path' : r'interface\mdk\lpc4322\lpc4322_interface.uvproj',
+            'targets' : [
+                            'lpc4322_lpc1549_if',
+                            'lpc4322_lpc1549_dbg_sram',
+                            'lpc4322_lpc11U68_if',
+                            'lpc4322_lpc11U68_dbg_sram',
+                            'lpc4322_lpc4337_if',
+                         ],
+        },
+        {
             'target' : 'lpc11u35',
             'path' : r'interface\mdk\lpc11u35\lpc11u35_interface.uvproj',
             'targets' : [
@@ -100,17 +111,6 @@ INTERFACE_PROJECTS = [
                             #'lpc11u35_lpc810_if' # fails build
                          ],
         },
-        {
-            'target' : 'lpc4322',
-            'path' : r'interface\mdk\lpc4322\lpc4322_interface.uvproj',
-            'targets' : [
-                            'lpc4322_lpc1549_if',
-                            'lpc4322_lpc1549_dbg_sram',
-                            'lpc4322_lpc11U68_if',
-                            'lpc4322_lpc11U68_dbg_sram',
-                            'lpc4322_lpc4337_if',
-                         ],
-        }
     ]
 
 FLASH_ALGO_PROJECTS = [
