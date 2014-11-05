@@ -103,6 +103,7 @@ INTERFACE_PROJECTS = [
             'targets' : [
                             'lpc11u35_lpc812_if',
                             'lpc11u35_lpc812_mbed_bootloader',
+                            'lpc11u35_lpc824_if',
                             'lpc11u35_lpc1768_if',
                             'lpc11u35_lpc1768_mbed_bootloader',
                             'lpc11u35_ublox_lpc1768_if',
@@ -147,6 +148,7 @@ FLASH_ALGO_PROJECTS = [
                             'LPC1700_IAP_512_MBED_60MHz',
                             #'LPC11xx_IAP_32',
                             'LPC8xx_IAP_4',
+                            'LPC82x_IAP_32',
                             'LPC1549_IAP_256',
                             'LPC11U68_IAP_256',
                             'LPC4337_IAP_1024'

@@ -17,7 +17,7 @@
 #include "../FlashOS.H"        // FlashOS Structures
 
 // Memory Mapping Control
-#if defined(LPC11xx_32) || defined(LPC8xx_4) || defined(LPC11U68_256)
+#if defined(LPC11xx_32) || defined(LPC8xx_4) || defined(LPC82x_32) || defined(LPC11U68_256)
 #define MEMMAP   (*((volatile unsigned long *) 0x40048000))
 #else
 #define MEMMAP   (*((volatile unsigned char *) 0x400FC040))
@@ -25,7 +25,7 @@
 
 #ifdef MBED
 
-#if defined(LPC11xx_32) || defined(LPC8xx_4) || defined(LPC11U68_256)
+#if defined(LPC11xx_32) || defined(LPC8xx_4) || defined(LPC82x_32) || defined(LPC11U68_256)
 #define MAINCLKSEL (*((volatile unsigned long *) 0x40048070))
 #define MAINCLKUEN (*((volatile unsigned long *) 0x40048074))
 #define MAINCLKDIV (*((volatile unsigned long *) 0x40048078))
@@ -99,6 +99,9 @@
 #ifdef LPC8xx_4
 #define END_SECTOR     3
 #endif
+#ifdef LPC82x_32
+#define END_SECTOR     31
+#endif
 #ifdef LPC1549_256
 #define END_SECTOR     63
 #endif
@@ -121,7 +124,7 @@
 #define CRP3        (0x43218765)
 #define IS_CRP_VALUE(v) ((v==NO_ISP) || (v==CRP1) || (v==CRP2) || (v==CRP3))
 
-#if defined(LPC11xx_32) || defined(LPC8xx_4) || defined(LPC1549_256) || defined(LPC11U68_256)
+#if defined(LPC11xx_32) || defined(LPC8xx_4) || defined(LPC82x_32) || defined(LPC1549_256) || defined(LPC11U68_256)
 #define NO_CRP      (0)
 #define _CCLK (12000)
 #elif defined(LPC4337_1024)
@@ -161,7 +164,7 @@ typedef void (*IAP_Entry) (unsigned long *cmd, unsigned long *stat);
 unsigned long GetSecNum (unsigned long adr) {
   unsigned long n;
 
-#if defined(LPC8xx_4)
+#if defined(LPC8xx_4) || defined(LPC82x_32)
   n = adr >> 10;                               //  1kB Sector
 #elif defined(LPC11xx_32) || defined(LPC1549_256)
   n = adr >> 12;                               //  4kB Sector
@@ -201,7 +204,7 @@ unsigned long GetSecNum (unsigned long adr) {
 
 int Init (unsigned long adr, unsigned long clk, unsigned long fnc) {
 
-#if defined(LPC11xx_32) || defined(LPC8xx_4) || defined(LPC11U68_256)
+#if defined(LPC11xx_32) || defined(LPC8xx_4) || defined(LPC82x_32) || defined(LPC11U68_256)
 
   MAINCLKSEL = 0;                              // Select Internal RC Oscillator
   MAINCLKUEN = 1;                              // Update Main Clock Source
@@ -337,7 +340,7 @@ int UnInit (unsigned long fnc) {
 
 int EraseChip (void) {
 
-#if defined(LPC11xx_32) || defined (LPC8xx_4)
+#if defined(LPC11xx_32) || defined (LPC8xx_4) || defined(LPC82x_32)
 
   IAP.cmd    = 50;                             // Prepare Sector for Erase
   IAP.par[0] = 0;                              // Start Sector
