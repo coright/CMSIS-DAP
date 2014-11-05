@@ -534,6 +534,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\Common\src\serial.c</FilePath>
             </File>
+            <File>
+              <FileName>intelhex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Common\src\intelhex.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1374,6 +1379,11 @@
               <FileName>serial.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Common\src\serial.c</FilePath>
+            </File>
+            <File>
+              <FileName>intelhex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Common\src\intelhex.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2216,6 +2226,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\Common\src\serial.c</FilePath>
             </File>
+            <File>
+              <FileName>intelhex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Common\src\intelhex.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3056,6 +3071,11 @@
               <FileName>serial.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Common\src\serial.c</FilePath>
+            </File>
+            <File>
+              <FileName>intelhex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Common\src\intelhex.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3898,6 +3918,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\Common\src\serial.c</FilePath>
             </File>
+            <File>
+              <FileName>intelhex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Common\src\intelhex.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -4739,6 +4764,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\Common\src\serial.c</FilePath>
             </File>
+            <File>
+              <FileName>intelhex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Common\src\intelhex.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -5579,6 +5609,11 @@
               <FileName>serial.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Common\src\serial.c</FilePath>
+            </File>
+            <File>
+              <FileName>intelhex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Common\src\intelhex.c</FilePath>
             </File>
           </Files>
         </Group>

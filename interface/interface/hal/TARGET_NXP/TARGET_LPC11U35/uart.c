@@ -80,6 +80,13 @@ int32_t uart_uninitialize (void) {
     return 1;
 }
 
+void uart_set_control_line_state(uint16_t ctrl_bmp) {
+    
+}
+
+void uart_software_flow_control(void) {
+    
+}
 
 int32_t uart_reset (void) {
 
