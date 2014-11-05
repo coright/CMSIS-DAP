@@ -129,6 +129,13 @@ FLASH_ALGO_PROJECTS = [
                         ]
         },
         {
+            'target' : 'nRF51822AA',
+            'path' : r'interface\flash_algo_mdk\nRF51822AA\nRF51822AA.uvproj',
+            'targets' : [
+                            'nRF51822AA',
+                        ]
+        },
+        {
             'target' : 'LPC_IAP',
             'path' : r'interface\flash_algo_mdk\LPC_IAP\LPC_IAP.uvproj',
             'targets' : [
@@ -149,9 +156,8 @@ FLASH_ALGO_PROJECTS = [
             'target' : 'LPC_SPIFI',
             'path' : r'interface\flash_algo_mdk\LPC_SPIFI\LPC_SPIFI.uvproj',
             'targets' : [
-                            'LPC1800_SPIFI_8M_4K',
-                            'LPC1800_SPIFI_4M_4K',
-                            'LPC1800_SPIFI_4M_64K',
+                            'LPC1800_SPIFI_4096',
+                            'LPC1800_SPIFI_8192',
                         ]
         }
     ]
