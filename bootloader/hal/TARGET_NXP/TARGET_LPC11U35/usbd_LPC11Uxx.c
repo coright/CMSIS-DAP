@@ -19,7 +19,7 @@
 #include <absacc.h>
 
 #define __NO_USB_LIB_C
-#include "usb_config.c"
+#include "usb_fs_config.c"
 
 
 #define BUF_ACTIVE         (1UL << 31)

@@ -120,9 +120,9 @@
 //         <o12.0..15> Maximum Feature Report Size (in bytes) <1-65535>
 //       </h>
 //     </e>
-#define USBD_HID_ENABLE             1
-#define USBD_HID_EP_INTIN           1
-#define USBD_HID_EP_INTOUT          1
+#define USBD_HID_ENABLE             0
+#define USBD_HID_EP_INTIN           4
+#define USBD_HID_EP_INTOUT          4
 #define USBD_HID_WMAXPACKETSIZE     64
 #define USBD_HID_BINTERVAL          1
 #define USBD_HID_HS_ENABLE          0
@@ -174,7 +174,7 @@
 #define USBD_MSC_HS_BINTERVAL       0
 #define USBD_MSC_STRDESC            L"USB_MSC"
 #define USBD_MSC_INQUIRY_DATA       "MBED    "         \
-                                    "microcontroller " \
+                                    "microntroller   " \
                                     "1.0 "
 
 //     <e0.0> Audio Device (ADC)
@@ -276,15 +276,15 @@
 //            <256=> 256 Bytes <512=> 512 Bytes <1024=> 1024 Bytes
 //       </h>
 //     </e>
-#define USBD_CDC_ACM_ENABLE             1
+#define USBD_CDC_ACM_ENABLE             0
 #define USBD_CDC_ACM_EP_INTIN           3
 #define USBD_CDC_ACM_WMAXPACKETSIZE     16
 #define USBD_CDC_ACM_BINTERVAL          32
 #define USBD_CDC_ACM_HS_ENABLE          0
 #define USBD_CDC_ACM_HS_WMAXPACKETSIZE  16
 #define USBD_CDC_ACM_HS_BINTERVAL       2
-#define USBD_CDC_ACM_EP_BULKIN          4
-#define USBD_CDC_ACM_EP_BULKOUT         4
+#define USBD_CDC_ACM_EP_BULKIN          1
+#define USBD_CDC_ACM_EP_BULKOUT         1
 #define USBD_CDC_ACM_WMAXPACKETSIZE1    64
 #define USBD_CDC_ACM_HS_ENABLE1         0
 #define USBD_CDC_ACM_HS_WMAXPACKETSIZE1 64
@@ -325,7 +325,7 @@
 /* USB Device Calculations ---------------------------------------------------*/
 
 #define USBD_IF_NUM                (USBD_HID_ENABLE+USBD_MSC_ENABLE+(USBD_ADC_ENABLE*2)+(USBD_CDC_ACM_ENABLE*2)+USBD_CLS_ENABLE)
-#define USBD_MULTI_IF              (0)//USBD_CDC_ACM_ENABLE*(USBD_HID_ENABLE|USBD_MSC_ENABLE|USBD_ADC_ENABLE))
+#define USBD_MULTI_IF              (USBD_CDC_ACM_ENABLE*(USBD_HID_ENABLE|USBD_MSC_ENABLE|USBD_ADC_ENABLE))
 #define MAX(x, y)                (((x) < (y)) ? (y) : (x))
 #define USBD_EP_NUM_CALC0           MAX((USBD_HID_ENABLE    *(USBD_HID_EP_INTIN     )), (USBD_HID_ENABLE    *(USBD_HID_EP_INTOUT!=0)*(USBD_HID_EP_INTOUT)))
 #define USBD_EP_NUM_CALC1           MAX((USBD_MSC_ENABLE    *(USBD_MSC_EP_BULKIN    )), (USBD_MSC_ENABLE    *(USBD_MSC_EP_BULKOUT)))
@@ -395,13 +395,21 @@
 #endif
 #endif
 
+/*#define USBD_ADC_CIF_NUM           (0)
+#define USBD_ADC_SIF1_NUM          (1)
+#define USBD_ADC_SIF2_NUM          (2)
+#define USBD_CDC_ACM_CIF_NUM       (USBD_ADC_ENABLE*2+0)
+#define USBD_CDC_ACM_DIF_NUM       (USBD_ADC_ENABLE*2+1)
+#define USBD_HID_IF_NUM            (USBD_ADC_ENABLE*2+USBD_CDC_ACM_ENABLE*2)
+#define USBD_MSC_IF_NUM            (USBD_ADC_ENABLE*2+USBD_CDC_ACM_ENABLE*2+USBD_HID_ENABLE)*/
+
 #define USBD_ADC_CIF_NUM           (0)
 #define USBD_ADC_SIF1_NUM          (1)
 #define USBD_ADC_SIF2_NUM          (2)
-#define USBD_MSC_IF_NUM            (USBD_ADC_ENABLE*2+0)
-#define USBD_CDC_ACM_CIF_NUM       (USBD_ADC_ENABLE*2+USBD_MSC_ENABLE*1+0)
-#define USBD_CDC_ACM_DIF_NUM       (USBD_ADC_ENABLE*2+USBD_MSC_ENABLE*1+1)
-#define USBD_HID_IF_NUM            (USBD_ADC_ENABLE*2+USBD_MSC_ENABLE*1+USBD_CDC_ACM_ENABLE*2+0)
+#define USBD_MSC_IF_NUM       (USBD_ADC_ENABLE*2+0)
+#define USBD_CDC_ACM_CIF_NUM       (USBD_ADC_ENABLE*2+1)
+#define USBD_CDC_ACM_DIF_NUM            (USBD_ADC_ENABLE*2+USBD_CDC_ACM_ENABLE*2)
+#define USBD_HID_IF_NUM            (USBD_ADC_ENABLE*2+USBD_CDC_ACM_ENABLE*2+USBD_HID_ENABLE)
 
 #define USBD_ADC_CIF_STR_NUM       (3+USBD_STRDESC_SER_ENABLE+0)
 #define USBD_ADC_SIF1_STR_NUM      (3+USBD_STRDESC_SER_ENABLE+1)

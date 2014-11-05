@@ -18,7 +18,7 @@
 #include <MK20D5.h>
 
 #define __NO_USB_LIB_C
-#include "usb_config.c"
+#include "usb_fs_config.c"
 
 typedef struct __BUF_DESC {
   uint8_t    stat;

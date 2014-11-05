@@ -39,14 +39,17 @@
 
 // Clock Macros
 
+#if defined(TARGET_ATSAM3U2C) //maybe DBG_NRF51822AA, check with nordic
 #define MAX_SWJ_CLOCK(delay_cycles) \
   (CPU_CLOCK / ((delay_cycles + IO_PORT_WRITE_CYCLES) * 14))
-//  (CPU_CLOCK/2 / (IO_PORT_WRITE_CYCLES + delay_cycles))
-
 #define CLOCK_DELAY(swj_clock) \
   ((CPU_CLOCK / (swj_clock * 14)) - IO_PORT_WRITE_CYCLES)
-// ((CPU_CLOCK/2 / swj_clock) - IO_PORT_WRITE_CYCLES)
-
+#else
+#define MAX_SWJ_CLOCK(delay_cycles) \
+  (CPU_CLOCK/2 / (IO_PORT_WRITE_CYCLES + delay_cycles))
+#define CLOCK_DELAY(swj_clock) \
+  ((CPU_CLOCK/2 / swj_clock) - IO_PORT_WRITE_CYCLES)
+#endif
 
          DAP_Data_t DAP_Data;           // DAP Data
 volatile uint8_t    DAP_TransferAbort;  // Trasfer Abort Flag

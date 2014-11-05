@@ -47,7 +47,11 @@
 //   <i> Set the stack size for tasks which is assigned by the system.
 //   <i> Default: 200
 #ifndef OS_STKSIZE
- #define OS_STKSIZE     250//110
+ #if defined(TARGET_ATSAM3U2C)
+  #define OS_STKSIZE     250
+ #elif
+  #define OS_STKSIZE     110
+ #endif
 #endif
 
 // <q>Check for the stack overflow
